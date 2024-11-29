@@ -99,6 +99,7 @@ class Cronspell:
         self.expression = expression
         self.model = self.meta_model.model_from_str(expression)
         self.anchor = self.parse_anchor()
+        self.tz = self.anchor.tzname()
 
         result = functools.reduce(self.step, [*getattr(self.model, "date_math_term", [])], self.anchor)
 
