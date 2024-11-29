@@ -31,9 +31,7 @@ TIME_RESETS_MAP = [[TIME_UNITS_SHORT[k], v] for k, v in enumerate(TIME_RESETS) i
 
 
 class Cronspell:
-
     def __init__(self):
-
         self.meta_model = metamodel_from_file(
             Path.joinpath(Path(__file__).parent, "cronspell.tx"), use_regexp_group=True
         )
@@ -43,27 +41,16 @@ class Cronspell:
         self.result = self.now
 
     def parse_anchor(self):
-        if (anchor := getattr(self.model, "anchor", None)) and (
-            (tznow := anchor.tznow) or (isodate := anchor.isodate)
-        ):
-            return (
-                datetime.now(ZoneInfo(tznow.tz))
-                if (tznow and tznow.tz)
-                else datetime.fromisoformat(isodate)
-            )
+        if (anchor := getattr(self.model, "anchor", None)) and ((tznow := anchor.tznow) or (isodate := anchor.isodate)):
+            return datetime.now(ZoneInfo(tznow.tz)) if (tznow and tznow.tz) else datetime.fromisoformat(isodate)
 
         return datetime.now(ZoneInfo("UTC"))
 
-    def get_time_unit(self, res):
+    @staticmethod
+    def get_time_unit(res):
         return [
             "d",
-            *[
-                y
-                for y in [
-                    x for x in [*TIME_UNITS_SHORT, *WEEKDAYS] if getattr(res, x, None)
-                ]
-                if y
-            ],
+            *[y for y in [x for x in [*TIME_UNITS_SHORT, *WEEKDAYS] if getattr(res, x, None)] if y],
         ].pop()
 
     def step(self, current, step):
@@ -77,41 +64,32 @@ class Cronspell:
             if operation in {"Plus", "Minus"}:
                 # special case: week ~> 7 days
                 if time_unit == "W":
-                    delta = (
-                        datetime.strptime("2", "%d") - datetime.strptime("1", "%d")
-                    ) * ((-7 if operation == "Minus" else 7) * step.statement.steps)
+                    delta = (datetime.strptime("2", "%d") - datetime.strptime("1", "%d")) * (
+                        (-7 if operation == "Minus" else 7) * step.statement.steps
+                    )
                 else:
+                    lower_value = [x for x in TIME_RESETS_MAP if x[0] == time_unit].pop()[1][1]
+
                     delta = (
-                        datetime.strptime("2", f"%{time_unit}")
-                        - datetime.strptime("1", f"%{time_unit}")
+                        datetime.strptime(str(lower_value + 2), f"%{time_unit}")
+                        - datetime.strptime(str(lower_value + 1), f"%{time_unit}")
                     ) * ((-1 if operation == "Minus" else 1) * step.statement.steps)
 
                 return current + delta
 
-            elif operation in {"Floor", "Ceil"} and resolution == "WeekDay":
+            elif operation == "Floor" and resolution == "WeekDay":
                 offset_abs = (7 + (current.weekday() - WEEKDAYS.index(time_unit))) % 7
                 offset = -1 * offset_abs if operation == "Floor" else 7 - offset_abs
                 current += timedelta(days=offset)
                 assert current.weekday() == WEEKDAYS.index(time_unit)
 
-                # next step will be the respective one for start/end of the day;
+                # operation "Floor" to be performed as per day
                 time_unit = "d"
 
-            if operation in {"Floor", "Ceil"}:
-
+            if operation == "Floor":
                 prune = TIME_UNITS_SHORT[TIME_UNITS_SHORT.index(time_unit) + 1 :]
-                is_month = [x for x in TIME_RESETS_MAP if x[0] not in prune][-1][
-                    0
-                ] == "m"
 
-                current = current.replace(
-                    **dict([x[1] for x in TIME_RESETS_MAP if x[0] in prune])
-                )
-
-                if operation == "Ceil" and is_month:
-                    current = (current + timedelta(days=32)).replace(
-                        **dict([x[1] for x in TIME_RESETS_MAP if x[0] in prune])
-                    )
+                current = current.replace(**dict([x[1] for x in TIME_RESETS_MAP if x[0] in prune]))
 
                 return current
 
@@ -122,8 +100,6 @@ class Cronspell:
         self.model = self.meta_model.model_from_str(expression)
         self.anchor = self.parse_anchor()
 
-        result = functools.reduce(
-            self.step, [*getattr(self.model, "date_math_term", [])], self.anchor
-        )
+        result = functools.reduce(self.step, [*getattr(self.model, "date_math_term", [])], self.anchor)
 
         return result

@@ -173,6 +173,8 @@ ignore = [
     "SIM114",  # Combine `if` branches using logical `or` operator
     "E203",    # Whitespace before :, needed for black compatability and also `ruff format`
     "ISC001",  # causes unexpected behaviour with formatter
+    "DTZ007",  # Naive datetime constructed using `datetime.datetime.strptime()` without %z
+    "S101",    # Use of `assert` detected
 ]
 unfixable = [
     # "F401",  # Don't touch unused imports

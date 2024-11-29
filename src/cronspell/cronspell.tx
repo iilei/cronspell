@@ -25,15 +25,11 @@ TimezoneNow:
 
 
 Statement:
-    Floor | Ceil | Plus | Minus
+    Floor |  Plus | Minus
 ;
 
 Floor:
   '/' res=Clampable
-;
-
-Ceil:
-  '^' res=Clampable
 ;
 
 Plus:
@@ -59,59 +55,59 @@ WeekDay:
 ;
 
 Y:
-    /Y|[Yy]ears?/
+    /([Yy]ears?|Y\b)/
 ;
 
 m:
-    /(?!mon$)m|[mM]onths?/
+    /(?!mon\b)([mM]onths?|m\b)/
 ;
 
 W:
-    /W|[wW]eeks?/
+    /([wW]eeks?|W\b)/
 ;
 
 d:
-    /d|[dD]ays?/
+    /([dD]ays?|d\b)/
 ;
 
 M:
-    /M|[mM]inutes?/
+    /([mM]inutes?|M\b)/
 ;
 
 H:
-    /H|[hH]ours?/
+    /([hH]ours?|H\b)/
 ;
 
 S:
-    /S|[sS]econds?/
+    /(?!sat$)([sS]econds?|S\b)/
 ;
 
 Mon:
-    'mon'
+    /\bmon\b/
 ;
 
 Tue:
-    'tue'
+    /\btue\b/
 ;
 
 Wed:
-    'wed'
+    /\bwed\b/
 ;
 
 Thu:
-    'thu'
+    /\bthu\b/
 ;
 
 Fri:
-    'fri'
+    /\bfri\b/
 ;
 
 Sat:
-    'sat'
+    /\bsat\b/
 ;
 
 Sun:
-    'sun'
+    /\bsun\b/
 ;
 
 Comment:

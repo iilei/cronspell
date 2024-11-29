@@ -53,12 +53,19 @@ def setup_logging(log_level: LogLevel):
     """Setup basic logging"""
     log_format = "[%(asctime)s] %(levelname)s:%(name)s:%(message)s"
     numeric_level = getattr(logging, log_level.upper(), None)
-    logging.basicConfig(level=numeric_level, stream=sys.stdout, format=log_format, datefmt="%Y-%m-%d %H:%M:%S")
+    logging.basicConfig(
+        level=numeric_level,
+        stream=sys.stdout,
+        format=log_format,
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
 
 
 app = typer.Typer(
     name=f"CronSpell {__version__}",
-    help='Date-expression domain specific language parsing. A neat way to express things like "First Saturday of any year", or "3rd thursdays each month" and such',
+    help="Date-expression domain specific language parsing. "
+    'A neat way to express things like "First Saturday of any year", '
+    'or "3rd thursdays each month" and such',
 )
 
 
