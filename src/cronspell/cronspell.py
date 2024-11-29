@@ -54,46 +54,43 @@ class Cronspell:
         ].pop()
 
     def step(self, current, step):
-        if step._tx_fqn.rpartition(".")[-1] == "DateMathTerm":
-            # operation ~> Minus|Plus|Floor|Ceil
-            operation = step.statement._tx_fqn.rpartition(".")[-1]
-            # "TimeUnitShort" or "Weekday"
-            resolution = step.statement.res._tx_fqn.rpartition(".")[-1]
-            time_unit = self.get_time_unit(step.statement.res)
+        # operation ~> Minus|Plus|Floor|Ceil
+        operation = step.statement._tx_fqn.rpartition(".")[-1]
+        # "TimeUnitShort" or "Weekday"
+        resolution = step.statement.res._tx_fqn.rpartition(".")[-1]
+        time_unit = self.get_time_unit(step.statement.res)
 
-            if operation in {"Plus", "Minus"}:
-                # special case: week ~> 7 days
-                if time_unit == "W":
-                    delta = (datetime.strptime("2", "%d") - datetime.strptime("1", "%d")) * (
-                        (-7 if operation == "Minus" else 7) * step.statement.steps
-                    )
-                else:
-                    lower_value = [x for x in TIME_RESETS_MAP if x[0] == time_unit].pop()[1][1]
+        if operation in {"Plus", "Minus"}:
+            # special case: week ~> 7 days
+            if time_unit == "W":
+                delta = (datetime.strptime("2", "%d") - datetime.strptime("1", "%d")) * (
+                    (-7 if operation == "Minus" else 7) * step.statement.steps
+                )
+            else:
+                lower_value = [x for x in TIME_RESETS_MAP if x[0] == time_unit].pop()[1][1]
 
-                    delta = (
-                        datetime.strptime(str(lower_value + 2), f"%{time_unit}")
-                        - datetime.strptime(str(lower_value + 1), f"%{time_unit}")
-                    ) * ((-1 if operation == "Minus" else 1) * step.statement.steps)
+                delta = (
+                    datetime.strptime(str(lower_value + 2), f"%{time_unit}")
+                    - datetime.strptime(str(lower_value + 1), f"%{time_unit}")
+                ) * ((-1 if operation == "Minus" else 1) * step.statement.steps)
 
-                return current + delta
+            return current + delta
 
-            elif operation == "Floor" and resolution == "WeekDay":
-                offset_abs = (7 + (current.weekday() - WEEKDAYS.index(time_unit))) % 7
-                offset = -1 * offset_abs if operation == "Floor" else 7 - offset_abs
-                current += timedelta(days=offset)
-                assert current.weekday() == WEEKDAYS.index(time_unit)
+        elif operation == "Floor" and resolution == "WeekDay":
+            offset_abs = (7 + (current.weekday() - WEEKDAYS.index(time_unit))) % 7
+            offset = -1 * offset_abs if operation == "Floor" else 7 - offset_abs
+            current += timedelta(days=offset)
+            assert current.weekday() == WEEKDAYS.index(time_unit)
 
-                # operation "Floor" to be performed as per day
-                time_unit = "d"
+            # operation "Floor" to be performed as per day
+            time_unit = "d"
 
-            if operation == "Floor":
-                prune = TIME_UNITS_SHORT[TIME_UNITS_SHORT.index(time_unit) + 1 :]
+        if operation == "Floor":
+            prune = TIME_UNITS_SHORT[TIME_UNITS_SHORT.index(time_unit) + 1 :]
 
-                current = current.replace(**dict([x[1] for x in TIME_RESETS_MAP if x[0] in prune]))
+            current = current.replace(**dict([x[1] for x in TIME_RESETS_MAP if x[0] in prune]))
 
-                return current
-
-        return current
+            return current
 
     def parse(self, expression: str = "now", now: Union[None, datetime] = None):
         self.expression = expression
