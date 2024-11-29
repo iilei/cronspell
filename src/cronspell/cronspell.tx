@@ -1,0 +1,119 @@
+
+DateMath:
+    anchor=Anchor? date_math_term*=DateMathTerm
+;
+
+Anchor:
+    tznow=TimezoneNow | NaiveNow | isodate=ISODate
+;
+
+ISODate:
+    /\d+\S+/
+;
+
+DateMathTerm:
+    statement=Statement
+;
+
+NaiveNow:
+  'now'
+;
+
+TimezoneNow:
+  NaiveNow '[' tz=/\s*([^\]]+)\s*/ ']'
+;
+
+
+Statement:
+    Floor | Ceil | Plus | Minus
+;
+
+Floor:
+  '/' res=Clampable
+;
+
+Ceil:
+  '^' res=Clampable
+;
+
+Plus:
+  '+' steps=INT? res=TimeUnitShort
+;
+
+Minus:
+  '-' steps=INT? res=TimeUnitShort
+;
+
+Clampable:
+    WeekDay | TimeUnitShort
+;
+
+
+TimeUnitShort:
+    Y=Y | m=m | W=W | d=d | M=M | H=H | S=S
+
+;
+
+WeekDay:
+    Mon=Mon | Tue=Tue | Wed=Wed | Thu=Thu | Fri=Fri | Sat=Sat | Sun=Sun
+;
+
+Y:
+    /Y|[Yy]ears?/
+;
+
+m:
+    /(?!mon$)m|[mM]onths?/
+;
+
+W:
+    /W|[wW]eeks?/
+;
+
+d:
+    /d|[dD]ays?/
+;
+
+M:
+    /M|[mM]inutes?/
+;
+
+H:
+    /H|[hH]ours?/
+;
+
+S:
+    /S|[sS]econds?/
+;
+
+Mon:
+    'mon'
+;
+
+Tue:
+    'tue'
+;
+
+Wed:
+    'wed'
+;
+
+Thu:
+    'thu'
+;
+
+Fri:
+    'fri'
+;
+
+Sat:
+    'sat'
+;
+
+Sun:
+    'sun'
+;
+
+Comment:
+    /\/\*(.|\n)*?\*\// | /\/\/.*?$/
+;
