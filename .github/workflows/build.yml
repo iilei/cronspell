@@ -27,7 +27,7 @@ jobs:
           hatch run lint:all
       - name: Run Tests
         run: |
-          hatch run test:pytest
+          hatch run test:pytest --cov-report term --cov-report xml:coverage.xml --cov=cronspell
       - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
