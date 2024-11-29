@@ -220,6 +220,7 @@ dependencies = [
     "pytest-vcr",
     "pytest-sugar",
     "hypothesis",
+    "time-machine",
 ]
 [tool.hatch.envs.test.scripts]
 cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=src/cronspell --cov=tests {args}"
