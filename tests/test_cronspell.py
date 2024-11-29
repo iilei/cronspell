@@ -46,12 +46,12 @@ def test_complex():
 
 @time_machine.travel(dt.datetime.fromisoformat("2024-12-31T01:13:42+05:45"), tick=False)
 def test_weekdays():
-    assert resolve("now") == "2024-12-31T01:13:42+05:45"
-    assert resolve("now /d") == "2024-12-31T00:00:00+05:45"
-    assert resolve("now /tue") == "2024-12-31T00:00:00+05:45"
-    assert resolve("now /mon") == "2024-12-30T00:00:00+05:45"
-    assert resolve("now /sun") == "2024-12-29T00:00:00+05:45"
-    assert resolve("now /sat") == "2024-12-28T00:00:00+05:45"
-    assert resolve("now /fri") == "2024-12-27T00:00:00+05:45"
-    assert resolve("now /thu") == "2024-12-26T00:00:00+05:45"
-    assert resolve("now /wed") == "2024-12-25T00:00:00+05:45"
+    assert resolve("now").isoformat() == "2024-12-31T01:13:42+05:45"
+    assert resolve("now /d").isoformat() == "2024-12-31T00:00:00+05:45"
+    assert resolve("now /tue").isoformat() == "2024-12-31T00:00:00+05:45"
+    assert resolve("now /mon").isoformat() == "2024-12-30T00:00:00+05:45"
+    assert resolve("now /sun").isoformat() == "2024-12-29T00:00:00+05:45"
+    assert resolve("now /sat").isoformat() == "2024-12-28T00:00:00+05:45"
+    assert resolve("now /fri").isoformat() == "2024-12-27T00:00:00+05:45"
+    assert resolve("now /thu").isoformat() == "2024-12-26T00:00:00+05:45"
+    assert resolve("now /wed").isoformat() == "2024-12-25T00:00:00+05:45"
