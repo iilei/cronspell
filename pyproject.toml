@@ -35,9 +35,8 @@ classifiers = [
 dependencies = ["typer", "textX>=4.0.1,<5"]
 dynamic = ["version"]
 
-# [project.scripts]
-# # Use `fibonacci` as command-line script, comment or remove this section if not needed.
-# fibonacci = "cronspell.skeleton:app"
+[project.scripts]
+cronspell = "cronspell.cli:app"
 
 [project.urls]
 Documentation = "https://github.com/iilei/cronspell"
