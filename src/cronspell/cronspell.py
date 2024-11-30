@@ -7,7 +7,7 @@ import calendar
 import functools
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Union
+from typing import Optional
 from zoneinfo import ZoneInfo
 
 from textx import metamodel_from_file
@@ -31,27 +31,25 @@ TIME_RESETS_MAP = [[TIME_UNITS_SHORT[k], v] for k, v in enumerate(TIME_RESETS) i
 
 
 class Cronspell:
-    def __init__(self):
+    def __init__(self, timezone: Optional[ZoneInfo] = None):
+        if timezone is None:
+            timezone = ZoneInfo("UTC")
+
         self.meta_model = metamodel_from_file(
             Path.joinpath(Path(__file__).parent, "cronspell.tx"), use_regexp_group=True
         )
 
-        self.timezone = ZoneInfo("UTC")
-        self.now = datetime.now(self.timezone)
-        self.result = self.now
+        self.timezone = timezone
 
     def parse_anchor(self):
         if (anchor := getattr(self.model, "anchor", None)) and ((tznow := anchor.tznow) or (isodate := anchor.isodate)):
             return datetime.now(ZoneInfo(tznow.tz)) if (tznow and tznow.tz) else datetime.fromisoformat(isodate)
 
-        return datetime.now(ZoneInfo("UTC"))
+        return datetime.now(self.timezone)
 
     @staticmethod
-    def get_time_unit(res):
-        return [
-            "d",
-            *[y for y in [x for x in [*TIME_UNITS_SHORT, *WEEKDAYS] if getattr(res, x, None)] if y],
-        ].pop()
+    def get_time_unit(alias):
+        return next(name for name in [*TIME_UNITS_SHORT, *WEEKDAYS] if getattr(alias, name, None))
 
     def step(self, current, step):
         # operation ~> Minus|Plus|Floor|Ceil
@@ -80,7 +78,6 @@ class Cronspell:
             offset_abs = (7 + (current.weekday() - WEEKDAYS.index(time_unit))) % 7
             offset = -1 * offset_abs if operation == "Floor" else 7 - offset_abs
             current += timedelta(days=offset)
-            assert current.weekday() == WEEKDAYS.index(time_unit)
 
             # operation "Floor" to be performed as per day
             time_unit = "d"
@@ -92,10 +89,11 @@ class Cronspell:
 
             return current
 
-    def parse(self, expression: str = "now", now: Union[None, datetime] = None):
+    def parse(self, expression: str = "now") -> datetime:
         self.expression = expression
         self.model = self.meta_model.model_from_str(expression)
         self.anchor = self.parse_anchor()
+
         self.tz = self.anchor.tzname()
 
         result = functools.reduce(self.step, [*getattr(self.model, "date_math_term", [])], self.anchor)

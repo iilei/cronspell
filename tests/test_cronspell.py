@@ -44,14 +44,17 @@ def test_complex():
     )
 
 
-@time_machine.travel(dt.datetime.fromisoformat("2024-12-31T01:13:42+05:45"), tick=False)
-def test_weekdays():
-    assert resolve("now").isoformat() == "2024-12-31T01:13:42+05:45"
-    assert resolve("now /d").isoformat() == "2024-12-31T00:00:00+05:45"
-    assert resolve("now /tue").isoformat() == "2024-12-31T00:00:00+05:45"
-    assert resolve("now /mon").isoformat() == "2024-12-30T00:00:00+05:45"
-    assert resolve("now /sun").isoformat() == "2024-12-29T00:00:00+05:45"
-    assert resolve("now /sat").isoformat() == "2024-12-28T00:00:00+05:45"
-    assert resolve("now /fri").isoformat() == "2024-12-27T00:00:00+05:45"
-    assert resolve("now /thu").isoformat() == "2024-12-26T00:00:00+05:45"
-    assert resolve("now /wed").isoformat() == "2024-12-25T00:00:00+05:45"
+# europe berlin equivalent for "2024-12-30T01:13:42+05:45"
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T20:28:42+01:00"), tick=False)
+def test_weekdays_and_timezones():
+    assert resolve("now[Asia/Kathmandu]").isoformat() == "2024-12-30T01:13:42+05:45"
+    assert resolve("now[Asia/Kathmandu] /d").isoformat() == "2024-12-30T00:00:00+05:45"
+    assert resolve("now[Asia/Kathmandu] /tue").isoformat() == "2024-12-24T00:00:00+05:45"
+    assert resolve("now[Asia/Kathmandu] /wed").isoformat() == "2024-12-25T00:00:00+05:45"
+    assert resolve("now[Asia/Kathmandu] /thu").isoformat() == "2024-12-26T00:00:00+05:45"
+    assert resolve("now[Asia/Kathmandu] /fri").isoformat() == "2024-12-27T00:00:00+05:45"
+    assert resolve("now[Asia/Kathmandu] /sat").isoformat() == "2024-12-28T00:00:00+05:45"
+
+    assert resolve("now[Asia/Kathmandu] /sun").isoformat() == "2024-12-29T00:00:00+05:45"
+
+    assert resolve("now[Asia/Kathmandu] /mon").isoformat() == resolve("now[Asia/Kathmandu] /d").isoformat()
