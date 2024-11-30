@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/iilei/cronspell/graph/badge.svg?token=39597I5VCB)](https://codecov.io/gh/iilei/cronspell)
+
 # CronSpell
 
 Date-expression domain specific language parsing. A neat way to express things like "First Saturday of any year", or "3rd thursdays each month" and such
