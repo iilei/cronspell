@@ -1,1 +1,1 @@
-now/m -1d /sat // last Saturday of last month
+now /month -1day /sat
