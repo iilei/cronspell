@@ -35,12 +35,12 @@ def test_complex():
                 2025-01-01
                 / month + 32 days
                 / m -1 day +1 second +3 minutes + 2 hours + 5 days
-                    + 3 weeks + 2 months + 3 years
+                    + 3 weeks
                 /year /sat / sun /thu /mon /tue /fri /wed
-                /week + 1 m /m /thu + 3 S + 169 M
+                /week  /m /thu + 3 S + 169 M
             """
         ).isoformat()
-        == "2027-11-25T02:49:03"
+        == "2024-11-28T02:49:03"
     )
 
 

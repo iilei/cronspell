@@ -41,13 +41,15 @@ Minus:
 ;
 
 Clampable:
-    WeekDay | TimeUnitShort
+    WeekDay | TimeUnitShort | VariableTimeUnit
 ;
 
-
 TimeUnitShort:
-    Y=Y | m=m | W=W | d=d | M=M | H=H | S=S
+    W=W | d=d | M=M | H=H | S=S
+;
 
+VariableTimeUnit:
+    Y=Y | m=m
 ;
 
 WeekDay:
