@@ -3,7 +3,7 @@ site_name: CronSpell
 site_description: Date-expression domain specific language parsing. A neat way to express things like "First Saturday of any year", or "3rd thursdays each month" and such
 site_author: iilei • jochen preusche
 site_url: https://github.com/iilei/cronspell
-copyright: 'Copyright &copy; iilei • jochen preusche 2024-present'
+copyright: "Copyright &copy; iilei • jochen preusche 2024-present"
 
 # Repository
 repo_name: cronspell
@@ -13,13 +13,14 @@ edit_uri: blob/master/docs
 # Navigation
 nav:
   - Home:
-    - About: index.md
-    - Changelog: changelog.md
-    - License: license.md
-    - Authors: authors.md
-    - Contributing: contributing.md
-  # defer to gen-files + literate-nav
-  - Reference: reference/cronspell/
+      - About: index.md
+      - Parser: details/parser.md
+      - Changelog: changelog.md
+      - License: license.md
+      - Authors: authors.md
+      - Contributing: contributing.md
+        # defer to gen-files + literate-nav
+      - Reference: reference/cronspell/
 
 # Configuration
 docs_dir: docs
@@ -32,8 +33,8 @@ theme:
     repo: fontawesome/brands/github-alt
     logo: fontawesome/solid/egg
   font:
-    text: Roboto
-    code: Roboto Mono
+    text: Ubuntu
+    code: Ubuntu Mono
   palette:
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
@@ -52,12 +53,12 @@ theme:
   features:
     - navigation.sections
     - navigation.tabs
-#    - navigation.expand
+    - navigation.expand
     - navigation.tabs.sticky
     - navigation.instant
 
 watch:
-- src/cronspell
+  - src/cronspell
 
 # Extensions
 plugins:
