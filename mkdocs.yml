@@ -38,15 +38,15 @@ theme:
   palette:
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: indigo
-      accent: indigo
+      primary: teal
+      accent: light blue
       toggle:
         icon: material/lightbulb-outline # material/weather-night
         name: Switch to light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: indigo
-      accent: indigo
+      primary: teal
+      accent: light blue
       toggle:
         icon: material/lightbulb # material/weather-sunny
         name: Switch to dark mode
@@ -164,6 +164,6 @@ extra:
   #    link: https://....
   #  - icon: fontawesome/brands/linkedin
   #    link: https://www.linkedin.com/in/xxxxxx/
-  # analytics:
-  #   provider: google
-  #   property: G-XXXXXXXX
+  analytics:
+    provider: google
+    property: G-NGSV0ZZ6MQ
