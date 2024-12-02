@@ -32,3 +32,23 @@ Or
 ```
 
 The result is just like `floor` to `monday`, just to the most recent calendar week that is divisible by `3`; `CW 3` , `CW 6` ... up to `CW 51`
+
+## CLI Usage
+
+Get Help
+
+```shell
+cronspell --help
+```
+
+Beginning of the month
+
+```shell
+cronspell "/Month"
+```
+
+same, different format:
+
+```shell
+cronspell "/Month" -f "%a %Y-%m-%d"
+```
