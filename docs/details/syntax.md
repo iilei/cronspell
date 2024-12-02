@@ -66,56 +66,25 @@ That said, if you do a `now /sat` on a saturday, it yields the same each time it
 
 The following expressions are recognized:
 
-<table>
-	<tr>
-		<td><b>Comment</b></td><td>\/\*(.|\n)*?\*\/|\/\/.*?$</td>
-	</tr>
-	<tr>
-		<td><b>Fri</b></td><td>\bfri\b</td>
-	</tr>
-	<tr>
-		<td><b>H</b></td><td>([hH]ours?|H\b)</td>
-	</tr>
-	<tr>
-		<td><b>ISODate</b></td><td>\d+\S+</td>
-	</tr>
-	<tr>
-		<td><b>M</b></td><td>([mM]inutes?|M\b)</td>
-	</tr>
-	<tr>
-		<td><b>Mon</b></td><td>\bmon\b</td>
-	</tr>
-	<tr>
-		<td><b>NaiveNow</b></td><td>now</td>
-	</tr>
-	<tr>
-		<td><b>S</b></td><td>(?!sat$)([sS]econds?|S\b)</td>
-	</tr>
-	<tr>
-		<td><b>Sat</b></td><td>\bsat\b</td>
-	</tr>
-	<tr>
-		<td><b>Sun</b></td><td>\bsun\b</td>
-	</tr>
-	<tr>
-		<td><b>Thu</b></td><td>\bthu\b</td>
-	</tr>
-	<tr>
-		<td><b>Tue</b></td><td>\btue\b</td>
-	</tr>
-	<tr>
-		<td><b>W</b></td><td>([wW]eeks?|W\b)</td>
-	</tr>
-	<tr>
-		<td><b>Wed</b></td><td>\bwed\b</td>
-	</tr>
-	<tr>
-		<td><b>Y</b></td><td>([Yy]ears?|Y\b)</td>
-	</tr>
-	<tr>
-		<td><b>d</b></td><td>([dD]ays?|d\b)</td>
-	</tr>
-	<tr>
-		<td><b>m</b></td><td>(?!mon\b)([mM]onths?|m\b)</td>
-	</tr>
-</table>
+|              |                   | Pattern                       |
+| :----------- | :---------------- | :---------------------------- |
+| **mon**      | monday            | `\bmon\b`                     |
+| **tue**      | tuesday           | `\btue\b`                     |
+| **wed**      | wednesday         | `\bwed\b`                     |
+| **thu**      | thursday          | `\bthu\b`                     |
+| **fri**      | friday            | `\bfri\b`                     |
+| **sat**      | saturday          | `\bsat\b`                     |
+| **sun**      | sunday            | `\bsun\b`                     |
+|              |                   |                               |
+| **ISODate**  | fixed date        | `\d+\S+`                      |
+| **NaiveNow** | relative datetime | `now`                         |
+|              |                   |                               |
+| **Y**        | year              | `([Yy]ears?\|Y\b)`            |
+| **m**        | month             | `(?!mon\b)([mM]onths?\|m\b)`  |
+| **W**        | week              | `([wW]eeks?\|W\b)`            |
+| **d**        | day               | `([dD]ays?\|d\b)`             |
+| **H**        | hour              | `([hH]ours?\|H\b)`            |
+| **M**        | minutes           | `([mM]inutes?\|M\b)`          |
+| **S**        | seconds           | `(?!sat$)([sS]econds?\|S\b)`  |
+|              |                   |                               |
+| **Comment**  |                   | `\/\*(.\|\n)*?\*\/\|\/\/.*?$` |
