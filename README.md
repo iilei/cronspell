@@ -5,13 +5,15 @@
 
 |          |                                                                                                                                                                                                                                   |
 | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Details  | [![Tests][Tests-image]][Tests-link] [![License - MIT][MIT-image]][MIT-link]                                                                                                                                                       |
+| Details  | [![Tests][Tests-image]][Tests-link] [![License - MIT][MIT-image]][MIT-link]     [![Github Pages][Github Pages]][Github Pages Link]                                                                                                |
 | Features | [![linting - Ruff][ruff-image]][ruff-link] [![types - mypy][mypy-image]][mypy-link] [![test - pytest][pytest-image]][pytest-link]  [![Pre-Commit][precommit-image]][precommit-link] [![docs - mkdocs][mkdocs-image]][mkdocs-link] |
 
 Date-expression domain specific language parsing. A neat way to express things like "First Saturday of any year", or "3rd thursdays each month" and such.
 
 
+
 ## Features
+
 
 ### Python
 
@@ -68,3 +70,5 @@ which instructs the parser to perform the following sequence of operations:
 [precommit-link]: https://pre-commit.com/
 [MIT-image]: https://img.shields.io/badge/License-MIT-9400d3.svg
 [MIT-link]: LICENSE.txt
+[Github Pages]: https://img.shields.io/badge/github%20pages-121013?style=for-the-badge&logo=github&logoColor=teal
+[Github Pages Link]: https://iilei.github.io/cronspell/
