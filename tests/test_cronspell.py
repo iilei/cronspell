@@ -58,3 +58,21 @@ def test_weekdays_and_timezones():
     assert cronspell("now[Asia/Kathmandu] /sun").isoformat() == "2024-12-29T00:00:00+05:45"
 
     assert cronspell("now[Asia/Kathmandu] /mon").isoformat() == cronspell("now[Asia/Kathmandu] /d").isoformat()
+
+
+def test_cw_modulo():
+    assert cronspell("2024-12-01T12:12:00+00:00 @cw 4").isoformat() == "2024-12-01T00:00:00+00:00"
+    assert cronspell("2024-11-23T12:12:00+00:00 @ cw 4").isoformat() == "2024-11-02T00:00:00+00:00"
+    assert cronspell(r"2024-11-23T12:12:00+00:00 % cw 4").isoformat() == "2024-11-02T00:00:00+00:00"
+    assert cronspell(r"2024-11-23T12:12:00+00:00 % CW 4").isoformat() == "2024-11-02T00:00:00+00:00"
+
+
+def test_examples():
+    assert cronspell("2024-06-01T00:00:00+00:00 /sat").isoformat() == "2024-06-01T00:00:00+00:00"
+    assert cronspell("2024-06-01T00:00:00+00:00 -1 day /sat + 1 week").isoformat() == "2024-06-01T00:00:00+00:00"
+    assert cronspell("2024-06-01T00:00:00+00:00 -1 day /sun + 1 week").isoformat() == "2024-06-02T00:00:00+00:00"
+    assert cronspell("2024-06-01T00:00:00+00:00 -1 day /mon + 1 week").isoformat() == "2024-06-03T00:00:00+00:00"
+    assert cronspell("2024-06-01T00:00:00+00:00 -1 day /tue + 1 week").isoformat() == "2024-06-04T00:00:00+00:00"
+    assert cronspell("2024-06-01T00:00:00+00:00 -1 day /wed + 1 week").isoformat() == "2024-06-05T00:00:00+00:00"
+    assert cronspell("2024-06-01T00:00:00+00:00 -1 day /thu + 1 week").isoformat() == "2024-06-06T00:00:00+00:00"
+    assert cronspell("2024-06-01T00:00:00+00:00 -1 day /fri + 1 week").isoformat() == "2024-06-07T00:00:00+00:00"

@@ -54,9 +54,21 @@ class Cronspell:
     def step(self, current, step):
         # operation ~> Minus|Plus|Floor|Ceil
         operation = step.statement._tx_fqn.rpartition(".")[-1]
-        # "TimeUnitShort" or "Weekday"
-        resolution = step.statement.res._tx_fqn.rpartition(".")[-1]
-        time_unit = self.get_time_unit(step.statement.res)
+
+        if operation == "CwModulo":
+            resolution = step.statement.value
+            week = current.isocalendar()[1]
+
+            offset = week % abs(resolution) * 7
+            if offset > 0:
+                current -= timedelta(days=offset)
+
+            operation = "Floor"
+            resolution = "mon"
+            time_unit = "d"
+        else:
+            resolution = step.statement.res._tx_fqn.rpartition(".")[-1]
+            time_unit = self.get_time_unit(step.statement.res)
 
         if operation in {"Plus", "Minus"}:
             # special case: week ~> 7 days

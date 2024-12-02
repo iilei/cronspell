@@ -16,6 +16,7 @@ nav:
       - About: index.md
       - Syntax: details/syntax.md
       - Parser: details/parser.md
+        Recipes: details/recipes.md
       - Changelog: changelog.md
       - License: license.md
       - Authors: authors.md
