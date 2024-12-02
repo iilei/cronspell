@@ -14,6 +14,7 @@ edit_uri: blob/master/docs
 nav:
   - Home:
       - About: index.md
+      - Syntax: details/syntax.md
       - Parser: details/parser.md
       - Changelog: changelog.md
       - License: license.md
@@ -125,6 +126,7 @@ markdown_extensions:
       guess_lang: false
       linenums_style: pymdownx-inline
       use_pygments: true
+      pygments_lang_class: true
   - pymdownx.inlinehilite:
   - pymdownx.keys:
   - pymdownx.magiclink:
