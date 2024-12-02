@@ -25,8 +25,19 @@ TimezoneNow:
 
 
 Statement:
-    Floor |  Plus | Minus
+    Floor |  Plus | Minus | CwModulo
 ;
+
+
+CwModulo:
+   CalendarWeekModuloMarker value=INT
+;
+
+
+CalendarWeekModuloMarker:
+    /[%,@]\s*\b(CW|Cw|cw)\b/
+;
+
 
 Floor:
   '/' res=Clampable
@@ -65,7 +76,7 @@ m:
 ;
 
 W:
-    /([wW]eeks?|W\b)/
+    /\b([wW]eeks?|W)\b/
 ;
 
 d:

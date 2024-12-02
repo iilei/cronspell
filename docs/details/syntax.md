@@ -66,25 +66,26 @@ That said, if you do a `now /sat` on a saturday, it yields the same each time it
 
 The following expressions are recognized:
 
-|              |                   | Pattern                       |
-| :----------- | :---------------- | :---------------------------- |
-| **mon**      | monday            | `\bmon\b`                     |
-| **tue**      | tuesday           | `\btue\b`                     |
-| **wed**      | wednesday         | `\bwed\b`                     |
-| **thu**      | thursday          | `\bthu\b`                     |
-| **fri**      | friday            | `\bfri\b`                     |
-| **sat**      | saturday          | `\bsat\b`                     |
-| **sun**      | sunday            | `\bsun\b`                     |
-|              |                   |                               |
-| **ISODate**  | fixed date        | `\d+\S+`                      |
-| **NaiveNow** | relative datetime | `now`                         |
-|              |                   |                               |
-| **Y**        | year              | `([Yy]ears?\|Y\b)`            |
-| **m**        | month             | `(?!mon\b)([mM]onths?\|m\b)`  |
-| **W**        | week              | `([wW]eeks?\|W\b)`            |
-| **d**        | day               | `([dD]ays?\|d\b)`             |
-| **H**        | hour              | `([hH]ours?\|H\b)`            |
-| **M**        | minutes           | `([mM]inutes?\|M\b)`          |
-| **S**        | seconds           | `(?!sat$)([sS]econds?\|S\b)`  |
-|              |                   |                               |
-| **Comment**  |                   | `\/\*(.\|\n)*?\*\/\|\/\/.*?$` |
+|                              |                    | Pattern                       |
+| :--------------------------- | :----------------- | :---------------------------- |
+| **mon**                      | monday             | `\bmon\b`                     |
+| **tue**                      | tuesday            | `\btue\b`                     |
+| **wed**                      | wednesday          | `\bwed\b`                     |
+| **thu**                      | thursday           | `\bthu\b`                     |
+| **fri**                      | friday             | `\bfri\b`                     |
+| **sat**                      | saturday           | `\bsat\b`                     |
+| **sun**                      | sunday             | `\bsun\b`                     |
+|                              |                    |                               |
+| **ISODate**                  | fixed date         | `\d+\S+`                      |
+| **NaiveNow**                 | relative datetime  | `now`                         |
+|                              |                    |                               |
+| **Y**                        | year               | `([Yy]ears?\|Y\b)`            |
+| **m**                        | month              | `(?!mon\b)([mM]onths?\|m\b)`  |
+| **W**                        | week               | `([wW]eeks?\|W\b)`            |
+| **d**                        | day                | `([dD]ays?\|d\b)`             |
+| **H**                        | hour               | `([hH]ours?\|H\b)`            |
+| **M**                        | minutes            | `([mM]inutes?\|M\b)`          |
+| **S**                        | seconds            | `(?!sat$)([sS]econds?\|S\b)`  |
+|                              |                    |                               |
+| **Comment**                  |                    | `\/\*(.\|\n)*?\*\/\|\/\/.*?$` |
+| **CalendarWeekModuloMarker** | Implicit *`floor`* | `[%,@]\s*\b(CW\|Cw\|cw)\b`    |
