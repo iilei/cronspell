@@ -1,8 +1,10 @@
 import datetime as dt
 
+import pytest
 import time_machine
 
 from cronspell import cronspell
+from cronspell.exceptions import CronpellMathException
 
 
 def test_iso_date():
@@ -67,6 +69,11 @@ def test_cw_modulo():
     assert cronspell(r"2024-11-23T12:12:00+00:00 % CW 4").isoformat() == "2024-11-02T00:00:00+00:00"
 
 
+def test_y_modulo():
+    assert cronspell("2024-12-01T00:00:00+00:00 @Y 4").isoformat() == "2024-01-01T00:00:00+00:00"
+    assert cronspell("2024-12-01T00:00:00+00:00 @Y 5").isoformat() == "2020-01-01T00:00:00+00:00"
+
+
 def test_examples():
     assert cronspell("2024-06-01T00:00:00+00:00 /sat").isoformat() == "2024-06-01T00:00:00+00:00"
     assert cronspell("2024-06-01T00:00:00+00:00 -1 day /sat + 1 week").isoformat() == "2024-06-01T00:00:00+00:00"
@@ -76,3 +83,8 @@ def test_examples():
     assert cronspell("2024-06-01T00:00:00+00:00 -1 day /wed + 1 week").isoformat() == "2024-06-05T00:00:00+00:00"
     assert cronspell("2024-06-01T00:00:00+00:00 -1 day /thu + 1 week").isoformat() == "2024-06-06T00:00:00+00:00"
     assert cronspell("2024-06-01T00:00:00+00:00 -1 day /fri + 1 week").isoformat() == "2024-06-07T00:00:00+00:00"
+
+
+def test_cw_modulo_bad_input():
+    with pytest.raises(CronpellMathException, match=r".*needed lower than 53.*"):
+        assert cronspell("@cw 54").isoformat() == ""

@@ -12,15 +12,18 @@ from zoneinfo import ZoneInfo
 
 from textx import metamodel_from_file
 
+from cronspell.exceptions import CronpellMathException
+
 with calendar.different_locale(locale=("EN_US", "UTF-8")):
     # first day of the week: Monday as per ISO Standard
     WEEKDAYS = [*calendar.day_abbr]
 
 
-TIME_UNITS_SHORT = ["Y", "m", "W", "d", "H", "M", "S"]
+TIME_UNITS_SHORT = ["Y", "m", "CW", "W", "d", "H", "M", "S"]
 TIME_RESETS = [
     ("year", 1970),
     ("month", 1),
+    None,
     None,
     ("day", 1),
     ("minute", 0),
@@ -28,6 +31,8 @@ TIME_RESETS = [
     ("second", 0),
 ]
 TIME_RESETS_MAP = [[TIME_UNITS_SHORT[k], v] for k, v in enumerate(TIME_RESETS) if v]
+FLOOR_CW_MAX = 52
+FLOOR_Y_MAX = 9999
 
 
 class Cronspell:
@@ -55,13 +60,32 @@ class Cronspell:
         # operation ~> Minus|Plus|Floor|Ceil
         operation = step.statement._tx_fqn.rpartition(".")[-1]
 
-        if operation == "CwModulo":
-            resolution = step.statement.value
-            week = current.isocalendar()[1]
+        # Year Modulo
+        if operation == "YModulo":
+            resolution = max(step.statement.value, 1)
 
-            offset = week % abs(resolution) * 7
-            if offset > 0:
-                current -= timedelta(days=offset)
+            if resolution > FLOOR_Y_MAX:
+                msg = f"Year Modulo needed lower than {FLOOR_Y_MAX + 1}! Got {resolution}."
+                raise CronpellMathException(msg)
+
+            year = current.year
+
+            current = current.replace(year=year - year % abs(resolution))
+
+            operation = "Floor"
+            resolution = 1
+            time_unit = "Y"
+
+        # Calendar Week Modulo
+        elif operation == "CwModulo":
+            resolution = max(step.statement.value, 1)
+
+            if resolution > FLOOR_CW_MAX:
+                msg = f"Calendar Week Modulo needed lower than {FLOOR_CW_MAX + 1}! Got {resolution}."
+                raise CronpellMathException(msg)
+
+            week = current.isocalendar()[1]
+            current -= timedelta(days=week % abs(resolution) * 7)
 
             operation = "Floor"
             resolution = "mon"
