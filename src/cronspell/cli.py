@@ -1,12 +1,15 @@
 import enum
 import logging
 import sys
+from pathlib import Path
 from typing import Annotated
 
 import typer
 import typer.rich_utils
+from textx.export import model_export
 
 from cronspell import __version__, cronspell
+from cronspell.cronspell import Cronspell
 
 
 class LogLevel(str, enum.Enum):
@@ -56,6 +59,29 @@ def main(
 ):
     parsed = cronspell(expression)
     print(parsed.strftime(fmt) if len(fmt) > 0 else parsed.isoformat())  # noqa: T201
+
+
+to_dot = typer.Typer()
+
+
+@to_dot.command()
+def to_dot_cmd(
+    expression: Annotated[
+        str,
+        typer.Argument(
+            ...,
+            help="Date-Expression, e.g 'now /month",
+            default_factory=lambda: "now",
+        ),
+    ],
+    out: Annotated[
+        Path,
+        typer.Option("--out", "-o", show_default=False, help="Where to write output"),
+    ],
+):
+    model = Cronspell().meta_model.model_from_str(expression)
+    model_export(model, out)
+    print(out.as_posix())  # noqa: T201
 
 
 if __name__ == "__main__":
