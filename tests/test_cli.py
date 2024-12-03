@@ -1,5 +1,4 @@
 import datetime as dt
-from pathlib import Path
 
 import time_machine
 from typer.testing import CliRunner
@@ -24,19 +23,26 @@ def test_app_isoformat():
     assert "+01:00" in out or "+02:00" in out
 
 
-def test_cronspell_to_dot(data_path):
+def test_cronspell_to_dot_good_case(data_path):
     """CLI Tests"""
-    out_file = Path.joinpath(data_path, "test-output.dot")
+
     # Simulate the command line invocation
-    result = runner.invoke(to_dot, ["now[Europe/Berlin] /m /sat", "--out", out_file])
+    result = runner.invoke(to_dot, ["now[Europe/Berlin] /m /sat", "now[Europe/Berlin] /m /fri", "--out", data_path])
 
     # Check that the command executed successfully
     assert result.exit_code == 0, f"Error: {result.stdout}"
 
-    # Capture the output
-    assert out_file == ""
+    assert result.stdout == ""
 
-    # Assert against the expected output
+
+def test_cronspell_to_dot_bad_case(data_path):
+    """CLI Tests"""
+
+    # Simulate the command line invocation
+    result = runner.invoke(to_dot, ["now[Europe/Berlin] @notatoken 9999", "--out", data_path])
+
+    # Check that the command executed successfully
+    assert result.exit_code == 1, f"Error: {result.stdout}"
 
 
 @time_machine.travel(dt.datetime.fromisoformat("2024-12-29"), tick=False)
