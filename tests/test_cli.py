@@ -1,9 +1,12 @@
 import datetime as dt
+from pathlib import Path
 
+import pytest
 import time_machine
 from typer.testing import CliRunner
 
 from cronspell.cli.cli import app
+from cronspell.exceptions import CronpellMathException
 
 runner = CliRunner()
 
@@ -53,11 +56,30 @@ def test_cronspell_locate():
     assert "cronspell.tx" in result.stdout
 
 
-def test_hook():
-    result = runner.invoke(app, ["pre-commit", "xyz"])
+def test_hook_good_expressions(data_path):
+    test_file = Path(data_path).joinpath("testfile_a.yaml")
+    test_file.write_text("""\
+- type: first_saturday
+  cronspell: /month -1day /sat + 1 week
+- type: first_friday
+  cronspell: /month -1day /fri + 1 week
+""")
+
+    result = runner.invoke(app, ["pre-commit", "--query", "/*/cronspell", test_file.as_posix()])
     # Check that the command executed successfully
     assert result.exit_code == 0, f"Error: {result.stdout}"
-    # implementation pending
+
+
+def test_hook_bad_expression(data_path):
+    test_file = Path(data_path).joinpath("testfile_b.yaml")
+    test_file.write_text("""\
+- type: first_saturday
+  cronspell: "@cw 77"
+""")
+
+    with pytest.raises(CronpellMathException, match=r".*needed lower than 53.*"):
+        result = runner.invoke(app, ["pre-commit", "--query", "/*/cronspell", test_file.as_posix()])
+        assert result.exit_code == 1, f"Error: {result.stdout}"
 
 
 @time_machine.travel(dt.datetime.fromisoformat("2024-12-29"), tick=False)
