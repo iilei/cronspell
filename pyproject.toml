@@ -37,7 +37,6 @@ dynamic = ["version"]
 
 [project.scripts]
 cronspell = "cronspell.cli:app"
-cronspell-dot = "cronspell.cli:to_dot"
 
 [project.urls]
 Documentation = "https://github.com/iilei/cronspell"

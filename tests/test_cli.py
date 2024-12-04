@@ -3,15 +3,15 @@ import datetime as dt
 import time_machine
 from typer.testing import CliRunner
 
-from cronspell.cli import app, to_dot
+from cronspell.cli.cli import app
 
 runner = CliRunner()
 
 
-def test_app_isoformat():
+def test_cli_isoformat():
     """CLI Tests"""
     # Simulate the command line invocation
-    result = runner.invoke(app, ["now[Europe/Berlin] /m /sat"])
+    result = runner.invoke(app, ["parse", "now[Europe/Berlin] /m /sat"])
 
     # Check that the command executed successfully
     assert result.exit_code == 0, f"Error: {result.stdout}"
@@ -27,7 +27,7 @@ def test_cronspell_to_dot_good_case(data_path):
     """CLI Tests"""
 
     # Simulate the command line invocation
-    result = runner.invoke(to_dot, ["now[Europe/Berlin] /m /sat", "now[Europe/Berlin] /m /fri", "--out", data_path])
+    result = runner.invoke(app, ["dot", "now[Europe/Berlin] /m /sat", "now[Europe/Berlin] /m /fri", "--out", data_path])
 
     # Check that the command executed successfully
     assert result.exit_code == 0, f"Error: {result.stdout}"
@@ -39,17 +39,17 @@ def test_cronspell_to_dot_bad_case(data_path):
     """CLI Tests"""
 
     # Simulate the command line invocation
-    result = runner.invoke(to_dot, ["now[Europe/Berlin] @notatoken 9999", "--out", data_path])
+    result = runner.invoke(app, ["dot", "now[Europe/Berlin] @notatoken 9999", "--out", data_path])
 
     # Check that the command executed successfully
     assert result.exit_code == 1, f"Error: {result.stdout}"
 
 
 @time_machine.travel(dt.datetime.fromisoformat("2024-12-29"), tick=False)
-def test_app_strformat():
+def test_cli_strformat():
     """CLI Tests"""
     # Simulate the command line invocation
-    result = runner.invoke(app, ["now", "--format", r"%m/%d/%Y"])
+    result = runner.invoke(app, ["parse", "now", "--format", r"%m/%d/%Y"])
 
     # Check that the command executed successfully
     assert result.exit_code == 0, f"Error: {result.stdout}"
