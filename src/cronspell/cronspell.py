@@ -40,10 +40,8 @@ class Cronspell:
         if timezone is None:
             timezone = ZoneInfo("UTC")
 
-        self.meta_model = metamodel_from_file(
-            Path.joinpath(Path(__file__).parent, "cronspell.tx"), use_regexp_group=True
-        )
-
+        self.meta_model_src = Path.joinpath(Path(__file__).parent, "cronspell.tx")
+        self.meta_model = metamodel_from_file(self.meta_model_src, use_regexp_group=True)
         self.timezone = timezone
 
     def parse_anchor(self):

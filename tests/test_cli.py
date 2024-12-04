@@ -45,6 +45,14 @@ def test_cronspell_to_dot_bad_case(data_path):
     assert result.exit_code == 1, f"Error: {result.stdout}"
 
 
+def test_cronspell_locate():
+    result = runner.invoke(app, ["locate"])
+    # Check that the command executed successfully
+    assert result.exit_code == 0, f"Error: {result.stdout}"
+
+    assert "cronspell.tx" in result.stdout
+
+
 @time_machine.travel(dt.datetime.fromisoformat("2024-12-29"), tick=False)
 def test_cli_strformat():
     """CLI Tests"""

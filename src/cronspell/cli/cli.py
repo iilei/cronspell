@@ -6,7 +6,7 @@ import typer
 import typer.rich_utils
 
 from cronspell import __version__
-from cronspell.cli import parse, to_dot
+from cronspell.cli import locate, parse, to_dot
 
 
 class LogLevel(str, enum.Enum):
@@ -37,7 +37,7 @@ app = typer.Typer(
 )
 app.command(name="parse")(parse.parse)
 app.command(name="dot")(to_dot.to_dot)
-
+app.command(name="locate")(locate.locate)
 
 if __name__ == "__main__":
     app()
