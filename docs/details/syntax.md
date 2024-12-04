@@ -89,3 +89,4 @@ The following expressions are recognized:
 |                              |                    |                               |
 | **Comment**                  |                    | `\/\*(.\|\n)*?\*\/\|\/\/.*?$` |
 | **CalendarWeekModuloMarker** | Implicit *`floor`* | `[%,@]\s*\b(CW\|Cw\|cw)\b`    |
+| **YearModuloMarker**         | Implicit *`floor`* | `[%,@]\s*\b(Y\|y)(ears?)?\b`  |
