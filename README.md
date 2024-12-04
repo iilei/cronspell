@@ -40,10 +40,20 @@ The same, more verbose:
 "now /month -1day /sat"
 ```
 
-which instructs the parser to perform the following sequence of operations:
 
-![](./docs/assets/images/example.svg)
+## Pre-Commit Hook: Validation
 
+Cronspell comes with a pre-commit hook that validates configured date-expressions based on
+yamlpath.
+
+Given you have simple config files in yaml format containing arrays of objects having a key `cronspell`, here is an example pre-commit hook config:
+
+```
+  - repo: https://github.com/iilei/cronspell
+    rev: <release tag>
+    hooks:
+      - id: cronspell
+```
 
 ## Credits
 
