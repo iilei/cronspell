@@ -48,6 +48,10 @@ Source = "https://github.com/iilei/cronspell"
 # Build & Versioning #
 ######################
 
+[project.optional-dependencies]
+pre-commit = ["yamlpath"]
+
+
 [tool.hatch.metadata]
 # direct dependency references, e.g `pip @ git+https://github.com/pypa/pip.git@master`
 allow-direct-references = true
@@ -221,6 +225,8 @@ dependencies = [
     "hypothesis",
     "time-machine",
 ]
+features = ["pre-commit"]
+
 [tool.hatch.envs.test.scripts]
 cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=src/cronspell --cov=tests {args}"
 no-cov = "cov --no-cov {args}"
