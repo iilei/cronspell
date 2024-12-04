@@ -1,0 +1,4 @@
+- type: first_saturday
+  refer_to_date: /month -1day /sat + 1 week
+- type: first_friday
+  refer_to_date: /month -1day /fri + 1 week
