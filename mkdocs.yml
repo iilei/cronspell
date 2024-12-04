@@ -14,9 +14,10 @@ edit_uri: blob/master/docs
 nav:
   - Home:
       - About: index.md
-      - Syntax: details/syntax.md
+      - CLI: details/cli.md
       - Parser: details/parser.md
       - Recipes: details/recipes.md
+      - Syntax: details/syntax.md
       - Changelog: changelog.md
       - License: license.md
       - Authors: authors.md

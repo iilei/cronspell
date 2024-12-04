@@ -41,11 +41,17 @@ def to_dot(
         ),
     ],
 ):
+    """
+    * From a list of valid expressions, generate graphviz dot diagrams.
+    * Writes to `--out`.
+    * Filenames are based on sha and position in list.
+    """
+
     cronspell = Cronspell()
     pad = max(pad_len, len(str(len(expressions))))
 
     for idx, expression in enumerate(expressions):
         model = cronspell.meta_model.model_from_str(expression)
         sha = hashlib.sha3_224(f"{expression.replace(' ', '')}".encode()).hexdigest()[0:sha_len]
-        destination = Path.joinpath(out, f"{idx:0{pad}}_{sha}.dot")
+        destination = Path.joinpath(out, f"{idx + 1:0{pad}}{'_' if sha_len > 0 else ''}{sha}.dot")
         model_export(model, destination)
