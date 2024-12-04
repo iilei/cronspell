@@ -33,10 +33,10 @@ repos:
         args: ["--install-types", "--non-interactive"]
         additional_dependencies: [types-tabulate, types-cachetools]
   - repo: https://github.com/iilei/cronspell
-    rev: "master"
+    rev: "v0.0.1-pre"
     hooks:
       - id: cronspell
         args:
           - "pre-commit"
           - "--query"
-          - "/*/begin_at"
+          - "/*/cronspell"
