@@ -13,10 +13,11 @@ cronspell --help
 The following commands are available:
 
   * parse
+  * pre-commit
   * dot
   * locate
 
-### Parse
+### parse
 
 Arguments:
 
