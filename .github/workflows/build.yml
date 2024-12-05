@@ -65,10 +65,8 @@ jobs:
           verbose: true
           repository-url: https://test.pypi.org/legacy
 
-      # - name: Publish 📦 to PyPI
-      #   if: startsWith(github.ref, 'refs/heads/master')
-      #   uses: pypa/gh-action-pypi-publish@release/v1
-      #   with:
-      #     user: __token__
-      #     password: ${{ secrets.PYPI_SECRECT }}
-      #     packages-dir: dist/
+      - name: Publish 📦 to PyPI
+        if: startsWith(github.ref, 'refs/heads/master')
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          verbose: true
