@@ -58,6 +58,7 @@ jobs:
           pip install hatch pre-commit
       - name: Build
         run: |
+          rm -rf ./dist
           hatch build
       - name: Publish package distributions to TestPyPI
         uses: pypa/gh-action-pypi-publish@release/v1
