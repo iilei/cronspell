@@ -29,4 +29,5 @@
   pass_filenames: true
   additional_dependencies:
     - "yamlpath"
+    #  - ".[pre-commit]""
   args: ["pre-commit", "--query", "/*/cronspell"]
