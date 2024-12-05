@@ -15,7 +15,7 @@ license = { text = "MIT" }
 # keywords for easier look-up on PyPI
 keywords = ["cron", "crontab", "date", "datetime", "dsl", "configuration"]
 authors = [
-    { name = "iilei • jochen preusche", email = "922226+iilei@users.noreply.github.com" },
+    { name = "Jochen Preusche", email = "922226+iilei@users.noreply.github.com" },
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
