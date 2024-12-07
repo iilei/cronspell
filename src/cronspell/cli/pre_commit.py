@@ -15,9 +15,9 @@ def pre_commit(
             help="One or more Paths.",
         ),
     ],
-    query: Annotated[
+    yamlpath: Annotated[
         str,
-        typer.Option("--query", "-p", show_default=False, help="yamlpath YAML_PATH"),
+        typer.Option("--yamlpath", "-p", show_default=False, help="yamlpath YAML_PATH"),
     ],
 ):
     """
@@ -28,5 +28,5 @@ def pre_commit(
     for file in files:
         processor = get_processor(file)
 
-        for token in processor.get_nodes(query):
+        for token in processor.get_nodes(yamlpath, mustexist=True):
             resolve(str(token).strip())

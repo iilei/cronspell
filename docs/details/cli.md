@@ -27,33 +27,7 @@ Invokes the parser on a given date expression
 
 ### pre-commit
 
-Intended to be used with pip pre-commit hooks.
-
-Arguments:
-
-  * `*[<yaml file paths>]`
-  * `--query <yamlpath>`
-
-
-Given there are config files containing a list of configuration objects like follows:
-
-```yaml
-- type: first_saturday
-  cronspell: /month -1day /sat + 1 week
-- type: first_friday
-  cronspell: /month -1day /fri + 1 week
-```
-
-And a `--query` argument `/*/cronspell` is provided, the command exits without errors.
-
-The following example in contrast will lead to failure as the calendar week modulo is
-not accepted:
-
-```yaml
-- type: first_saturday
-  cronspell: "@cw 77"
-```
-
+See documentation on [Pre-Commit](../pre_commit_hook)
 
 ### dot
 
