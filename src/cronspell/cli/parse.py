@@ -21,6 +21,7 @@ def parse(
     ],
 ):
     """
+    \b
     * Turn a valid expression into a datetime.
     * ISOFormat or as per `--format` argument.
         * Format templating: https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior
