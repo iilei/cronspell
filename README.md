@@ -13,6 +13,23 @@
 
 Date-expression domain specific language parsing. A neat way to express things like "First Saturday of any year", or "3rd thursdays each month" and such.
 
+## Installation
+
+### Just the python module
+
+If you need just the python function to parse cronspell expressions:
+
+```shell
+pip install cronspell
+```
+
+### With cli tools
+
+If you like to use it in your command line:
+
+```shell
+pip install cronspell[cli]
+```
 
 
 ## Features
@@ -65,14 +82,7 @@ The same, more verbose:
 Cronspell comes with a pre-commit hook that validates configured date-expressions based on
 yamlpath.
 
-Given you have simple config files in yaml format containing arrays of objects having a key `cronspell`, here is an example pre-commit hook config:
-
-```
-  - repo: https://github.com/iilei/cronspell
-    rev: <release tag>
-    hooks:
-      - id: cronspell
-```
+Check out the [documentation][Github Pages Link] for detailed instructions.
 
 ## Credits
 

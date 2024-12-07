@@ -30,7 +30,7 @@ classifiers = [
     "Topic :: Software Development :: User Interfaces",
 ]
 # direct dependencies of this package, installed when users `pip install cronspell` later.
-dependencies = ["typer", "textX>=4.0.1,<5"]
+dependencies = ["textX>=4.0.1,<5", "tzdata"]
 dynamic = ["version"]
 
 [project.scripts]
@@ -47,7 +47,7 @@ Source = "https://github.com/iilei/cronspell"
 ######################
 
 [project.optional-dependencies]
-cli = ["yamlpath"]
+cli = ["typer", "yamlpath"]
 
 
 [tool.hatch.metadata]
