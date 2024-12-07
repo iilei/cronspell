@@ -28,7 +28,7 @@ pip install cronspell
 If you like to use it in your command line:
 
 ```shell
-pip install cronspell[cli]
+pip install 'cronspell[cli]'
 ```
 
 
