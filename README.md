@@ -50,7 +50,7 @@ Given you have simple config files in yaml format containing arrays of objects h
 
 ```
   - repo: https://github.com/iilei/cronspell
-    rev: <release tag>
+    rev: {{ version }}
     hooks:
       - id: cronspell
 ```

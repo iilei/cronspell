@@ -9,7 +9,6 @@ build-backend = "hatchling.build"
 [project]
 description = 'Date-expression domain specific language parsing. A neat way to express things like "First Saturday of any year", or "3rd thursdays each month" and such'
 name = "cronspell"
-readme = "README.md"
 requires-python = ">=3.9"                                                                                                                                                # only license identifier from https://spdx.org/licenses/ are allowed
 license = { text = "MIT" }
 # keywords for easier look-up on PyPI
@@ -31,7 +30,10 @@ classifiers = [
 ]
 # direct dependencies of this package, installed when users `pip install cronspell` later.
 dependencies = ["typer", "textX>=4.0.1,<5"]
-dynamic = ["version"]
+dynamic = ["version", "readme"]
+
+[tool.setuptools.dynamic]
+readme = { file = "_data/README.md" }
 
 [project.scripts]
 cronspell = "cronspell.cli:app"
@@ -57,7 +59,8 @@ allow-direct-references = true
 [tool.hatch.version]
 source = "vcs"
 raw-options = { version_scheme = "no-guess-dev" }
-
+validate-bump = true
+scheme = "semver"
 
 [tool.hatch.build.hooks.vcs]
 version-file = "src/cronspell/_version.py"

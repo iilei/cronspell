@@ -23,6 +23,8 @@ jobs:
         os: [ubuntu-latest, macos-latest]
         python-version: ["3.9", "3.10", "3.11"]
     steps:
+      - name: debug gomplate
+        run: gomplate --version
       - uses: actions/checkout@v4
       - name: Set up Python ${{ matrix.python_version }}
         uses: actions/setup-python@v5
