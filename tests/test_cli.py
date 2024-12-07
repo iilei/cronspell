@@ -6,6 +6,7 @@ import time_machine
 from typer.testing import CliRunner
 
 from cronspell.cli.cli import app
+from cronspell.cli.preflight import CronspellPreflightException
 from cronspell.exceptions import CronpellMathException
 
 runner = CliRunner()
@@ -83,9 +84,10 @@ def test_hook_bad_expression(data_path):
 def test_hook_no_match(data_path):
     test_file = Path(data_path).joinpath("testfile_d.yaml")
     test_file.write_text("['x']")
-
-    result = runner.invoke(app, ["preflight", "--yamlpath", "/*/foo-bar", test_file.as_posix()])
-    assert result.exit_code != 0
+    with pytest.raises(CronspellPreflightException, match=r".*"):
+        result = runner.invoke(app, ["preflight", "--yamlpath", "/foo-bar", test_file.as_posix()])
+        assert result.stdout == ""
+        assert result.exit_code == 1
 
 
 @time_machine.travel(dt.datetime.fromisoformat("2024-12-29"), tick=False)

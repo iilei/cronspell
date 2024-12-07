@@ -32,3 +32,16 @@ repos:
       - id: mypy
         args: ["--install-types", "--non-interactive"]
         additional_dependencies: [types-tabulate, types-cachetools]
+  - repo: .
+    rev: master
+    hooks:
+      - id: cronspell
+        name: cronspell
+        entry: cronspell preflight
+        language: python
+        types: [yaml]
+        pass_filenames: true
+        additional_dependencies:
+          - ".[cli]"
+        args: ["--yamlpath", "/*/refer_to_date"]
+        files: .*/demo\.cfg\.ya?ml$

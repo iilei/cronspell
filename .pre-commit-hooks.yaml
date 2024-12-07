@@ -8,6 +8,7 @@
   entry: cronspell preflight
   language: python
   types: [yaml]
+  files: .*\/config\.ya?ml$
   pass_filenames: true
   additional_dependencies:
     - ".[cli]"

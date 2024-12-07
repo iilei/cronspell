@@ -2,9 +2,13 @@ from pathlib import Path
 from typing import Annotated
 
 import typer
+from yamlpath.exceptions import UnmatchedYAMLPathException
 
 from cronspell.cli.yaml import get_processor
 from cronspell.resolve import resolve
+
+
+class CronspellPreflightException(BaseException): ...
 
 
 def preflight(
@@ -28,5 +32,9 @@ def preflight(
     for file in files:
         processor = get_processor(file)
 
-        for token in processor.get_nodes(yamlpath, mustexist=True):
-            resolve(str(token).strip())
+        try:
+            for token in processor.get_nodes(yamlpath, mustexist=True):
+                resolve(str(token).strip())
+        except UnmatchedYAMLPathException as ex:
+            msg = f"yamlpath {yamlpath} does not exist in {file}!"
+            raise CronspellPreflightException(file, msg) from ex
