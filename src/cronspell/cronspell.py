@@ -54,7 +54,7 @@ class Cronspell:
     def get_time_unit(alias):
         return next(name for name in [*TIME_UNITS_SHORT, *WEEKDAYS] if getattr(alias, name, None))
 
-    def step(self, current, step):
+    def step(self, current, step):  # noqa: PLR0914
         # operation ~> Minus|Plus|Floor|Ceil
         operation = step.statement._tx_fqn.rpartition(".")[-1]
 
@@ -66,13 +66,9 @@ class Cronspell:
                 msg = f"Year Modulo needed lower than {FLOOR_Y_MAX + 1}! Got {resolution}."
                 raise CronpellMathException(msg)
 
-            year = current.year
+            year = current.isocalendar().year // resolution * resolution
 
-            current = current.replace(year=year - year % abs(resolution))
-
-            operation = "Floor"
-            resolution = 1
-            time_unit = "Y"
+            return datetime(year, 1, 1, tzinfo=self.timezone)
 
         # Calendar Week Modulo
         elif operation == "CwModulo":
@@ -82,12 +78,10 @@ class Cronspell:
                 msg = f"Calendar Week Modulo needed lower than {FLOOR_CW_MAX + 1}! Got {resolution}."
                 raise CronpellMathException(msg)
 
-            week = current.isocalendar()[1]
-            current -= timedelta(days=week % abs(resolution) * 7)
+            week = current.isocalendar().week // resolution * resolution
+            y, m, d, *_ = datetime.strptime(f"{current.isocalendar().year}-W{week}" + "-1", "%Y-W%W-%w").timetuple()
 
-            operation = "Floor"
-            resolution = "mon"
-            time_unit = "d"
+            return datetime(y, m, d, tzinfo=self.timezone)
         else:
             resolution = step.statement.res._tx_fqn.rpartition(".")[-1]
             time_unit = self.get_time_unit(step.statement.res)

@@ -63,10 +63,10 @@ def test_weekdays_and_timezones():
 
 
 def test_cw_modulo():
-    assert cronspell("2024-12-01T12:12:00+00:00 @cw 4").isoformat() == "2024-12-01T00:00:00+00:00"
-    assert cronspell("2024-11-23T12:12:00+00:00 @ cw 4").isoformat() == "2024-11-02T00:00:00+00:00"
-    assert cronspell(r"2024-11-23T12:12:00+00:00 % cw 4").isoformat() == "2024-11-02T00:00:00+00:00"
-    assert cronspell(r"2024-11-23T12:12:00+00:00 % CW 4").isoformat() == "2024-11-02T00:00:00+00:00"
+    assert cronspell("2024-12-01T12:12:00+00:00 @cw 4").isoformat() == "2024-11-25T00:00:00+00:00"
+    assert cronspell("2024-11-23T12:12:00+00:00 @ cw 4").isoformat() == "2024-10-28T00:00:00+00:00"
+    assert cronspell(r"2024-11-23T12:12:00+00:00 % cw 4").isoformat() == "2024-10-28T00:00:00+00:00"
+    assert cronspell(r"2024-11-23T12:12:00+00:00 % CW 4").isoformat() == "2024-10-28T00:00:00+00:00"
 
 
 def test_y_modulo():
