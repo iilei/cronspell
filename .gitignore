@@ -109,7 +109,8 @@ ENV/
 src/cronspell/_version.py
 
 # gh workflow: build docs / mkdocs-markdownextradata-plugin
-_data
+_data/*
+!_data/.gitkeep
 
 # MacOS files
 .DS_Store
