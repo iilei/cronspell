@@ -8,9 +8,11 @@ Example `.pre-commit-config.yaml`;
 ```yaml
 repos:
   - repo: https://github.com/iilei/cronspell
-    rev: {{ cronspell.version if cronspell.version is not none else 'a95a388' }}
+    # git sha or latest tag ({{ cronspell.version if cronspell.version is not none else '0.0.0-rc15' }})
+    rev: b30f35a6db3116bdc0262c9d69efe09ccf910f0b
     hooks:
       - id: cronspell
+        files: .*\/config\.ya?ml$
         # yamlpath is up to projects using cronspell. Default:
         # args: ["--yamlpath", "/*/cronspell" ]
 
