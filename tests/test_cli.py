@@ -59,13 +59,11 @@ def test_cronspell_locate():
 def test_hook_good_expressions(data_path):
     test_file = Path(data_path).joinpath("testfile_a.yaml")
     test_file.write_text("""\
-- type: first_saturday
-  cronspell: /month -1day /sat + 1 week
-- type: first_friday
-  cronspell: /month -1day /fri + 1 week
+- type: every_3_weeks
+  cronspell: "@cw 3"
 """)
 
-    result = runner.invoke(app, ["pre-commit", "--query", "/*/cronspell", test_file.as_posix()])
+    result = runner.invoke(app, ["pre-commit", "--yamlpath", "/*/cronspell", test_file.as_posix()])
     # Check that the command executed successfully
     assert result.exit_code == 0, f"Error: {result.stdout}"
 
@@ -73,13 +71,21 @@ def test_hook_good_expressions(data_path):
 def test_hook_bad_expression(data_path):
     test_file = Path(data_path).joinpath("testfile_b.yaml")
     test_file.write_text("""\
-- type: first_saturday
-  cronspell: "@cw 77"
+- type: every_3_weeks
+  cronspell: "@cw 333"
 """)
 
     with pytest.raises(CronpellMathException, match=r".*needed lower than 53.*"):
-        result = runner.invoke(app, ["pre-commit", "--query", "/*/cronspell", test_file.as_posix()])
+        result = runner.invoke(app, ["pre-commit", "--yamlpath", "/*/cronspell", test_file.as_posix()])
         assert result.exit_code == 1, f"Error: {result.stdout}"
+
+
+def test_hook_no_match(data_path):
+    test_file = Path(data_path).joinpath("testfile_d.yaml")
+    test_file.write_text("['x']")
+
+    result = runner.invoke(app, ["pre-commit", "--yamlpath", "/*/foo-bar", test_file.as_posix()])
+    assert result.exit_code != 0
 
 
 @time_machine.travel(dt.datetime.fromisoformat("2024-12-29"), tick=False)
@@ -88,7 +94,7 @@ def test_cli_strformat():
     # Simulate the command line invocation
     result = runner.invoke(app, ["parse", "now", "--format", r"%m/%d/%Y"])
 
-    # Check that the command executed successfully
+    # Check that the command executed successfully:
     assert result.exit_code == 0, f"Error: {result.stdout}"
 
     # Assert against the expected output

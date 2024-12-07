@@ -23,12 +23,25 @@ To perform a `modulo` operation on calendar week `n`, both of the follwing varia
 
 
 ```cpp
-@cw 3
+@CW 3
 ```
-Or
+`@` and `%` are interchangeable and `cw` can be `CW` or `Cw` just as well. As an example, this is the same as the above
 
 ```cpp
 %cw 3
 ```
 
 The result is just like `floor` to `monday`, just to the most recent calendar week that is divisible by `3`; `CW 3` , `CW 6` ... up to `CW 51`
+
+## Year clamped to `n`th
+
+Similar to Calendar Week:
+
+```cpp
+@Y 3
+```
+Or
+
+```cpp
+%years 3
+```

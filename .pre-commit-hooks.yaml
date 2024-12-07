@@ -23,11 +23,10 @@
 - id: cronspell
   name: cronspell
   description: This hook uses https://iilei.github.io/cronspell/details/cli/#pre-commit to validate cronspell date expressions
-  entry: cronspell
+  entry: cronspell pre-commit
   language: python
   types: [yaml]
   pass_filenames: true
   additional_dependencies:
     - "yamlpath"
-    #  - ".[pre-commit]""
-  args: ["pre-commit", "--query", "/*/cronspell"]
+  args: ["--yamlpath", "/*/cronspell"]
