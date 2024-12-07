@@ -25,6 +25,7 @@ def preflight(
     ],
 ):
     """
+    \b
     * Takes a list of paths
     * validates expressions
     """

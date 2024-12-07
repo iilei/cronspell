@@ -42,6 +42,7 @@ def to_dot(
     ],
 ):
     """
+    \b
     * From a list of valid expressions, generate graphviz dot diagrams.
     * Writes to `--out`.
     * Filenames are based on sha and position in list.
