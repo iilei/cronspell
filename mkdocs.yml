@@ -16,6 +16,7 @@ nav:
       - About: index.md
       - CLI: details/cli.md
       - Parser: details/parser.md
+      - Pre-Commit: details/pre_commit_hook.md
       - Recipes: details/recipes.md
       - Syntax: details/syntax.md
       - Changelog: changelog.md
@@ -82,6 +83,8 @@ plugins:
   literate-nav:
     nav_file: SUMMARY.md
   section-index: {}
+  markdownextradata:
+    data: src/cronspell/_version.yaml
   mkdocstrings:
     default_handler: python
     handlers:
@@ -171,3 +174,5 @@ extra:
   analytics:
     provider: google
     property: G-NGSV0ZZ6MQ
+  cronspell:
+    version: "master"
