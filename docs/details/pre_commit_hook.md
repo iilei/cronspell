@@ -3,18 +3,22 @@
 For use with [pre-commit](https://pre-commit.com/) hooks, there is a cli command to
 perform a pre-flight check on `cronspell` date expressions available.
 
+Under the hood, depending on the configuration, the following is executed when the pre-commit hook
+triggers for changes in a file named `docs/assets/demo.cfg.yaml`:
+
+`cronspell preflight --yamlpath '/*/rel_date*' docs/assets/demo.cfg.yaml`
+
 Example `.pre-commit-config.yaml`;
 
 ```yaml
 repos:
   - repo: https://github.com/iilei/cronspell
     # git sha or latest tag ({{ cronspell.version if cronspell.version is not none else '0.0.0-rc15' }})
-    rev: b30f35a6db3116bdc0262c9d69efe09ccf910f0b
+    rev: 542403ac19195dba36020fdd09db4c8788783117
     hooks:
       - id: cronspell
-        files: .*\/config\.ya?ml$
-        # yamlpath is up to projects using cronspell. Default:
-        # args: ["--yamlpath", "/*/cronspell" ]
+        files: .*\/cfg\.ya?ml$
+        args: ["--yamlpath", "/*/rel_date*" ]
 
 ```
 
@@ -24,10 +28,12 @@ look for expressions to check.
 Configuration objects like follows pass the pre commit check:
 
 ```yaml
-- type: "should pass"
-  cronspell: "@CW 3"
-- xyz: anything
-  not_important: 42
+- type: first_saturday
+  rel_date: /month -1day /sat + 1 week
+- type: first_friday
+  rel_date: /month -1day /fri + 1 week
+  rel_date_time: +1 Hour
+
 
 ```
 

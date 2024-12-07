@@ -43,5 +43,5 @@ repos:
         pass_filenames: true
         additional_dependencies:
           - ".[cli]"
-        args: ["--yamlpath", "/*/refer_to_date"]
+        args: ["--yamlpath", "/*/rel_date"]
         files: .*/demo\.cfg\.ya?ml$
