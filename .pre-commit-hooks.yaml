@@ -5,7 +5,7 @@
 - id: cronspell
   name: cronspell
   description: This hook uses https://iilei.github.io/cronspell/details/cli/#pre-commit to validate cronspell date expressions
-  entry: cronspell pre-commit
+  entry: cronspell preflight
   language: python
   types: [yaml]
   pass_filenames: true

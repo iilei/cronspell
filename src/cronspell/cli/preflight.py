@@ -7,7 +7,7 @@ from cronspell.cli.yaml import get_processor
 from cronspell.resolve import resolve
 
 
-def pre_commit(
+def preflight(
     files: Annotated[
         list[Path],
         typer.Argument(

@@ -6,7 +6,7 @@ import typer
 import typer.rich_utils
 
 from cronspell import __version__
-from cronspell.cli import locate, parse, pre_commit, to_dot
+from cronspell.cli import locate, parse, preflight, to_dot
 
 
 class LogLevel(str, enum.Enum):
@@ -34,11 +34,12 @@ app = typer.Typer(
     help="Date-expression domain specific language parsing. "
     'A neat way to express things like "First Saturday of any year", '
     'or "3rd thursdays each month" and such',
+    pretty_exceptions_enable=False,
 )
 app.command(name="parse")(parse.parse)
 app.command(name="dot")(to_dot.to_dot)
 app.command(name="locate")(locate.locate)
-app.command(name="pre-commit")(pre_commit.pre_commit)
+app.command(name="preflight")(preflight.preflight)
 
 if __name__ == "__main__":
     app()

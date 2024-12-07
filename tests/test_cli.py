@@ -63,7 +63,7 @@ def test_hook_good_expressions(data_path):
   cronspell: "@cw 3"
 """)
 
-    result = runner.invoke(app, ["pre-commit", "--yamlpath", "/*/cronspell", test_file.as_posix()])
+    result = runner.invoke(app, ["preflight", "--yamlpath", "/*/cronspell", test_file.as_posix()])
     # Check that the command executed successfully
     assert result.exit_code == 0, f"Error: {result.stdout}"
 
@@ -76,7 +76,7 @@ def test_hook_bad_expression(data_path):
 """)
 
     with pytest.raises(CronpellMathException, match=r".*needed lower than 53.*"):
-        result = runner.invoke(app, ["pre-commit", "--yamlpath", "/*/cronspell", test_file.as_posix()])
+        result = runner.invoke(app, ["preflight", "--yamlpath", "/*/cronspell", test_file.as_posix()])
         assert result.exit_code == 1, f"Error: {result.stdout}"
 
 
@@ -84,7 +84,7 @@ def test_hook_no_match(data_path):
     test_file = Path(data_path).joinpath("testfile_d.yaml")
     test_file.write_text("['x']")
 
-    result = runner.invoke(app, ["pre-commit", "--yamlpath", "/*/foo-bar", test_file.as_posix()])
+    result = runner.invoke(app, ["preflight", "--yamlpath", "/*/foo-bar", test_file.as_posix()])
     assert result.exit_code != 0
 
 
