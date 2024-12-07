@@ -15,6 +15,8 @@ Cronspell is heavily inspired by Grafana's relative Date picker user interface. 
 The same interface, exposed to the command line. Formatted via `isodate` by default -- which is
 open for coniguration using the `--format` option.
 
+Install using `cronspell[cli]`
+
 
 ## Example
 

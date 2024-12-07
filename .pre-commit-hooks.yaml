@@ -10,5 +10,5 @@
   types: [yaml]
   pass_filenames: true
   additional_dependencies:
-    - "yamlpath"
+    - ".[cli]"
   args: ["--yamlpath", "/*/cronspell"]
