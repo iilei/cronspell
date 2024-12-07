@@ -252,6 +252,7 @@ dependencies = [
     "pygments~=2.18",
     # Validation
     "linkchecker~=10.4",
+    "mkdocs-markdownextradata-plugin~=0.2.6",
 ]
 [tool.hatch.envs.docs.env-vars]
 SOURCE_DATE_EPOCH = "1580601600"
