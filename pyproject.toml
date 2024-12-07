@@ -58,6 +58,7 @@ allow-direct-references = true
 source = "vcs"
 raw-options = { version_scheme = "no-guess-dev" }
 
+
 [tool.hatch.build.hooks.vcs]
 version-file = "src/cronspell/_version.py"
 
