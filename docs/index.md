@@ -10,12 +10,14 @@ Cronspell is heavily inspired by Grafana's relative Date picker user interface. 
 
 `cronspell` lets you express relative dates such as "last saturday of last month" and converts it to a date object for use in your python project.
 
+Installation: `pip install cronspell`
+
 ### Cli
 
 The same interface, exposed to the command line. Formatted via `isodate` by default -- which is
 open for coniguration using the `--format` option.
 
-Install using `cronspell[cli]`
+Installation with cli-specific dependencies: `pip install cronspell[cli]`
 
 
 ## Example
