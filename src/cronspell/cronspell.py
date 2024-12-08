@@ -7,7 +7,7 @@ import calendar
 import functools
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Optional
+from typing import Callable, Optional
 from zoneinfo import ZoneInfo
 
 from textx import metamodel_from_file
@@ -43,12 +43,25 @@ class Cronspell:
         self.meta_model_src = Path.joinpath(Path(__file__).parent, "cronspell.tx")
         self.meta_model = metamodel_from_file(self.meta_model_src, use_regexp_group=True)
         self.timezone = timezone
+        self._now_fun = datetime.now
 
     def parse_anchor(self):
         if (anchor := getattr(self.model, "anchor", None)) and ((tznow := anchor.tznow) or (isodate := anchor.isodate)):
-            return datetime.now(ZoneInfo(tznow.tz)) if (tznow and tznow.tz) else datetime.fromisoformat(isodate)
+            return (
+                self._now_fun().astimezone(ZoneInfo(tznow.tz))
+                if (tznow and tznow.tz)
+                else datetime.fromisoformat(isodate)
+            )
 
-        return datetime.now(self.timezone)
+        return self._now_fun(self.timezone)
+
+    @property
+    def now_func(self):
+        return self._now_fun
+
+    @now_func.setter
+    def now_func(self, fun: Callable[..., datetime]):
+        self._now_fun = fun
 
     @staticmethod
     def get_time_unit(alias):

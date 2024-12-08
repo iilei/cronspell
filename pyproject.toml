@@ -207,7 +207,7 @@ ban-relative-imports = "all"
 
 # Default environment with production dependencies
 [tool.hatch.envs.default]
-python = "3.9"
+python = "3.12"
 post-install-commands = ["pre-commit install"]
 dependencies = []
 
