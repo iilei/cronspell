@@ -56,7 +56,7 @@ class Cronspell:
         return self._now_fun(self.timezone)
 
     @property
-    def now_func(self):
+    def now_func(self) -> Callable[..., datetime]:
         return self._now_fun
 
     @now_func.setter
