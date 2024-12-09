@@ -42,13 +42,13 @@ Cronspell is heavily inspired by Grafana's relative Date picker user interface. 
 `cronspell` lets you express relative dates such as "last saturday of last month" and converts it to a date object for use in your python project.
 
 ```python
-from cronspell import cronspell
+from cronspell import parse
 
 # Cronspell's purpose is mostly to parse configuration files written in yaml
 # and therein express relative date times in a human friendly manner.
 
 # here is but a simple demo:
-last_saturday = cronspell("now/sat")
+last_saturday = parse("now/sat")
 ...
 ```
 

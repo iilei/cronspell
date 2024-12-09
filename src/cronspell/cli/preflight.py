@@ -5,7 +5,7 @@ import typer
 from yamlpath.exceptions import UnmatchedYAMLPathException
 
 from cronspell.cli.yaml import get_processor
-from cronspell.resolve import resolve
+from cronspell.parse import parse
 
 
 class CronspellPreflightException(BaseException): ...
@@ -35,7 +35,7 @@ def preflight(
 
         try:
             for token in processor.get_nodes(yamlpath, mustexist=True):
-                resolve(str(token).strip())
+                parse(str(token).strip())
         except UnmatchedYAMLPathException as ex:
             msg = f"yamlpath {yamlpath} does not exist in {file}!"
             raise CronspellPreflightException(file, msg) from ex
