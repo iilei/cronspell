@@ -100,3 +100,11 @@ def test_get_dates_belonging_to_m():
 @time_machine.travel(dt.datetime.fromisoformat("2024-12-29"), tick=False)
 def test_get_dates_belonging_to_d():
     assert [*dates_belonging_to("/day")] == [dt.datetime(2024, 12, 29, tzinfo=ZoneInfo("UTC"))]
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29"), tick=False)
+def test_get_dates_belonging_to_w():
+    assert [*dates_belonging_to("/sat")] == [
+        *[dt.datetime(2024, 12, 28 + x, tzinfo=ZoneInfo("UTC")) for x in range(0, 4)],
+        *[dt.datetime(2025, 1, 1 + x, tzinfo=ZoneInfo("UTC")) for x in range(0, 3)],
+    ]
