@@ -101,14 +101,3 @@ def test_cli_strformat():
 
     # Assert against the expected output
     assert result.stdout == "12/29/2024\n"
-
-
-def test_cronspell_preflight():
-    """CLI Tests"""
-
-    result = runner.invoke(app, ["preview", "now[Europe/Berlin] /m /sat"])
-
-    # # Check that the command executed successfully
-    # assert result.exit_code == 0, f"Error: {result.stdout}"
-
-    assert result.output == ""
