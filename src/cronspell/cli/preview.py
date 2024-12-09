@@ -7,7 +7,7 @@ import typer
 from rich.console import Console
 
 from cronspell.cronspell import Cronspell
-from cronspell.resolve import resolve
+from cronspell.parse import parse
 
 console = Console()
 
@@ -37,7 +37,7 @@ def preview(
             "-e",
             show_default=False,
             help="end of date range to examine",
-            default_factory=resolve("/month + 340 days /month -1d").strftime(r"%Y-%m-%d"),
+            default_factory=parse("/month + 340 days /month -1d").strftime(r"%Y-%m-%d"),
         ),
     ],
 ):
@@ -47,8 +47,8 @@ def preview(
     """
     cronspell = Cronspell()
 
-    start = resolve(f"{resolve(expression).isoformat()} / month")
-    end = resolve(end).astimezone(start.timetz().tzinfo)
+    start = parse(f"{parse(expression).isoformat()} / month")
+    end = parse(end).astimezone(start.timetz().tzinfo)
 
     days = range(0, ((end - start).days - 1))
 
