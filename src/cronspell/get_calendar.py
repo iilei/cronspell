@@ -26,7 +26,7 @@ def get_result_for(expression: str, date: datetime):
     return cronspell.parse(expression)
 
 
-def until_next(
+def matching_dates(
     expression: str, stop_at: datetime | None = None, initial_now: datetime | None = None
 ) -> Iterable[datetime]:
     cronspell = Cronspell()
