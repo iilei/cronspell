@@ -12,14 +12,6 @@ MONDAY_IDX = WEEKDAYS.index("Mon")
 SUNDAY_IDX = WEEKDAYS.index("Sun")
 
 
-def _get_tzinfo(dt: datetime):
-    return timetz.tzinfo if (timetz := dt.timetz()) else ZoneInfo(key="UTC")
-
-
-def _get_day(dt: datetime):
-    return datetime(*dt.timetuple()[0:3], tzinfo=_get_tzinfo(dt))
-
-
 def get_result_for(expression: str, date: datetime):
     cronspell = Cronspell()
     cronspell.now_func = lambda *_: date
@@ -27,30 +19,27 @@ def get_result_for(expression: str, date: datetime):
 
 
 def matching_dates(
-    expression: str, stop_at: datetime | None = None, initial_now: datetime | None = None
+    expression: str,
+    interval: timedelta = timedelta(days=1),
+    initial_now: datetime | None = None,
+    stop_at: datetime | None = None,
 ) -> Iterable[datetime]:
     cronspell = Cronspell()
-
-    interval: timedelta = timedelta(days=1)
-
-    cronspell.now_func = lambda *_: initial_now or datetime.now(tz=ZoneInfo("UTC"))
-    initial = cronspell.parse(expression)
-
     cronspell.now_func = lambda *_: initial
-    candidate = cronspell.parse(expression)
 
-    _stop_at = stop_at or initial + timedelta(days=MAX_ITERATIONS)
-
-    # fence for the event nothing else happens until the _stop_at
-    if candidate == get_result_for(expression, _stop_at):
-        msg = f"No 'next' match determined in time span {_stop_at.isoformat()}"
-        raise CronpellInputException(msg)
-
+    initial = get_result_for(expression, initial_now or datetime.now(tz=ZoneInfo("UTC")))
+    candidate = get_result_for(expression, initial)
     counter = 1
 
-    while _get_day(initial) == _get_day(candidate) and (candidate <= _stop_at):
+    # safeguard against the event of no difference at the end of the time span
+    if candidate == get_result_for(expression, (_stop_at := (stop_at or initial + timedelta(days=MAX_ITERATIONS)))):
+        msg = f"Not going to find a span of matching dates until {_stop_at.isoformat()} with `{expression}`"
+        raise CronpellInputException(msg)
+
+    while initial == candidate and (candidate <= _stop_at):
         yield cronspell._now_fun()
 
+        # alter the "now" function each iteration ~> time moving forward
         cronspell.now_func = lambda *_, anchor=candidate, tick=counter: anchor + interval * tick
 
         candidate = cronspell.parse(expression)

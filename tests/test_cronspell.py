@@ -111,5 +111,5 @@ def test_get_matching_dates_w():
 
 
 def test_get_matching_dates_bad_input():
-    with pytest.raises(CronpellInputException, match=r".*No 'next' match determined in time span.*"):
+    with pytest.raises(CronpellInputException, match=r".*Not going to find a span of matching dates.*"):
         next(matching_dates("2024-11-29T12:12:04+03:00 /sat"))
