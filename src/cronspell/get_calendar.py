@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 from cronspell.cronspell import WEEKDAYS, Cronspell
+from cronspell.exceptions import CronpellInputException
 
 MAX_ITERATIONS = len(WEEKDAYS) * 53
 MONDAY_IDX = WEEKDAYS.index("Mon")
@@ -19,7 +20,13 @@ def _get_day(dt: datetime):
     return datetime(*dt.timetuple()[0:3], tzinfo=_get_tzinfo(dt))
 
 
-def dates_belonging_to(
+def get_result_for(expression: str, date: datetime):
+    cronspell = Cronspell()
+    cronspell.now_func = lambda *_: date
+    return cronspell.parse(expression)
+
+
+def until_next(
     expression: str, stop_at: datetime | None = None, initial_now: datetime | None = None
 ) -> Iterable[datetime]:
     cronspell = Cronspell()
@@ -33,6 +40,11 @@ def dates_belonging_to(
     candidate = cronspell.parse(expression)
 
     _stop_at = stop_at or initial + timedelta(days=MAX_ITERATIONS)
+
+    # fence for the event nothing else happens until the _stop_at
+    if candidate == get_result_for(expression, _stop_at):
+        msg = f"No 'next' match determined in time span {_stop_at.isoformat()}"
+        raise CronpellInputException(msg)
 
     counter = 1
 
