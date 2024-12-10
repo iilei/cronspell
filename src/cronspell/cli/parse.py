@@ -2,7 +2,7 @@ from typing import Annotated
 
 import typer
 
-from cronspell import cronspell
+from cronspell import parse as _parse
 
 
 def parse(
@@ -26,5 +26,5 @@ def parse(
     * ISOFormat or as per `--format` argument.
         * Format templating: https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior
     """
-    parsed = cronspell(expression)
+    parsed = _parse(expression)
     print(parsed.strftime(fmt) if len(fmt) > 0 else parsed.isoformat())  # noqa: T201

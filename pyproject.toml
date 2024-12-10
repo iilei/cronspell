@@ -207,7 +207,7 @@ ban-relative-imports = "all"
 
 # Default environment with production dependencies
 [tool.hatch.envs.default]
-python = "3.9"
+python = "3.12"
 post-install-commands = ["pre-commit install"]
 dependencies = []
 
@@ -292,4 +292,4 @@ all = ["style", "typing"]
 # Test matrix for various Python versions replacing the functionality of tox
 [[tool.hatch.envs.test.matrix]]
 template = ["test"]
-python = ["310", "311", "312"]
+python = ["309", "310", "311", "312"]

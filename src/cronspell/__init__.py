@@ -5,7 +5,8 @@ Notion-API: https://developers.notion.com/reference/intro
 
 from importlib.metadata import PackageNotFoundError, version
 
-from cronspell.resolve import resolve as cronspell
+from cronspell.cronspell import Cronspell
+from cronspell.parse import parse
 
 try:
     __version__ = version("cronspell")
@@ -15,4 +16,4 @@ finally:
     del version, PackageNotFoundError
 
 
-__all__ = ["cronspell"]
+__all__ = ["Cronspell", "parse"]
