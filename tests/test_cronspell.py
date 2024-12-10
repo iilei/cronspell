@@ -5,8 +5,8 @@ import pytest
 import time_machine
 
 from cronspell import parse
-from cronspell.exceptions import CronpellMathException
-from cronspell.get_calendar import until_next
+from cronspell.exceptions import CronpellInputException, CronpellMathException
+from cronspell.get_calendar import matching_dates
 
 
 def test_iso_date():
@@ -93,18 +93,23 @@ def test_cw_modulo_bad_input():
 
 
 @time_machine.travel(dt.datetime.fromisoformat("2024-12-29"), tick=False)
-def test_get_until_next_m():
-    assert [*until_next("/month")] == [dt.datetime(2024, 12, x, tzinfo=ZoneInfo("UTC")) for x in range(1, 32)]
+def test_get_matching_dates_m():
+    assert [*matching_dates("/month")] == [dt.datetime(2024, 12, x, tzinfo=ZoneInfo("UTC")) for x in range(1, 32)]
 
 
 @time_machine.travel(dt.datetime.fromisoformat("2024-12-29"), tick=False)
-def test_get_until_next_d():
-    assert [*until_next("/day")] == [dt.datetime(2024, 12, 29, tzinfo=ZoneInfo("UTC"))]
+def test_get_matching_dates_d():
+    assert [*matching_dates("/day")] == [dt.datetime(2024, 12, 29, tzinfo=ZoneInfo("UTC"))]
 
 
 @time_machine.travel(dt.datetime.fromisoformat("2024-12-29"), tick=False)
-def test_get_until_next_w():
-    assert [*until_next("/sat")] == [
+def test_get_matching_dates_w():
+    assert [*matching_dates("/sat")] == [
         *[dt.datetime(2024, 12, 28 + x, tzinfo=ZoneInfo("UTC")) for x in range(0, 4)],
         *[dt.datetime(2025, 1, 1 + x, tzinfo=ZoneInfo("UTC")) for x in range(0, 3)],
     ]
+
+
+def test_get_matching_dates_bad_input():
+    with pytest.raises(CronpellInputException, match=r".*No 'next' match determined in time span.*"):
+        next(matching_dates("2024-11-29T12:12:04+03:00 /sat"))
