@@ -6,7 +6,7 @@ import time_machine
 
 from cronspell import parse
 from cronspell.exceptions import CronpellMathException
-from cronspell.get_calendar import dates_belonging_to
+from cronspell.get_calendar import until_next
 
 
 def test_iso_date():
@@ -93,18 +93,18 @@ def test_cw_modulo_bad_input():
 
 
 @time_machine.travel(dt.datetime.fromisoformat("2024-12-29"), tick=False)
-def test_get_dates_belonging_to_m():
-    assert [*dates_belonging_to("/month")] == [dt.datetime(2024, 12, x, tzinfo=ZoneInfo("UTC")) for x in range(1, 32)]
+def test_get_until_next_m():
+    assert [*until_next("/month")] == [dt.datetime(2024, 12, x, tzinfo=ZoneInfo("UTC")) for x in range(1, 32)]
 
 
 @time_machine.travel(dt.datetime.fromisoformat("2024-12-29"), tick=False)
-def test_get_dates_belonging_to_d():
-    assert [*dates_belonging_to("/day")] == [dt.datetime(2024, 12, 29, tzinfo=ZoneInfo("UTC"))]
+def test_get_until_next_d():
+    assert [*until_next("/day")] == [dt.datetime(2024, 12, 29, tzinfo=ZoneInfo("UTC"))]
 
 
 @time_machine.travel(dt.datetime.fromisoformat("2024-12-29"), tick=False)
-def test_get_dates_belonging_to_w():
-    assert [*dates_belonging_to("/sat")] == [
+def test_get_until_next_w():
+    assert [*until_next("/sat")] == [
         *[dt.datetime(2024, 12, 28 + x, tzinfo=ZoneInfo("UTC")) for x in range(0, 4)],
         *[dt.datetime(2025, 1, 1 + x, tzinfo=ZoneInfo("UTC")) for x in range(0, 3)],
     ]
