@@ -18,17 +18,18 @@ def get_result_for(expression: str, date: datetime):
     return cronspell.parse(expression)
 
 
-def matching_dates(
+def map_matching_moments(
     expression: str,
     interval: timedelta = timedelta(days=1),
     initial_now: datetime | None = None,
     stop_at: datetime | None = None,
-) -> Iterable[datetime]:
+) -> Iterable[tuple[datetime, datetime]]:
     cronspell = Cronspell()
-    cronspell.now_func = lambda *_: initial
 
-    initial = get_result_for(expression, initial_now or datetime.now(tz=ZoneInfo("UTC")))
-    candidate = get_result_for(expression, initial)
+    initial: datetime = get_result_for(expression, initial_now or datetime.now(tz=ZoneInfo("UTC")))
+    candidate: datetime = get_result_for(expression, initial)
+
+    cronspell.now_func = lambda *_: initial
     counter = 1
 
     # safeguard against the event of no difference at the end of the time span
@@ -36,11 +37,15 @@ def matching_dates(
         msg = f"Not going to find a span of matching dates until {_stop_at.isoformat()} with `{expression}`"
         raise CronpellInputException(msg)
 
-    while initial == candidate and (candidate <= _stop_at):
-        yield cronspell._now_fun()
+    while candidate <= _stop_at:
+        yield (candidate, cronspell._now_fun())
 
         # alter the "now" function each iteration ~> time moving forward
-        cronspell.now_func = lambda *_, anchor=candidate, tick=counter: anchor + interval * tick
+        cronspell.now_func = lambda *_, anchor=initial, tick=counter: anchor + interval * tick
 
         candidate = cronspell.parse(expression)
         counter += 1
+
+
+def matching_moments(generator: Iterable[tuple[datetime, datetime]]):
+    return [x[0] for x in [*generator] if x[0] == x[1]]

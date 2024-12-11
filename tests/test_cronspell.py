@@ -5,8 +5,8 @@ import pytest
 import time_machine
 
 from cronspell import parse
-from cronspell.exceptions import CronpellInputException, CronpellMathException
-from cronspell.get_calendar import matching_dates
+from cronspell.calendar_utils import map_matching_moments, matching_moments
+from cronspell.exceptions import CronpellMathException
 
 
 def test_iso_date():
@@ -92,24 +92,8 @@ def test_cw_modulo_bad_input():
         assert parse("@cw 54").isoformat() == ""
 
 
-@time_machine.travel(dt.datetime.fromisoformat("2024-12-29"), tick=False)
-def test_get_matching_dates_m():
-    assert [*matching_dates("/month")] == [dt.datetime(2024, 12, x, tzinfo=ZoneInfo("UTC")) for x in range(1, 32)]
-
-
-@time_machine.travel(dt.datetime.fromisoformat("2024-12-29"), tick=False)
-def test_get_matching_dates_d():
-    assert [*matching_dates("/day")] == [dt.datetime(2024, 12, 29, tzinfo=ZoneInfo("UTC"))]
-
-
-@time_machine.travel(dt.datetime.fromisoformat("2024-12-29"), tick=False)
-def test_get_matching_dates_w():
-    assert [*matching_dates("/sat")] == [
-        *[dt.datetime(2024, 12, 28 + x, tzinfo=ZoneInfo("UTC")) for x in range(0, 4)],
-        *[dt.datetime(2025, 1, 1 + x, tzinfo=ZoneInfo("UTC")) for x in range(0, 3)],
-    ]
-
-
-def test_get_matching_dates_bad_input():
-    with pytest.raises(CronpellInputException, match=r".*Not going to find a span of matching dates.*"):
-        next(matching_dates("2024-11-29T12:12:04+03:00 /sat"))
+@time_machine.travel(dt.datetime.fromisoformat("2025-01-21"), tick=False)
+def test_matching_moments():
+    assert matching_moments(
+        map_matching_moments("/month", stop_at=dt.datetime(2025, 3, 1, tzinfo=ZoneInfo("UTC")))
+    ) == [dt.datetime(2025, 1 + y, 1, tzinfo=ZoneInfo("UTC")) for y in range(0, 3)]
