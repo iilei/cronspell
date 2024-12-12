@@ -1,11 +1,10 @@
 import datetime as dt
-from zoneinfo import ZoneInfo
+from unittest.mock import MagicMock
 
 import pytest
 import time_machine
 
-from cronspell import parse
-from cronspell.calendar_utils import map_matching_moments, matching_moments
+from cronspell import Cronspell, parse
 from cronspell.exceptions import CronpellMathException
 
 
@@ -92,8 +91,14 @@ def test_cw_modulo_bad_input():
         assert parse("@cw 54").isoformat() == ""
 
 
-@time_machine.travel(dt.datetime.fromisoformat("2025-01-21"), tick=False)
-def test_matching_moments():
-    assert matching_moments(
-        map_matching_moments("/month", stop_at=dt.datetime(2025, 3, 1, tzinfo=ZoneInfo("UTC")))
-    ) == [dt.datetime(2025, 1 + y, 1, tzinfo=ZoneInfo("UTC")) for y in range(0, 3)]
+def test_year_modulo_bad_input():
+    with pytest.raises(CronpellMathException, match=r".*Year Modulo needed lower than .*Got.*"):
+        assert parse("@year 10000").isoformat() == ""
+
+
+def test_now_fun():
+    dtmock = MagicMock()
+    dtmock.return_value = dt.datetime.fromisoformat("2022-12-29T20:28:42+00:00")
+    cronspell = Cronspell()
+    cronspell.now_func = dtmock
+    assert cronspell.now_func == dtmock

@@ -92,6 +92,7 @@ branch = true
 source = ["src/cronspell"]
 omit = [
     "_version.py", # automatically created by hatch-vcs, not in repo
+    "tests/*"
 ]
 
 [tool.coverage.paths]

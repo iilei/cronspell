@@ -1,5 +1,6 @@
 import datetime as dt
 from pathlib import Path
+from textwrap import dedent
 
 import pytest
 import time_machine
@@ -79,6 +80,7 @@ def test_hook_bad_expression(data_path):
     with pytest.raises(CronpellMathException, match=r".*needed lower than 53.*"):
         result = runner.invoke(app, ["preflight", "--yamlpath", "/*/cronspell", test_file.as_posix()])
         assert result.exit_code == 1, f"Error: {result.stdout}"
+        assert result.stdout != ""
 
 
 def test_hook_no_match(data_path):
@@ -101,3 +103,28 @@ def test_cli_strformat():
 
     # Assert against the expected output
     assert result.stdout == "12/29/2024\n"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29"), tick=False)
+def test_cli_upcoming():
+    """CLI Tests"""
+    # Simulate the command line invocation
+    result = runner.invoke(app, ["upcoming", "/Month"])
+
+    assert result.exit_code == 0, f"Error: {result.stdout}"
+
+    # Assert against the expected output
+    assert result.stdout == dedent("""\
+            2024-W48 | Sun 01 Dec 2024 | 00:00:00 UTC
+            2025-W01 | Wed 01 Jan 2025 | 00:00:00 UTC
+            2025-W05 | Sat 01 Feb 2025 | 00:00:00 UTC
+            2025-W09 | Sat 01 Mar 2025 | 00:00:00 UTC
+            2025-W14 | Tue 01 Apr 2025 | 00:00:00 UTC
+            2025-W18 | Thu 01 May 2025 | 00:00:00 UTC
+            2025-W22 | Sun 01 Jun 2025 | 00:00:00 UTC
+            2025-W27 | Tue 01 Jul 2025 | 00:00:00 UTC
+            2025-W31 | Fri 01 Aug 2025 | 00:00:00 UTC
+            2025-W36 | Mon 01 Sep 2025 | 00:00:00 UTC
+            2025-W40 | Wed 01 Oct 2025 | 00:00:00 UTC
+            2025-W44 | Sat 01 Nov 2025 | 00:00:00 UTC
+        """)

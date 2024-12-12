@@ -2,7 +2,7 @@ import typer
 import typer.rich_utils
 
 from cronspell import __version__
-from cronspell.cli import locate, parse, preflight, preview, to_dot
+from cronspell.cli import locate, parse, preflight, to_dot, upcoming
 
 app = typer.Typer(
     name=f"CronSpell {__version__}",
@@ -15,7 +15,7 @@ app.command(name="parse")(parse.parse)
 app.command(name="dot")(to_dot.to_dot)
 app.command(name="locate")(locate.locate)
 app.command(name="preflight")(preflight.preflight)
-app.command(name="preview")(preview.preview)
+app.command(name="upcoming")(upcoming.upcoming)
 
 if __name__ == "__main__":
     app()
