@@ -47,8 +47,7 @@ def test_complex():
     )
 
 
-# europe berlin equivalent for "2024-12-30T01:13:42+05:45"
-@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T20:28:42+01:00"), tick=False)
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T20:28:42:471100+01:00"), tick=False)
 def test_weekdays_and_timezones():
     assert parse("now[Asia/Kathmandu]").isoformat() == "2024-12-30T01:13:42+05:45"
     assert parse("now[Asia/Kathmandu] /d").isoformat() == "2024-12-30T00:00:00+05:45"

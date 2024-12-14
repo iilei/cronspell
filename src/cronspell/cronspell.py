@@ -133,7 +133,7 @@ class Cronspell:
     def parse(self, expression: str = "now") -> datetime:
         self.expression = expression
         self.model = self.meta_model.model_from_str(expression)
-        self.anchor = self.parse_anchor()
+        self.anchor = self.parse_anchor().replace(microsecond=0)
 
         self.tz = self.anchor.tzname()
 
