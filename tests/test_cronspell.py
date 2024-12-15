@@ -19,6 +19,11 @@ def test_tz_now():
     }
 
 
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42:471100+00:00"), tick=False)
+def test_hour_floor():
+    assert parse("/hour").isoformat() == "2024-12-29T19:00:00+00:00"
+
+
 def test_blank():
     assert parse("").isoformat().rpartition("+")[-1] == "00:00"
 

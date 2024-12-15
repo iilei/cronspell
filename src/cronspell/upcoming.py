@@ -8,7 +8,7 @@ from zoneinfo import ZoneInfo
 from cronspell.cronspell import WEEKDAYS, Cronspell
 from cronspell.exceptions import CronpellInputException
 
-MAX_ITERATIONS = len(WEEKDAYS) * 52
+MAX_ITERATIONS = 64
 MONDAY_IDX = WEEKDAYS.index("Mon")
 SUNDAY_IDX = WEEKDAYS.index("Sun")
 

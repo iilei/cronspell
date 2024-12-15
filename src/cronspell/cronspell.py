@@ -19,20 +19,19 @@ with calendar.different_locale(locale=("EN_US", "UTF-8")):
     WEEKDAYS = [*calendar.day_abbr]
 
 
-TIME_UNITS_SHORT = ["Y", "m", "CW", "W", "d", "H", "M", "S"]
-TIME_RESETS = [
-    ("year", 1970),
-    ("month", 1),
-    None,
-    None,
-    ("day", 1),
-    ("minute", 0),
-    ("hour", 0),
-    ("second", 0),
+TIME_RESETS_MAP: list = [
+    ["Y", ["year", 1970]],
+    ["m", ["month", 1]],
+    ["CW", [None, None]],
+    ["W", [None, None]],
+    ["d", ["day", 1]],
+    ["H", ["hour", 0]],
+    ["M", ["minute", 0]],
+    ["S", ["second", 0]],
 ]
-TIME_RESETS_MAP = [[TIME_UNITS_SHORT[k], v] for k, v in enumerate(TIME_RESETS) if v]
 FLOOR_CW_MAX = 52
 FLOOR_Y_MAX = 9999
+TIME_UNITS_SHORT = [x[0] for x in TIME_RESETS_MAP]
 
 
 class Cronspell:
@@ -134,7 +133,7 @@ class Cronspell:
         if operation == "Floor":
             prune = TIME_UNITS_SHORT[TIME_UNITS_SHORT.index(time_unit) + 1 :]
 
-            current = current.replace(**dict([x[1] for x in TIME_RESETS_MAP if x[0] in prune]))
+            current = current.replace(**dict([x[1] for x in TIME_RESETS_MAP if x[0] in prune and x[1][0]]))
 
             return current
 

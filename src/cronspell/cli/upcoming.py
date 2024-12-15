@@ -12,19 +12,13 @@ console = Console()
 
 
 def upcoming(
-    expression: Annotated[
-        str,
-        typer.Argument(
-            ...,
-            help="Expression",
-        ),
-    ],
+    expression: str,
     interval_days: Annotated[
         int,
         typer.Option(
             "--interval-days",
             "-d",
-            help="interval of days to examine",
+            help="Interval of days to examine (default: 1)",
             default_factory=lambda: 1,
         ),
     ],
@@ -33,7 +27,7 @@ def upcoming(
         typer.Option(
             "--initial-now",
             "-n",
-            help="what to consider 'now'",
+            help="What to consider as 'now' (default: current date and time)",
             default_factory=lambda: None,
         ),
     ],
@@ -42,14 +36,23 @@ def upcoming(
         typer.Option(
             "--end",
             "-e",
-            help="end of date range to examine",
+            help="End of date range to examine (default: 321 days from now)",
             default_factory=lambda: None,
         ),
     ],
 ):
     """
-    \b
-    * prints upcoming moments matched by expression
+    Prints upcoming moments matched by the given expression.
+
+    Arguments:
+        expression (str): The date expression to evaluate.
+        interval_days (int): Interval of days to examine (default: 1).
+        initial_now (str): What to consider as 'now' (default: current date and time).
+        end (str): End of the date range to examine (default: 321 days from now).
+
+    The function evaluates the given date expression over the specified interval and prints
+    the upcoming moments that match the expression. The evaluation starts from the 'initial_now'
+    date and continues until the 'end' date.
     """
 
     results = moments(

@@ -1,4 +1,5 @@
 import datetime as dt
+from datetime import timedelta
 from zoneinfo import ZoneInfo
 
 import pytest
@@ -27,6 +28,35 @@ def test_upcoming_moments_cwmod():
         "2025-W04",
         "2025-W06",
         "2025-W08",
+    ]
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-31T05:00:00+00:00"), tick=False)
+def test_upcoming_moments_plus():
+    assert [
+        x.isoformat() for x in moments("/day + 3hours", stop_at=dt.datetime(2025, 1, 5, tzinfo=ZoneInfo("UTC")))
+    ] == [
+        "2024-12-31T03:00:00+00:00",
+        "2025-01-01T03:00:00+00:00",
+        "2025-01-02T03:00:00+00:00",
+        "2025-01-03T03:00:00+00:00",
+        "2025-01-04T03:00:00+00:00",
+    ]
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2025-02-01T00:00:00+00:00"), tick=False)
+def test_upcoming_moments_interval():
+    assert [
+        x.isoformat()
+        for x in moments(
+            "/hour", stop_at=dt.datetime(2025, 2, 1, 4, 0, tzinfo=ZoneInfo("UTC")), interval=timedelta(hours=1)
+        )
+    ] == [
+        "2025-02-01T00:00:00+00:00",
+        "2025-02-01T01:00:00+00:00",
+        "2025-02-01T02:00:00+00:00",
+        "2025-02-01T03:00:00+00:00",
+        "2025-02-01T04:00:00+00:00",
     ]
 
 
