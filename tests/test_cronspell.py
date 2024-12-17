@@ -106,3 +106,38 @@ def test_now_fun():
     cronspell = Cronspell()
     cronspell.now_func = dtmock
     assert cronspell.now_func == dtmock
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42:471100+00:00"), tick=False)
+def test_day_math():
+    assert parse("+3days").isoformat() == "2025-01-01T19:28:42+00:00"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42:471100+00:00"), tick=False)
+def test_hour_math():
+    assert parse("+3hours").isoformat() == "2024-12-29T22:28:42+00:00"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42:471100+00:00"), tick=False)
+def test_minute_math():
+    assert parse("+3minutes").isoformat() == "2024-12-29T19:31:42+00:00"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42:471100+00:00"), tick=False)
+def test_second_math():
+    assert parse("+3seconds").isoformat() == "2024-12-29T19:28:45+00:00"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42:471100+00:00"), tick=False)
+def test_year_floor():
+    assert parse("/year").isoformat() == "2024-01-01T00:00:00+00:00"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42:471100+00:00"), tick=False)
+def test_month_floor():
+    assert parse("/month").isoformat() == "2024-12-01T00:00:00+00:00"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42:471100+00:00"), tick=False)
+def test_day_floor():
+    assert parse("/day").isoformat() == "2024-12-29T00:00:00+00:00"
