@@ -2,6 +2,12 @@
 
 Date-expression domain specific language parsing. A neat way to express things like "First Saturday of any year", or "3rd thursdays each month" and such
 
+## Status
+
+CronSpell is currently in Beta. While it is considered well tested and stable for most use cases, there may still be some edge cases and bugs that need to be addressed. The maintainer encourages users to try it out and [provide feedback to help improving the library.](https://github.com/iilei/cronspell/issues)
+
+Your contributions and bug reports are highly appreciated.
+
 ## Features
 
 ### Python
@@ -20,7 +26,7 @@ open for coniguration using the `--format` option.
 Installation with cli-specific dependencies: `pip install cronspell[cli]`
 
 
-## Example
+## Examples
 
 To get the last saturday of last month:
 
