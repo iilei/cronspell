@@ -14,6 +14,8 @@ from textx import metamodel_from_file
 
 from cronspell.exceptions import CronpellMathException
 
+TIMEZONE_DEFAULT = "UTC"
+
 with calendar.different_locale(locale=("EN_US", "UTF-8")):
     # first day of the week: Monday as per ISO Standard
     WEEKDAYS = [*calendar.day_abbr]
@@ -37,7 +39,7 @@ TIME_UNITS_SHORT = [x[0] for x in TIME_RESETS_MAP]
 class Cronspell:
     def __init__(self, timezone: Optional[ZoneInfo] = None):
         if timezone is None:
-            timezone = ZoneInfo("UTC")
+            timezone = ZoneInfo(TIMEZONE_DEFAULT)
 
         self.meta_model_src = Path.joinpath(Path(__file__).parent, "cronspell.tx")
         self.meta_model = metamodel_from_file(self.meta_model_src, use_regexp_group=True)
@@ -45,14 +47,13 @@ class Cronspell:
         self._now_fun = datetime.now
 
     def parse_anchor(self):
-        if (anchor := getattr(self.model, "anchor", None)) and ((tznow := anchor.tznow) or (isodate := anchor.isodate)):
-            return (
-                self._now_fun().astimezone(ZoneInfo(tznow.tz))
-                if (tznow and tznow.tz)
-                else datetime.fromisoformat(isodate)
-            )
+        anchor = getattr(self.model, "anchor", None)
+        isodate = getattr(anchor, "isodate", None)
+        if isodate:
+            return datetime.fromisoformat(isodate).astimezone(self.timezone)
 
-        return self._now_fun(self.timezone)
+        tz = getattr(getattr(anchor, "tznow", None), "tz", None)
+        return self._now_fun().astimezone(ZoneInfo(tz) if tz else self.timezone)
 
     @property
     def now_func(self) -> Callable[..., datetime]:
@@ -107,7 +108,9 @@ class Cronspell:
             time_unit = self.get_time_unit(step.statement.res)
 
         if operation in {"Plus", "Minus"}:
-            # special case: week ~> 7 days
+            """
+            Determine the Delta first
+            """
             if time_unit == "W":
                 delta = (datetime.strptime("2", "%d") - datetime.strptime("1", "%d")) * (
                     (-7 if operation == "Minus" else 7) * step.statement.steps
@@ -120,22 +123,30 @@ class Cronspell:
                     - datetime.strptime(str(lower_value + 1), f"%{time_unit}")
                 ) * ((-1 if operation == "Minus" else 1) * step.statement.steps)
 
+            """
+            Return with added delta
+            """
             return current + delta
 
-        elif operation == "Floor" and resolution == "WeekDay":
+        """
+        At this stage, the operation to be done cannot be other than "Floor".
+        If a specific day of the week is desired, we need to take the offset
+        into account:
+        """
+        if resolution == "WeekDay":
             offset_abs = (7 + (current.weekday() - WEEKDAYS.index(time_unit))) % 7
             offset = -1 * offset_abs if operation == "Floor" else 7 - offset_abs
             current += timedelta(days=offset)
 
-            # operation "Floor" to be performed as per day
+            # operation "Floor" to be performed as per day, therefor:
             time_unit = "d"
 
-        if operation == "Floor":
-            prune = TIME_UNITS_SHORT[TIME_UNITS_SHORT.index(time_unit) + 1 :]
-
-            current = current.replace(**dict([x[1] for x in TIME_RESETS_MAP if x[0] in prune and x[1][0]]))
-
-            return current
+        """
+        Flooring by 'prune' the units of time that are more specific than needed:
+        """
+        prune = TIME_UNITS_SHORT[TIME_UNITS_SHORT.index(time_unit) + 1 :]
+        current = current.replace(**dict([x[1] for x in TIME_RESETS_MAP if x[0] in prune and x[1][0]]))
+        return current
 
     def parse(self, expression: str = "now") -> datetime:
         self.expression = expression

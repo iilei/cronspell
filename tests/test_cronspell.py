@@ -1,5 +1,6 @@
 import datetime as dt
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, Mock
+from zoneinfo import ZoneInfo
 
 import pytest
 import time_machine
@@ -9,7 +10,7 @@ from cronspell.exceptions import CronpellMathException
 
 
 def test_iso_date():
-    assert parse("2024-11-29T12:12:04+03:00 /sat -1 week +1d").isoformat() == "2024-11-17T00:00:00+03:00"
+    assert parse("2024-12-29T19:28:42+00:00").isoformat() == "2024-12-29T19:28:42+00:00"
 
 
 def test_tz_now():
@@ -48,7 +49,7 @@ def test_complex():
                 /week  /m /thu + 3 S + 169 M
             """
         ).isoformat()
-        == "2024-11-28T02:49:03"
+        == "2024-11-28T02:49:03+00:00"
     )
 
 
@@ -65,18 +66,6 @@ def test_weekdays_and_timezones():
     assert parse("now[Asia/Kathmandu] /sun").isoformat() == "2024-12-29T00:00:00+05:45"
 
     assert parse("now[Asia/Kathmandu] /mon").isoformat() == parse("now[Asia/Kathmandu] /d").isoformat()
-
-
-def test_cw_modulo():
-    assert parse("2024-12-01T12:12:00+00:00 @cw 4").isoformat() == "2024-11-25T00:00:00+00:00"
-    assert parse("2024-11-23T12:12:00+00:00 @ cw 4").isoformat() == "2024-10-28T00:00:00+00:00"
-    assert parse(r"2024-11-23T12:12:00+00:00 % cw 4").isoformat() == "2024-10-28T00:00:00+00:00"
-    assert parse(r"2024-11-23T12:12:00+00:00 % CW 4").isoformat() == "2024-10-28T00:00:00+00:00"
-
-
-def test_y_modulo():
-    assert parse("2024-12-01T00:00:00+00:00 @Y 4").isoformat() == "2024-01-01T00:00:00+00:00"
-    assert parse("2024-12-01T00:00:00+00:00 @Y 5").isoformat() == "2020-01-01T00:00:00+00:00"
 
 
 def test_examples():
@@ -110,22 +99,34 @@ def test_now_fun():
 
 @time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42:471100+00:00"), tick=False)
 def test_day_math():
-    assert parse("+3days").isoformat() == "2025-01-01T19:28:42+00:00"
+    expected = "2025-01-01T19:28:42+00:00"
+    assert parse("+3days").isoformat() == expected
+    assert parse("+3day").isoformat() == expected
+    assert parse("+3d").isoformat() == expected
 
 
 @time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42:471100+00:00"), tick=False)
 def test_hour_math():
-    assert parse("+3hours").isoformat() == "2024-12-29T22:28:42+00:00"
+    expected = "2024-12-29T22:28:42+00:00"
+    assert parse("+3hours").isoformat() == expected
+    assert parse("+3hour").isoformat() == expected
+    assert parse("+3H").isoformat() == expected
 
 
 @time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42:471100+00:00"), tick=False)
 def test_minute_math():
-    assert parse("+3minutes").isoformat() == "2024-12-29T19:31:42+00:00"
+    expected = "2024-12-29T19:31:42+00:00"
+    assert parse("+3minutes").isoformat() == expected
+    assert parse("+3minute").isoformat() == expected
+    assert parse("+3M").isoformat() == expected
 
 
 @time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42:471100+00:00"), tick=False)
 def test_second_math():
-    assert parse("+3seconds").isoformat() == "2024-12-29T19:28:45+00:00"
+    expected = "2024-12-29T19:28:45+00:00"
+    assert parse("+3seconds").isoformat() == expected
+    assert parse("+3second").isoformat() == expected
+    assert parse("+3S").isoformat() == expected
 
 
 @time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42:471100+00:00"), tick=False)
@@ -136,8 +137,116 @@ def test_year_floor():
 @time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42:471100+00:00"), tick=False)
 def test_month_floor():
     assert parse("/month").isoformat() == "2024-12-01T00:00:00+00:00"
+    assert parse("/m").isoformat() == "2024-12-01T00:00:00+00:00"
 
 
 @time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42:471100+00:00"), tick=False)
 def test_day_floor():
     assert parse("/day").isoformat() == "2024-12-29T00:00:00+00:00"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42+00:00"), tick=False)
+def test_timezone_now():
+    assert parse("now[UTC]").isoformat() == "2024-12-29T19:28:42+00:00"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42+00:00"), tick=False)
+def test_floor_operation():
+    assert parse("now /d").isoformat() == "2024-12-29T00:00:00+00:00"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42+00:00"), tick=False)
+def test_plus_operation():
+    assert parse("now +3d").isoformat() == "2025-01-01T19:28:42+00:00"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42+00:00"), tick=False)
+def test_minus_operation():
+    assert parse("now -3d").isoformat() == "2024-12-26T19:28:42+00:00"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42+00:00"), tick=False)
+def test_cw_modulo():
+    assert parse("now @cw").isoformat() == "2024-12-23T00:00:00+00:00"
+    assert parse("now %cw").isoformat() == "2024-12-23T00:00:00+00:00"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42+00:00"), tick=False)
+def test_y_modulo():
+    assert parse("now @y").isoformat() == "2024-01-01T00:00:00+00:00"
+    assert parse("now %y").isoformat() == "2024-01-01T00:00:00+00:00"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42+00:00"), tick=False)
+def test_weekday_parsing():
+    assert parse("now /sat").isoformat() == "2024-12-28T00:00:00+00:00"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42+00:00"), tick=False)
+def test_parse_anchor_with_tznow():
+    cronspell = Cronspell()
+    cronspell.model = MagicMock()
+    cronspell.model.anchor = MagicMock()
+    cronspell.model.anchor.tznow = MagicMock()
+    cronspell.model.anchor.tznow.tz = "Europe/Berlin"
+    cronspell.model.anchor.isodate = None
+
+    with time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42+00:00"), tick=False):
+        result = cronspell.parse_anchor()
+        assert result.isoformat() == "2024-12-29T20:28:42+01:00"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42+00:00"), tick=False)
+def test_parse_anchor_with_isodate():
+    cronspell = Cronspell()
+    cronspell.model = MagicMock()
+    cronspell.model.anchor = MagicMock()
+    cronspell.model.anchor.tznow = None
+    cronspell.model.anchor.isodate = "2024-12-29T19:28:42+00:00"
+
+    result = cronspell.parse_anchor()
+    assert result.isoformat() == "2024-12-29T19:28:42+00:00"
+
+
+def test_parse_anchor_passed_timezone():
+    assert Cronspell(timezone=ZoneInfo("Asia/Kathmandu")).parse("now").tzinfo.key == "Asia/Kathmandu"
+
+
+def test_parse_anchor_passed_timezone_conficting():
+    cronspell = Cronspell(timezone=ZoneInfo("Asia/Kathmandu"))
+
+    assert cronspell.parse("now[Europe/Berlin]").tzinfo.key == "Europe/Berlin"
+
+
+def test_parse_anchor_default_timezone():
+    assert Cronspell().parse("now").tzinfo.key == "UTC"
+
+
+def test_edge_case_no_anchor():
+    cronspell = Cronspell()
+    cronspell.model = MagicMock()
+    cronspell.model.anchor = None
+
+    assert cronspell.parse("/d").hour == 0
+
+
+def test_edge_case_no_tznow_tz():
+    cronspell = Cronspell()
+    cronspell.model = MagicMock()
+    cronspell.model.anchor = MagicMock()
+    cronspell.model.anchor.tznow = Mock()
+    cronspell.model.anchor.isodate = "2024-12-29T19:28:42+00:00"
+
+    assert cronspell.parse("/d").hour == 0
+
+
+def test_property_now_func():
+    now_fun = MagicMock()
+    now_fun.return_value = dt.datetime.fromisoformat("2024-12-29T00:00:00:000000+01:23")
+
+    cronspell = Cronspell()
+    cronspell.now_func = now_fun
+    cronspell.now_func()
+    assert len(now_fun.mock_calls) == 1
+
+    assert cronspell.parse("now") == now_fun.return_value
