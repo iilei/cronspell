@@ -11,11 +11,24 @@
 | Details  | [![Tests][Tests-image]][Tests-link] [![License - MIT][MIT-image]][MIT-link]                                                                                                                                                       |
 | Features | [![linting - Ruff][ruff-image]][ruff-link] [![types - mypy][mypy-image]][mypy-link] [![test - pytest][pytest-image]][pytest-link]  [![Pre-Commit][precommit-image]][precommit-link] [![docs - mkdocs][mkdocs-image]][mkdocs-link] |
 
-Date-expression domain specific language parsing. A neat way to express things like "First Saturday of any year", or "3rd thursdays each month" and such.
+Date-expression domain specific language (DSL) parsing. A neat way to express things like "First Saturday of any year", or "3rd thursdays each month" and such.
+
+## DSL Example
+
+To get the last saturday of last month:
+
+```
+"now /m -1d /sat"
+```
+
+The same, more verbose:
+```
+"now /month -1day /sat"
+```
 
 ## Installation
 
-### Just the python module
+### Python module
 
 If you need just the python function to parse cronspell expressions:
 
@@ -23,12 +36,22 @@ If you need just the python function to parse cronspell expressions:
 pip install cronspell
 ```
 
-### With cli tools
+```python
+from cronspell import parse
+
+date_of_interest = parse("now /m -1d /sat")
+```
+
+### Command Line Interface
 
 If you like to use it in your command line:
 
 ```shell
 pip install 'cronspell[cli]'
+```
+
+```shell
+cronspell parse "now /m -1d /sat"
 ```
 
 
@@ -63,18 +86,6 @@ This is how you get the last saturday of the current month, for example:
 cronspell parse "now /month + 34 days /m -1d /sat"
 ```
 
-## Example
-
-To get the last saturday of last month:
-
-```
-"now /m -1d /sat"
-```
-
-The same, more verbose:
-```
-"now /month -1day /sat"
-```
 
 
 ## Pre-Commit Hook: Validation
