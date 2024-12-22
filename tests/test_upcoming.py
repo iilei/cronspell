@@ -63,3 +63,26 @@ def test_upcoming_moments_interval():
 def test_upcoming_moments_for_fixed_date():
     with pytest.raises(CronpellInputException, match=r".*"):
         next(moments("2024-11-29T12:12:04+03:00 /sat"))
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2025-01-21T19:28:42+00:00"), tick=False)
+def test_upcoming_moments_interval_cw_modulo_gt_current():
+    assert [
+        x.strftime("%G-W%V")
+        for x in moments(
+            "@cw 5", stop_at=dt.datetime(2026, 1, 30, 1, 0, tzinfo=ZoneInfo("UTC")), interval=timedelta(days=7)
+        )
+    ] == [
+        "2024-W50",
+        "2025-W05",
+        "2025-W10",
+        "2025-W15",
+        "2025-W20",
+        "2025-W25",
+        "2025-W30",
+        "2025-W35",
+        "2025-W40",
+        "2025-W45",
+        "2025-W50",
+        "2026-W05",
+    ]

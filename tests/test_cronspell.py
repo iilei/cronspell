@@ -81,12 +81,12 @@ def test_examples():
 
 def test_cw_modulo_bad_input():
     with pytest.raises(CronpellMathException, match=r".*needed lower than 53.*"):
-        assert parse("@cw 54").isoformat() == ""
+        parse("@cw 54").isoformat()
 
 
 def test_year_modulo_bad_input():
     with pytest.raises(CronpellMathException, match=r".*Year Modulo needed lower than .*Got.*"):
-        assert parse("@year 10000").isoformat() == ""
+        parse("@year 10000").isoformat()
 
 
 def test_now_fun():
@@ -250,3 +250,17 @@ def test_property_now_func():
     assert len(now_fun.mock_calls) == 1
 
     assert cronspell.parse("now") == now_fun.return_value
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-21T19:28:42+00:00"), tick=False)
+def test_cw_modulo_big():
+    assert parse("@cw 4").strftime("%G-W%V") == "2024-W48"
+    assert parse("@cw 5").strftime("%G-W%V") == "2024-W50"
+    assert parse("@cw 6").strftime("%G-W%V") == "2024-W48"
+    assert parse("@cw 7").strftime("%G-W%V") == "2024-W49"
+    assert parse("@cw 11").strftime("%G-W%V") == "2024-W44"
+    assert parse("@cw 12").strftime("%G-W%V") == "2024-W48"
+    assert parse("@cw 13").strftime("%G-W%V") == "2024-W39"
+    assert parse("@cw 14").strftime("%G-W%V") == "2024-W42"
+    assert parse("@cw 15").strftime("%G-W%V") == "2024-W45"
+    assert parse("@cw 16").strftime("%G-W%V") == "2024-W48"

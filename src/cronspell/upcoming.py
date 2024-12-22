@@ -62,6 +62,7 @@ def moments(
     exhausted = False
     while not exhausted:
         moment, comparison = next(mapper, [None, None])
+
         if not moment:
             exhausted = True
         elif moment == comparison:

@@ -67,6 +67,19 @@ class Cronspell:
     def get_time_unit(alias):
         return next(name for name in [*TIME_UNITS_SHORT, *WEEKDAYS] if getattr(alias, name, None))
 
+    def find_by_isoweek(self, current, resolution):
+        # ensure it works when resolution > week of current:
+        if current.isocalendar().week < resolution:
+            current = datetime(current.timetuple().tm_year, 1, 1, tzinfo=self.timezone)
+
+        # backwards iterate / find a date satisfiying the resolution request
+        return next(
+            filter(
+                lambda date: date.isocalendar().week % resolution == 0,
+                [current - timedelta(days=(7 * x)) for x in range(0, resolution + 1)],
+            )
+        )
+
     def step(self, current, step):
         # operation ~> Minus|Plus|Floor|Ceil
         operation = step.statement._tx_fqn.rpartition(".")[-1]
@@ -92,12 +105,7 @@ class Cronspell:
                 raise CronpellMathException(msg)
 
             # find date in isoweek matching the desired resolution
-            current = next(
-                filter(
-                    lambda date: date.isocalendar().week % resolution == 0,
-                    [current - timedelta(days=(7 * x)) for x in range(0, resolution + 1)],
-                )
-            )
+            current = self.find_by_isoweek(current, resolution)
 
             # operation "Floor" yet to be performed
             operation = "Floor"
