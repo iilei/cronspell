@@ -6,9 +6,8 @@ from typing import Any
 from zoneinfo import ZoneInfo
 
 from cronspell.cronspell import WEEKDAYS, Cronspell
-from cronspell.exceptions import CronpellInputException
 
-MAX_ITERATIONS = 64
+MAX_ITERATIONS = 350
 MONDAY_IDX = WEEKDAYS.index("Mon")
 SUNDAY_IDX = WEEKDAYS.index("Sun")
 
@@ -22,6 +21,14 @@ def get_result_for(expression: str, date: datetime):
 MomentMap = tuple[datetime, datetime]
 
 
+def has_isodate_anchor(expression: str):
+    cronspell = Cronspell()
+    cronspell.parse(expression)
+
+    anchor = getattr(cronspell.model, "anchor", None)
+    return bool(getattr(anchor, "isodate", False))
+
+
 def map_moments(
     expression: str,
     interval: timedelta = timedelta(days=1),
@@ -31,17 +38,14 @@ def map_moments(
     cronspell = Cronspell()
 
     initial: datetime = get_result_for(expression, initial_now or datetime.now(tz=ZoneInfo("UTC")))
-    candidate: datetime = get_result_for(expression, initial)
 
+    candidate: datetime = initial
     cronspell.now_func = lambda *_: initial
     counter = 1
 
-    # safeguard against the event of no difference at the end of the time span
-    if candidate == get_result_for(expression, (_stop_at := (stop_at or initial + timedelta(days=MAX_ITERATIONS)))):
-        msg = f"Not going to find a span of matching dates until {_stop_at.isoformat()} with `{expression}`"
-        raise CronpellInputException(msg)
+    stop_at = stop_at or initial + timedelta(days=MAX_ITERATIONS)
 
-    while candidate <= _stop_at:
+    while candidate <= stop_at:
         yield (candidate, cronspell._now_fun())
 
         # alter the "now" function each iteration ~> time moving forward
@@ -57,13 +61,15 @@ def moments(
     initial_now: datetime | None = None,
     stop_at: datetime | None = None,
 ) -> Generator[datetime, Any, Any]:
+    min_moment = datetime.now(tz=ZoneInfo("UTC"))
+    all_same = has_isodate_anchor(expression)
     mapper = map_moments(expression=expression, interval=interval, initial_now=initial_now, stop_at=stop_at)
 
     exhausted = False
     while not exhausted:
         moment, comparison = next(mapper, [None, None])
 
-        if not moment:
+        if all_same or not moment:
             exhausted = True
-        elif moment == comparison:
+        if moment and moment == comparison and moment > min_moment:
             yield moment

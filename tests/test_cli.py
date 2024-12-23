@@ -115,7 +115,6 @@ def test_cli_upcoming():
 
     # Assert against the expected output
     assert result.stdout == dedent("""\
-            2024-W48 | Sun 01 Dec 2024 | 00:00:00 UTC
             2025-W01 | Wed 01 Jan 2025 | 00:00:00 UTC
             2025-W05 | Sat 01 Feb 2025 | 00:00:00 UTC
             2025-W09 | Sat 01 Mar 2025 | 00:00:00 UTC
@@ -128,3 +127,27 @@ def test_cli_upcoming():
             2025-W40 | Wed 01 Oct 2025 | 00:00:00 UTC
             2025-W44 | Sat 01 Nov 2025 | 00:00:00 UTC
         """)
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-23"), tick=False)
+def test_cli_upcoming_cw_mod_past():
+    """CLI Tests"""
+    # Simulate the command line invocation
+    result = runner.invoke(app, ["upcoming", "2024-12-23 @cw 5"])
+
+    assert result.exit_code == 0, f"Error: {result.stdout}"
+
+    # Assert against the expected output
+    assert result.stdout == ""
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-10-19"), tick=False)
+def test_cli_upcoming_cw_mod_future():
+    """CLI Tests"""
+    # Simulate the command line invocation
+    result = runner.invoke(app, ["upcoming", "2024-12-23 @cw 5"])
+
+    assert result.exit_code == 0, f"Error: {result.stdout}"
+
+    # Assert against the expected output
+    assert result.stdout == "2024-W50 | Mon 09 Dec 2024 | 00:00:00 UTC\n"
