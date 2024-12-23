@@ -26,6 +26,32 @@ The same, more verbose:
 "now /month -1day /sat"
 ```
 
+## Test for Upcoming Occurrences
+
+Find upcoming dates beginning of every 3rd calendar week using the `upcoming` module and its `moments` generator.
+
+****
+
+```python
+from collections.abc import Generator
+
+import time_machine
+
+from cronspell.upcoming import moments as upcoming
+
+
+cw3: Generator = upcoming("@cw 3")
+
+# given the current Calendar week is in 2024-W51 ... 2025-W02
+assert next(cw3).strftime("%G-W%V") == "2025-W03"
+assert next(cw3).strftime("%G-W%V") == "2025-W06"
+assert next(cw3).strftime("%G-W%V") == "2025-W09"
+
+```
+
+
+
+
 ## Installation
 
 ### Python module

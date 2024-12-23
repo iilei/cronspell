@@ -45,3 +45,16 @@ Or
 ```cpp
 %years 3
 ```
+
+## Upcoming Occurrences
+
+Find upcoming dates beginning of every 3rd calendar week
+
+
+```python
+from cronspell.upcoming import moments as upcoming
+
+upcoming("@cw 3")
+
+
+```
