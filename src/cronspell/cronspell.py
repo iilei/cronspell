@@ -141,7 +141,7 @@ class Cronspell:
         """
         if resolution == "WeekDay":
             offset_abs = (7 + (current.weekday() - WEEKDAYS.index(time_unit))) % 7
-            offset = -1 * offset_abs if operation == "Floor" else 7 - offset_abs
+            offset = (-1 * offset_abs) if operation == "Floor" else (7 - offset_abs)
             current += timedelta(days=offset)
 
             # operation "Floor" to be performed as per day, therefor:
