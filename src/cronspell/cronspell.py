@@ -159,7 +159,7 @@ class Cronspell:
         self.model = self.meta_model.model_from_str(expression)
         self.anchor = self.parse_anchor().replace(microsecond=0)
 
-        self.tz = self.anchor.tzname()
+        self.tz = self.anchor.tzinfo.key
 
         result = functools.reduce(self.step, [*getattr(self.model, "date_math_term", [])], self.anchor)
 
