@@ -84,9 +84,11 @@ cronspell parse "now /m -1d /sat"
 ## Features
 
 
-### Python
+Cronspell is heavily inspired by Grafana's relative Date picker user interface. It was designed for the cases when configuration is needed to reflect irregular date-distances.
 
-Cronspell is heavily inspired by Grafana's relative Date picker user interface. It shines when configuration is needed to reflect irregular date-distances such as in the example below.
+Use it within your Python project or via command line interface.
+
+### Python
 
 `cronspell` lets you express relative dates such as "last saturday of last month" and converts it to a date object for use in your python project.
 
