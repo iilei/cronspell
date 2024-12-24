@@ -21,6 +21,7 @@ with calendar.different_locale(locale=("EN_US", "UTF-8")):
     WEEKDAYS = [*calendar.day_abbr]
 
 
+DELTA_MAP = {"d": 86400, "H": 3600, "M": 60, "S": 1}
 TIME_RESETS_MAP: list = [
     ["Y", ["year", 1970]],
     ["m", ["month", 1]],
@@ -45,6 +46,10 @@ def find_by_isoweek(current, resolution):
             [current - timedelta(days=(7 * x)) for x in range(0, year_boundary_safe_max_checks)],
         )
     )
+
+
+def get_delta(unit, multiplier):
+    return timedelta(0, multiplier * (DELTA_MAP[unit]))
 
 
 class Cronspell:
@@ -122,12 +127,7 @@ class Cronspell:
                     (-7 if operation == "Minus" else 7) * step.statement.steps
                 )
             else:
-                lower_value = [x for x in TIME_RESETS_MAP if x[0] == time_unit].pop()[1][1]
-
-                delta = (
-                    datetime.strptime(str(lower_value + 2), f"%{time_unit}")
-                    - datetime.strptime(str(lower_value + 1), f"%{time_unit}")
-                ) * ((-1 if operation == "Minus" else 1) * step.statement.steps)
+                delta = get_delta(time_unit, ((-1 if operation == "Minus" else 1) * step.statement.steps))
 
             """
             Return with added delta
