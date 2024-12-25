@@ -97,7 +97,7 @@ class Cronspell:
 
             year = current.isocalendar().year // resolution * resolution
 
-            return datetime(year, 1, 1, tzinfo=self.timezone)
+            return datetime(year, 1, 1, tzinfo=ZoneInfo(self.tz))
 
         # Calendar Week Modulo
         elif operation == "CwModulo":
@@ -161,6 +161,13 @@ class Cronspell:
 
         self.tz = self.anchor.tzinfo.key
 
-        result = functools.reduce(self.step, [*getattr(self.model, "date_math_term", [])], self.anchor)
+        if getattr(getattr(self.model, "formula", None), "_tx_fqn", None) == "cronspell.DateMatSet":
+            candidates = [
+                functools.reduce(self.step, [*getattr(formula, "date_math_term", [])], self.anchor)
+                for formula in self.model.formula.set
+            ]
+            return sorted(candidates).pop()
 
-        return result
+        return functools.reduce(
+            self.step, [*getattr(getattr(self.model, "formula", None), "date_math_term", [])], self.anchor
+        )

@@ -1,6 +1,26 @@
+DateMaths:
+  anchor=Anchor? formula=Formula?
+;
+
+Formula:
+    DateMath | DateMatSet
+;
+
+DateMatSet:
+    SetOpening set*=DateMath[','] SetClosing
+;
+
+SetOpening:
+    /\{(?=[^\{\}]*\})/
+;
+
+SetClosing:
+   '}'
+;
+
 
 DateMath:
-    anchor=Anchor? date_math_term*=DateMathTerm
+    date_math_term*=DateMathTerm
 ;
 
 Anchor:
