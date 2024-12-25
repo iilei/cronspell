@@ -38,3 +38,23 @@ def test_irregular_schedules_upcoming():
             "2025-W02, Sat 01-11",
             "2025-W02, Sun 01-12",
         ]
+
+
+def test_irregular_schedules_upcoming_edge_case():
+    stop_at = dt.datetime(2025, 6, 1, tzinfo=ZoneInfo("UTC"))
+    with time_machine.travel(dt.datetime(2024, 12, 24, tzinfo=ZoneInfo("UTC"))):
+        assert [
+            x.strftime("%G-W%V, %a %m-%d")
+            for x in upcoming.moments("{@cw 3 /sun + 7d, @cw 5 /fri + 7d}", stop_at=stop_at)
+        ] == [
+            "2025-W03, Sun 01-19",
+            "2025-W05, Fri 01-31",
+            "2025-W06, Sun 02-09",
+            "2025-W09, Sun 03-02",
+            "2025-W10, Fri 03-07",
+            "2025-W12, Sun 03-23",
+            "2025-W15, Sun 04-13",
+            "2025-W18, Sun 05-04",
+            "2025-W20, Fri 05-16",
+            "2025-W21, Sun 05-25",
+        ]

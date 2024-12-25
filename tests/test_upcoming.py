@@ -98,3 +98,12 @@ def test_python_example_next_cw3_b():
     assert next(cw3).strftime("%G-W%V") == "2025-W03"
     assert next(cw3).strftime("%G-W%V") == "2025-W06"
     assert next(cw3).strftime("%G-W%V") == "2025-W09"
+
+
+def test_irregular_schedules_upcoming_edge_case():
+    stop_at = dt.datetime(2025, 2, 13, tzinfo=ZoneInfo("UTC"))
+    with time_machine.travel(dt.datetime(2024, 12, 25, tzinfo=ZoneInfo("UTC"))):
+        assert [x.strftime("%G-W%V, %a %m-%d") for x in moments("@cw 3 /sun", stop_at=stop_at)] == [
+            "2025-W02, Sun 01-12",
+            "2025-W05, Sun 02-02",
+        ]
