@@ -264,3 +264,8 @@ def test_cw_modulo_big():
     assert parse("@cw 14").strftime("%G-W%V") == "2024-W42"
     assert parse("@cw 15").strftime("%G-W%V") == "2024-W45"
     assert parse("@cw 16").strftime("%G-W%V") == "2024-W48"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-21T19:28:42+00:00"), tick=False)
+def test_cw_modulo_and_floor_to_day_name():
+    assert parse("@cw 4 / sat").strftime("%a %G-W%V") == "Sat 2024-W47"
