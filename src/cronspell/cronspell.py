@@ -109,11 +109,8 @@ class Cronspell:
 
             # find date in isoweek matching the desired resolution
             current = find_by_isoweek(current, resolution)
-
-            # operation "Floor" yet to be performed
-            operation = "Floor"
-            resolution = "WeekDay"
-            time_unit = WEEKDAYS[0]
+            current -= timedelta(days=current.timetuple().tm_wday)
+            return current.replace(hour=0, minute=0, second=0, microsecond=0)
         else:
             resolution = step.statement.res._tx_fqn.rpartition(".")[-1]
             time_unit = self.get_time_unit(step.statement.res)
