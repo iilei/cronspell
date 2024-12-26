@@ -45,3 +45,14 @@ repos:
           - ".[cli]"
         args: ["--yamlpath", "/*/rel_date"]
         files: .*/demo\.cfg\.ya?ml$
+  - repo: local
+    hooks:
+      - id: version_in_readme
+        name: version_in_readme
+        entry: |-
+          bash -c '\
+            export LATEST_TAG=$(git tag  --contains "$( git log master --name-status HEAD^..HEAD  --pretty=format:%h | head -1)") ;
+            sed -Ei "s/(\s+)rev: .*/\1rev: "$( git rev-list -1 $LATEST_TAG  )"/" README.md && \
+            sed -Ei "s/(\s+)rev: (\S+).*/\1rev: \2   \# "$LATEST_TAG"/" README.md'
+        language: system
+        pass_filenames: false
