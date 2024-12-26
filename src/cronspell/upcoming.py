@@ -12,9 +12,10 @@ MONDAY_IDX = WEEKDAYS.index("Mon")
 SUNDAY_IDX = WEEKDAYS.index("Sun")
 
 
-def get_result_for(expression: str, date: datetime):
+def get_result_for(expression: str, date: datetime | None):
     cronspell = Cronspell()
-    cronspell.now_func = lambda *_: date
+    if date:
+        cronspell.now_func = lambda *_: date
     return cronspell.parse(expression)
 
 
@@ -37,7 +38,7 @@ def map_moments(
 ) -> Generator[MomentMap, Any, Any]:
     cronspell = Cronspell()
 
-    initial: datetime = get_result_for(expression, initial_now or datetime.now(tz=ZoneInfo("UTC")))
+    initial: datetime = get_result_for(expression, initial_now)
 
     candidate: datetime = initial
     cronspell.now_func = lambda *_: initial
@@ -61,15 +62,22 @@ def moments(
     initial_now: datetime | None = None,
     stop_at: datetime | None = None,
 ) -> Generator[datetime, Any, Any]:
-    min_moment = datetime.now(tz=ZoneInfo("UTC"))
-    all_same = has_isodate_anchor(expression)
-    mapper = map_moments(expression=expression, interval=interval, initial_now=initial_now, stop_at=stop_at)
+    initial: datetime = get_result_for(expression, initial_now)
 
+    min_moment = datetime.now(tz=ZoneInfo(getattr(getattr(initial, "tzinfo", None), "key", "UTC")))
+    all_same = has_isodate_anchor(expression)
+    mapper = map_moments(expression=expression, interval=interval, initial_now=initial, stop_at=stop_at)
+
+    yielded = set()
     exhausted = False
     while not exhausted:
-        moment, comparison = next(mapper, [None, None])
+        moment, _comparison = next(mapper, [None, None])
 
         if all_same or not moment:
             exhausted = True
-        if moment and moment == comparison and moment > min_moment:
+        if moment and moment > min_moment:
+            if moment in yielded:
+                continue
+
             yield moment
+            yielded.add(moment)
