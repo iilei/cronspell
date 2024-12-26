@@ -159,11 +159,15 @@ class Cronspell:
         self.tz = self.anchor.tzinfo.key
 
         if getattr(getattr(self.model, "formula", None), "_tx_fqn", None) == "cronspell.DateMatSet":
-            candidates = [
-                functools.reduce(self.step, [*getattr(formula, "date_math_term", [])], self.anchor)
-                for formula in self.model.formula.set
-            ]
-            return sorted(candidates).pop()
+            candidates = sorted(
+                [
+                    functools.reduce(self.step, [*getattr(formula, "date_math_term", [])], self.anchor)
+                    for formula in self.model.formula.set
+                ]
+            )
+
+            # get candidate closest to anchor, prioritizing the past
+            return [None, *[c for c in candidates if c <= self.anchor]].pop() or candidates[0]
 
         return functools.reduce(
             self.step, [*getattr(getattr(self.model, "formula", None), "date_math_term", [])], self.anchor

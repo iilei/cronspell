@@ -3,6 +3,7 @@ from collections.abc import Generator
 
 import time_machine
 
+from cronspell import parse
 from cronspell.upcoming import moments as upcoming
 
 
@@ -83,3 +84,10 @@ def test_python_multimatch_b():
 
         assert next(mm).isoformat() == "2025-06-15T00:00:00+02:00"
         assert next(mm).tzinfo.key == "Europe/Berlin"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2025-01-01T00:00:00+00:00"), tick=False)
+def test_python_multimatch_c():
+    assert parse("{/sun}").strftime("%a %Y-%m-%d") == "Sun 2024-12-29"
+    assert parse("{/m+1d, /m+10d, /sun}").strftime("%a %Y-%m-%d") == "Sun 2024-12-29"
+    assert parse("{/sun, -1d /m+30d}").strftime("%a %Y-%m-%d") == "Tue 2024-12-31"

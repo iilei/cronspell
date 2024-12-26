@@ -15,8 +15,12 @@ def test_irregular_schedules():
 
         assert parse("{/m+5d, /m+10d}").isoformat() == "2024-12-11T00:00:00+00:00"
 
-    with time_machine.travel(dt.datetime(2024, 12, 7, tzinfo=ZoneInfo("UTC"))):
-        assert parse("{/sun, /m+4d}").isoformat() == "2024-12-05T00:00:00+00:00"
+
+def test_sunday_is_today():
+    with time_machine.travel(dt.datetime(2024, 12, 1, tzinfo=ZoneInfo("UTC"))):
+        schedule = upcoming.moments("{/sun}")
+        assert parse("{/sun}").isoformat() == "2024-12-01T00:00:00+00:00"
+        assert next(schedule).isoformat() == "2024-12-08T00:00:00+00:00"
 
 
 def test_irregular_schedules_upcoming():
@@ -53,6 +57,7 @@ def test_irregular_schedules_upcoming_edge_case():
             "2025-W09, Sun 03-02",
             "2025-W10, Fri 03-07",
             "2025-W12, Sun 03-23",
+            "2025-W15, Fri 04-11",
             "2025-W15, Sun 04-13",
             "2025-W18, Sun 05-04",
             "2025-W20, Fri 05-16",
