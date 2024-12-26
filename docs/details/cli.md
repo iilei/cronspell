@@ -25,9 +25,6 @@ Arguments:
 
 Invokes the parser on a given date expression
 
-### pre-commit
-
-See documentation on [Pre-Commit](../pre_commit_hook)
 
 ### dot
 

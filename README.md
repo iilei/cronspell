@@ -94,6 +94,24 @@ now[Europe/Berlin] {
 }
 ```
 
+## pre-commit hook
+
+This package comes with a [pre-commit](https://pre-commit.com/) hook that allows for automated
+preflight checks on `yaml` files serving as sources for cronspell expressions.
+
+Put this in your `.pre-commit-config.yaml` and adjust according to your needs:
+
+```yaml
+repos:
+  - repo: https://github.com/iilei/cronspell
+    rev: {{ cronspell.version if cronspell.version is not none else '...' }}
+    hooks:
+      - id: cronspell
+        files: .*\/cfg\.ya?ml$
+        args: ["--yamlpath", "/*/*date*" ]
+
+```
+
 
 ## Credits
 
@@ -120,6 +138,6 @@ now[Europe/Berlin] {
 [precommit-image]: https://img.shields.io/static/v1?label=‎&message=pre-commit&logo=pre-commit&color=76877c
 [precommit-link]: https://pre-commit.com/
 [MIT-image]: https://img.shields.io/badge/License-MIT-9400d3.svg
-[MIT-link]: LICENSE.txt
+[MIT-link]: https://raw.githubusercontent.com/iilei/cronspell/refs/heads/master/LICENSE.txt
 [Github Pages]: https://img.shields.io/badge/github%20pages-121013?style=for-the-badge&logo=github&logoColor=teal
 [Github Pages Link]: https://iilei.github.io/cronspell/

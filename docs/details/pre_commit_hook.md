@@ -13,8 +13,7 @@ Example `.pre-commit-config.yaml`;
 ```yaml
 repos:
   - repo: https://github.com/iilei/cronspell
-    # git sha or latest tag ({{ cronspell.version if cronspell.version is not none else '0.0.0-rc15' }})
-    rev: b4a58cd63a0ae0c8898bfabe1af0d9f75403b646
+    rev: {{ cronspell.version if cronspell.version is not none else '...' }}
     hooks:
       - id: cronspell
         files: .*\/cfg\.ya?ml$
