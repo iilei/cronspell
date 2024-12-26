@@ -42,7 +42,7 @@ Installation with cli-specific dependencies: `pip install cronspell[cli]`
 
 ### Comments
 ```cpp
-   // a comment
+// a comment
 ```
 
 ```cpp
