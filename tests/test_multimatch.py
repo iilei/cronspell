@@ -8,15 +8,15 @@ from cronspell import parse, upcoming
 
 def test_irregular_schedules():
     with time_machine.travel(dt.datetime(2024, 12, 25, tzinfo=ZoneInfo("UTC"))):
-        assert parse("now {/sun, /m+5d, /m+10d}").isoformat() == "2024-12-22T00:00:00+00:00"
-        assert parse("now {/m+5d, /m+10d, /sun}").isoformat() == "2024-12-22T00:00:00+00:00"
-        assert parse("now {/m+5d, /sun, /m+10d}").isoformat() == "2024-12-22T00:00:00+00:00"
-        assert parse("now {/m+10d, /m+5d, /sun}").isoformat() == "2024-12-22T00:00:00+00:00"
+        assert parse("{/sun, /m+5d, /m+10d}").isoformat() == "2024-12-22T00:00:00+00:00"
+        assert parse("{/m+5d, /m+10d, /sun}").isoformat() == "2024-12-22T00:00:00+00:00"
+        assert parse("{/m+5d, /sun, /m+10d}").isoformat() == "2024-12-22T00:00:00+00:00"
+        assert parse("{/m+10d, /m+5d, /sun}").isoformat() == "2024-12-22T00:00:00+00:00"
 
-        assert parse("now {/m+5d, /m+10d}").isoformat() == "2024-12-11T00:00:00+00:00"
+        assert parse("{/m+5d, /m+10d}").isoformat() == "2024-12-11T00:00:00+00:00"
 
     with time_machine.travel(dt.datetime(2024, 12, 7, tzinfo=ZoneInfo("UTC"))):
-        assert parse("now {/sun, /m+4d}").isoformat() == "2024-12-05T00:00:00+00:00"
+        assert parse("{/sun, /m+4d}").isoformat() == "2024-12-05T00:00:00+00:00"
 
 
 def test_irregular_schedules_upcoming():
