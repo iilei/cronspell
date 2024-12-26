@@ -49,3 +49,20 @@ def test_cest_to_cet_jump():
         )
 
         assert moment_a.timetz().tzinfo.key == moment_b.timetz().tzinfo.key == "Europe/Berlin"
+
+
+def test_complex():
+    assert (
+        parse(
+            """
+                /* absurdly complex test case */
+                2025-01-01
+                / month + 32 days
+                / m -1 day +1 second +3 minutes + 2 hours + 5 days
+                    + 3 weeks
+                /year /sat / sun /thu /mon /tue /fri /wed
+                /week  /m /thu + 3 S + 169 M
+            """
+        ).isoformat()
+        == "2024-11-28T02:49:03+00:00"
+    )

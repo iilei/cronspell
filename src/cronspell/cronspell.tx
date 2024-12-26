@@ -110,15 +110,15 @@ d:
 ;
 
 M:
-    /([mM]inutes?|M\b)/
+    /([mM]inutes?|M\b|[mM]in\b)/
 ;
 
 H:
-    /([hH]ours?|H\b)/
+    /([hH]ours?|H\b|[Hh]rs)/
 ;
 
 S:
-    /(?!sat$)([sS]econds?|S\b)/
+    /(?!sat$)([sS]econds?|S\b|[sS]ec\b)/
 ;
 
 Mon:
