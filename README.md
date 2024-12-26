@@ -13,76 +13,14 @@
 
 Date-expression domain specific language (DSL) parsing. A neat way to express things like "First Saturday of any year", or "3rd thursdays each month" and such.
 
-## DSL Example
 
-To get the last saturday of last month:
+## Status
 
-```
-"now /m -1d /sat"
-```
+CronSpell is currently in Beta. While it is considered well tested and stable for most use cases, there may still be some edge cases and bugs that need to be addressed. The maintainer encourages users to try it out and [provide feedback to help improving the library.](https://github.com/iilei/cronspell/issues)
 
-The same, more verbose:
-```
-"now /month -1day /sat"
-```
-
-## Test for Upcoming Occurrences
-
-Find upcoming dates beginning of every 3rd calendar week using the `upcoming` module and its `moments` generator.
-
-****
-
-```python
-from collections.abc import Generator
-
-import time_machine
-
-from cronspell.upcoming import moments as upcoming
-
-
-cw3: Generator = upcoming("@cw 3")
-
-# given the current Calendar week is in 2024-W51 ... 2025-W02
-assert next(cw3).strftime("%G-W%V") == "2025-W03"
-assert next(cw3).strftime("%G-W%V") == "2025-W06"
-assert next(cw3).strftime("%G-W%V") == "2025-W09"
-
-```
-
-
-
-
-## Installation
-
-### Python module
-
-If you need just the python function to parse cronspell expressions:
-
-```shell
-pip install cronspell
-```
-
-```python
-from cronspell import parse
-
-date_of_interest = parse("now /m -1d /sat")
-```
-
-### Command Line Interface
-
-If you like to use it in your command line:
-
-```shell
-pip install 'cronspell[cli]'
-```
-
-```shell
-cronspell parse "now /m -1d /sat"
-```
-
+Your contributions and bug reports are highly appreciated.
 
 ## Features
-
 
 Cronspell is heavily inspired by Grafana's relative Date picker user interface. It was designed for the cases when configuration is needed to reflect irregular date-distances.
 
@@ -90,38 +28,72 @@ Use it within your Python project or via command line interface.
 
 ### Python
 
-`cronspell` lets you express relative dates such as "last saturday of last month" and converts it to a date object for use in your python project.
-
-```python
-from cronspell import parse
-
-# Cronspell's purpose is mostly to parse configuration files written in yaml
-# and therein express relative date times in a human friendly manner.
-
-# here is but a simple demo:
-last_saturday = parse("now/sat")
-...
-```
+Installation: `pip install cronspell`
 
 ### Cli
 
 The same interface, exposed to the command line. Formatted via `isodate` by default -- which is
-open for configuration using the `--format` option.
+open for coniguration using the `--format` option.
 
-This is how you get the last saturday of the current month, for example:
+Installation with cli-specific dependencies: `pip install cronspell[cli]`
 
-```bash
-cronspell parse "now /month + 34 days /m -1d /sat"
+
+## Syntax
+
+### Comments
+```cpp
+   // a comment
+```
+
+```cpp
+/*
+    multi-line
+    comment ...
+*/
 ```
 
 
+### Datetime Designators
+```cpp
+/m -1d /sat
+```
 
-## Pre-Commit Hook: Validation
+The same, more verbose:
 
-Cronspell comes with a pre-commit hook that validates configured date-expressions based on
-yamlpath.
+```cpp
+/month -1day /sat
+```
 
-Check out the [documentation][Github Pages Link] for detailed instructions.
+### Datetime Designator Sets
+
+By enclosing a set in curly braces (`{}`), a comma seperated list of datetime designators is evaluated.
+
+```cpp
+// here comes a set of datetime designators
+{
+    // first saturday of the month:
+    /m -1d /sat + 7d,
+
+    // sunday of every second calendar week:
+    @cw 2 + 6d
+}
+```
+
+Timezone Designation
+
+```cpp
+// `now` is the default anchor for subsequent designators.
+// passing a timezone name to get the results with the same timezone:
+
+now[Europe/Berlin] {
+    // first saturday of the month:
+    /m -1d /sat + 7d,
+
+    // sunday of every second calendar week:
+    @cw 2 + 6d
+}
+```
+
 
 ## Credits
 
@@ -130,6 +102,7 @@ Check out the [documentation][Github Pages Link] for detailed instructions.
 
 [TextX]: https://textx.github.io/textX/
 [The Hatchlor]: https://github.com/florianwilhelm/the-hatchlor
+
 
 
 [Tests-image]: https://github.com/iilei/cronspell/actions/workflows/tests.yml/badge.svg?branch=master

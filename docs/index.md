@@ -1,56 +1,8 @@
-# ​CronSpell
 
-Date-expression domain specific language parsing. A neat way to express things like "First Saturday of any year", or "3rd thursdays each month" and such
+{%
+   include-markdown "../README.md"
+%}
 
-## Status
-
-CronSpell is currently in Beta. While it is considered well tested and stable for most use cases, there may still be some edge cases and bugs that need to be addressed. The maintainer encourages users to try it out and [provide feedback to help improving the library.](https://github.com/iilei/cronspell/issues)
-
-Your contributions and bug reports are highly appreciated.
-
-## Features
-
-Cronspell is heavily inspired by Grafana's relative Date picker user interface. It was designed for the cases when configuration is needed to reflect irregular date-distances.
-
-Use it within your Python project or via command line interface.
-
-### Python
-
-Installation: `pip install cronspell`
-
-### Cli
-
-The same interface, exposed to the command line. Formatted via `isodate` by default -- which is
-open for coniguration using the `--format` option.
-
-Installation with cli-specific dependencies: `pip install cronspell[cli]`
-
-
-## Examples
-
-To get the last saturday of last month:
-
-```
-"now /m -1d /sat"
-```
-
-The same, more verbose:
-```
-"now /month -1day /sat"
-```
-
-which instructs the parser to perform the following sequence of operations:
-
-![](./assets/images/example.svg)
-
-
-## Credits
-
-* Domain-Specific-Language Parser: [TextX]
-* This package was created with [The Hatchlor] project template.
-
-[TextX]: https://textx.github.io/textX/
-[The Hatchlor]: https://github.com/florianwilhelm/the-hatchlor
 
 
 ## Navigation
