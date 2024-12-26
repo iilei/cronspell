@@ -18,7 +18,7 @@ repos:
     hooks:
       - id: cronspell
         files: .*\/cfg\.ya?ml$
-        args: ["--yamlpath", "/*/rel_date*" ]
+        args: ["--yamlpath", "/*/*date*" ]
 
 ```
 
@@ -42,5 +42,5 @@ week designated to *floor* to needs to be in range `1..52`;
 
 ```yaml
 - type: "should not pass"
-  cronspell: "@CW 77"
+  rel_date: "@CW 77"
 ```
