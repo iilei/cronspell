@@ -11,7 +11,7 @@ DateMatSet:
 ;
 
 SetOpening:
-    /\{(?=[^\{\}]*\})/
+    '{'
 ;
 
 SetClosing:
