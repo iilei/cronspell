@@ -15,7 +15,7 @@ SetOpening:
 ;
 
 SetClosing:
-   '}'
+    '}'
 ;
 
 
@@ -45,7 +45,7 @@ TimezoneNow:
 
 
 Statement:
-    Floor |  Plus | Minus | CwModulo | YModulo
+    Floor |  Plus | Minus | CwModulo | YModulo | MonthModulo
 ;
 
 
@@ -57,12 +57,20 @@ YModulo:
    YearModuloMarker value=INT?
 ;
 
+MonthModulo:
+   MonthModuloMarker value=INT?
+;
+
 CalendarWeekModuloMarker:
     /[%,@]\s*\b(CW|Cw|cw)/
 ;
 
 YearModuloMarker:
     /[%,@]\s*\b(Y|y)(ears?)?/
+;
+
+MonthModuloMarker:
+    /[%,@]\s*\b(m)(onths?)?/
 ;
 
 Floor:

@@ -104,7 +104,7 @@ Put this in your `.pre-commit-config.yaml` and adjust according to your needs:
 ```yaml
 repos:
   - repo: https://github.com/iilei/cronspell
-    rev: 8b455b10109b62d050bec9509649565ae8057ae8   # v0.4.0
+    rev: c2b316f53c536e808353d2b30b97d1660c267d4b   # v0.4.1
     hooks:
       - id: cronspell
         files: .*\/cfg\.ya?ml$

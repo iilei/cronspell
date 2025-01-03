@@ -160,6 +160,11 @@ def test_year_modulo_bad_input():
         parse("@year 10000").isoformat()
 
 
+def test_month_modulo_bad_input():
+    with pytest.raises(CronpellMathException, match=r".*Month Modulo needed lower than .*Got.*"):
+        parse("@m 13").isoformat()
+
+
 def test_now_fun():
     dtmock = MagicMock()
     dtmock.return_value = dt.datetime.fromisoformat("2022-12-29T20:28:42+00:00")
@@ -308,3 +313,11 @@ def test_cw_modulo_big():
 @time_machine.travel(dt.datetime.fromisoformat("2024-12-21T19:28:42+00:00"), tick=False)
 def test_cw_modulo_and_floor_to_day_name():
     assert parse("@cw 4 / sat").strftime("%a %G-W%V") == "Sat 2024-W47"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-11-21T19:28:42+00:00"), tick=False)
+def test_month_modulo():
+    assert parse("@month 4").isoformat() == "2024-08-01T00:00:00+00:00"
+    assert parse("@months 12").isoformat() == "2023-12-01T00:00:00+00:00"
+    assert parse("@month 12").isoformat() == "2023-12-01T00:00:00+00:00"
+    assert parse("@m 12").isoformat() == "2023-12-01T00:00:00+00:00"

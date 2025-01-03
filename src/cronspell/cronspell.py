@@ -19,6 +19,7 @@ TIMEZONE_DEFAULT = "UTC"
 with calendar.different_locale(locale=("EN_US", "UTF-8")):
     # first day of the week: Monday as per ISO Standard
     WEEKDAYS = [*calendar.day_abbr]
+    MONTHS = [x for x in calendar.month_abbr if x]
 
 
 DELTA_MAP = {"d": 86400, "H": 3600, "M": 60, "S": 1}
@@ -33,6 +34,7 @@ TIME_RESETS_MAP: list = [
     ["S", ["second", 0]],
 ]
 FLOOR_CW_MAX = 52
+FLOOR_M_MAX = len(MONTHS)
 FLOOR_Y_MAX = 9999
 TIME_UNITS_SHORT = [x[0] for x in TIME_RESETS_MAP]
 
@@ -86,11 +88,10 @@ class Cronspell:
     def step(self, current, step):
         # operation ~> Minus|Plus|Floor|Ceil
         operation = step.statement._tx_fqn.rpartition(".")[-1]
+        resolution = max(getattr(step.statement, "value", 1), 1)
 
         # Year Modulo
         if operation == "YModulo":
-            resolution = max(step.statement.value, 1)
-
             if resolution > FLOOR_Y_MAX:
                 msg = f"Year Modulo needed lower than {FLOOR_Y_MAX + 1}! Got {resolution}."
                 raise CronpellMathException(msg)
@@ -101,8 +102,6 @@ class Cronspell:
 
         # Calendar Week Modulo
         elif operation == "CwModulo":
-            resolution = max(step.statement.value, 1)
-
             if resolution > FLOOR_CW_MAX:
                 msg = f"Calendar Week Modulo needed lower than {FLOOR_CW_MAX + 1}! Got {resolution}."
                 raise CronpellMathException(msg)
@@ -111,6 +110,27 @@ class Cronspell:
             current = find_by_isoweek(current, resolution)
             current -= timedelta(days=current.timetuple().tm_wday)
             return current.replace(hour=0, minute=0, second=0, microsecond=0)
+        elif operation == "MonthModulo":
+            if resolution > FLOOR_M_MAX:
+                msg = f"Month Modulo needed lower than {FLOOR_M_MAX + 1}! Got {resolution}."
+                raise CronpellMathException(msg)
+
+            is_current_year = current.month >= resolution
+            if is_current_year:
+                return current.replace(
+                    month=(current.month // resolution) * resolution, day=1, hour=0, minute=0, second=0, microsecond=0
+                )
+            else:
+                return current.replace(
+                    year=current.year - 1,
+                    month=(FLOOR_M_MAX // resolution) * resolution,
+                    day=1,
+                    hour=0,
+                    minute=0,
+                    second=0,
+                    microsecond=0,
+                )
+
         else:
             resolution = step.statement.res._tx_fqn.rpartition(".")[-1]
             time_unit = self.get_time_unit(step.statement.res)
