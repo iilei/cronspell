@@ -51,8 +51,8 @@ repos:
         name: version_in_readme
         entry: |-
           bash -c '\
-            export LATEST_TAG=$(git tag  --contains "$( git log master --name-status HEAD^..HEAD  --pretty=format:%h | head -1)") ;
-            sed -Ei "s/(\s+)rev: .*/\1rev: "$( git rev-list -1 $LATEST_TAG  )"/" README.md && \
+            export LATEST_TAG=$(git tag  --contains $( git describe --tags $(git rev-list --tags --max-count=1) )) ;
+            sed -Ei "s/(\s+)rev:.*/\1rev: "$( git rev-list -1 $LATEST_TAG  )"/" README.md && \
             sed -Ei "s/(\s+)rev: (\S+).*/\1rev: \2   \# "$LATEST_TAG"/" README.md'
         language: system
         pass_filenames: false

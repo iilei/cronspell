@@ -60,7 +60,6 @@ jobs:
         run: |
           rm -rf ./dist
           hatch build
-          ls -lisa dist
       - name: Publish 📦 to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
