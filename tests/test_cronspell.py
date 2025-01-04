@@ -321,3 +321,115 @@ def test_month_modulo():
     assert parse("@months 12").isoformat() == "2023-12-01T00:00:00+00:00"
     assert parse("@month 12").isoformat() == "2023-12-01T00:00:00+00:00"
     assert parse("@m 12").isoformat() == "2023-12-01T00:00:00+00:00"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42+00:00"), tick=False)
+def test_floor_operation_jan():
+    assert parse("/Jan").isoformat() == "2024-01-01T00:00:00+00:00"
+    assert parse("/jan").isoformat() == "2024-01-01T00:00:00+00:00"
+    assert parse("/ Jan").isoformat() == "2024-01-01T00:00:00+00:00"
+    assert parse("/ jan").isoformat() == "2024-01-01T00:00:00+00:00"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42+00:00"), tick=False)
+def test_floor_operation_feb():
+    assert parse("/Feb").isoformat() == "2024-02-01T00:00:00+00:00"
+    assert parse("/feb").isoformat() == "2024-02-01T00:00:00+00:00"
+    assert parse("/ Feb").isoformat() == "2024-02-01T00:00:00+00:00"
+    assert parse("/ feb").isoformat() == "2024-02-01T00:00:00+00:00"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42+00:00"), tick=False)
+def test_floor_operation_mar():
+    assert parse("/Mar").isoformat() == "2024-03-01T00:00:00+00:00"
+    assert parse("/mar").isoformat() == "2024-03-01T00:00:00+00:00"
+    assert parse("/ Mar").isoformat() == "2024-03-01T00:00:00+00:00"
+    assert parse("/ mar").isoformat() == "2024-03-01T00:00:00+00:00"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42+00:00"), tick=False)
+def test_floor_operation_apr():
+    assert parse("/Apr").isoformat() == "2024-04-01T00:00:00+00:00"
+    assert parse("/apr").isoformat() == "2024-04-01T00:00:00+00:00"
+    assert parse("/ Apr").isoformat() == "2024-04-01T00:00:00+00:00"
+    assert parse("/ apr").isoformat() == "2024-04-01T00:00:00+00:00"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42+00:00"), tick=False)
+def test_floor_operation_may():
+    assert parse("/May").isoformat() == "2024-05-01T00:00:00+00:00"
+    assert parse("/may").isoformat() == "2024-05-01T00:00:00+00:00"
+    assert parse("/ May").isoformat() == "2024-05-01T00:00:00+00:00"
+    assert parse("/ may").isoformat() == "2024-05-01T00:00:00+00:00"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42+00:00"), tick=False)
+def test_floor_operation_jun():
+    assert parse("/Jun").isoformat() == "2024-06-01T00:00:00+00:00"
+    assert parse("/jun").isoformat() == "2024-06-01T00:00:00+00:00"
+    assert parse("/ Jun").isoformat() == "2024-06-01T00:00:00+00:00"
+    assert parse("/ jun").isoformat() == "2024-06-01T00:00:00+00:00"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42+00:00"), tick=False)
+def test_floor_operation_jul():
+    assert parse("/Jul").isoformat() == "2024-07-01T00:00:00+00:00"
+    assert parse("/jul").isoformat() == "2024-07-01T00:00:00+00:00"
+    assert parse("/ Jul").isoformat() == "2024-07-01T00:00:00+00:00"
+    assert parse("/ jul").isoformat() == "2024-07-01T00:00:00+00:00"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42+00:00"), tick=False)
+def test_floor_operation_aug():
+    assert parse("/Aug").isoformat() == "2024-08-01T00:00:00+00:00"
+    assert parse("/aug").isoformat() == "2024-08-01T00:00:00+00:00"
+    assert parse("/ Aug").isoformat() == "2024-08-01T00:00:00+00:00"
+    assert parse("/ aug").isoformat() == "2024-08-01T00:00:00+00:00"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42+00:00"), tick=False)
+def test_floor_operation_sep():
+    assert parse("/Sep").isoformat() == "2024-09-01T00:00:00+00:00"
+    assert parse("/sep").isoformat() == "2024-09-01T00:00:00+00:00"
+    assert parse("/ Sep").isoformat() == "2024-09-01T00:00:00+00:00"
+    assert parse("/ sep").isoformat() == "2024-09-01T00:00:00+00:00"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42+00:00"), tick=False)
+def test_floor_operation_oct():
+    assert parse("/Oct").isoformat() == "2024-10-01T00:00:00+00:00"
+    assert parse("/oct").isoformat() == "2024-10-01T00:00:00+00:00"
+    assert parse("/ Oct").isoformat() == "2024-10-01T00:00:00+00:00"
+    assert parse("/ oct").isoformat() == "2024-10-01T00:00:00+00:00"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42+00:00"), tick=False)
+def test_floor_operation_nov():
+    assert parse("/Nov").isoformat() == "2024-11-01T00:00:00+00:00"
+    assert parse("/nov").isoformat() == "2024-11-01T00:00:00+00:00"
+    assert parse("/ Nov").isoformat() == "2024-11-01T00:00:00+00:00"
+    assert parse("/ nov").isoformat() == "2024-11-01T00:00:00+00:00"
+
+
+@time_machine.travel(dt.datetime.fromisoformat("2024-12-29T19:28:42+00:00"), tick=False)
+def test_floor_operation_dec():
+    assert parse("/Dec").isoformat() == "2024-12-01T00:00:00+00:00"
+    assert parse("/dec").isoformat() == "2024-12-01T00:00:00+00:00"
+    assert parse("/ Dec").isoformat() == "2024-12-01T00:00:00+00:00"
+    assert parse("/ dec").isoformat() == "2024-12-01T00:00:00+00:00"
+
+
+def test_floor_operation_demo_case():
+    with time_machine.travel(dt.datetime.fromisoformat("2024-07-07T19:28:42+00:00"), tick=False):
+        assert parse("{/Jun,/Dec}").isoformat() == "2024-06-01T00:00:00+00:00"
+        assert parse("@month 6").isoformat() == "2024-06-01T00:00:00+00:00"
+
+    with time_machine.travel(dt.datetime.fromisoformat("2025-03-07T19:28:42+00:00"), tick=False):
+        assert parse("{/Jun,/Dec}").isoformat() == "2024-12-01T00:00:00+00:00"
+        assert parse("@month 6").isoformat() == "2024-12-01T00:00:00+00:00"
+
+
+def test_time_override():
+    cronspell = Cronspell()
+    cronspell.now_func = lambda: dt.datetime.fromisoformat("2023-07-07T17:18:11+00:00")
+    assert cronspell.parse("now /d").isoformat() == "2023-07-07T00:00:00+00:00"

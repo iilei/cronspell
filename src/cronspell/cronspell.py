@@ -19,7 +19,7 @@ TIMEZONE_DEFAULT = "UTC"
 with calendar.different_locale(locale=("EN_US", "UTF-8")):
     # first day of the week: Monday as per ISO Standard
     WEEKDAYS = [*calendar.day_abbr]
-    MONTHS = [x for x in calendar.month_abbr if x]
+    MONTHS = [*calendar.month_abbr]
 
 
 DELTA_MAP = {"d": 86400, "H": 3600, "M": 60, "S": 1}
@@ -34,7 +34,7 @@ TIME_RESETS_MAP: list = [
     ["S", ["second", 0]],
 ]
 FLOOR_CW_MAX = 52
-FLOOR_M_MAX = len(MONTHS)
+FLOOR_M_MAX = 12
 FLOOR_Y_MAX = 9999
 TIME_UNITS_SHORT = [x[0] for x in TIME_RESETS_MAP]
 
@@ -83,7 +83,7 @@ class Cronspell:
 
     @staticmethod
     def get_time_unit(alias):
-        return next(name for name in [*TIME_UNITS_SHORT, *WEEKDAYS] if getattr(alias, name, None))
+        return next(name for name in [*TIME_UNITS_SHORT, *WEEKDAYS, *MONTHS] if getattr(alias, name, None))
 
     def step(self, current, step):
         # operation ~> Minus|Plus|Floor|Ceil
@@ -130,7 +130,6 @@ class Cronspell:
                     second=0,
                     microsecond=0,
                 )
-
         else:
             resolution = step.statement.res._tx_fqn.rpartition(".")[-1]
             time_unit = self.get_time_unit(step.statement.res)
@@ -151,22 +150,22 @@ class Cronspell:
             """
             return current + delta
 
-        """
-        At this stage, the operation to be done cannot be other than "Floor".
-        If a specific day of the week is desired, we need to take the offset
-        into account:
-        """
+        # Floor by day
         if resolution == "WeekDay":
-            offset_abs = (7 + (current.weekday() - WEEKDAYS.index(time_unit))) % 7
-            offset = (-1 * offset_abs) if operation == "Floor" else (7 - offset_abs)
+            offset = -abs((7 + (current.weekday() - WEEKDAYS.index(time_unit))) % 7)
             current += timedelta(days=offset)
 
-            # operation "Floor" to be performed as per day, therefor:
-            time_unit = "d"
+            return current.replace(hour=0, minute=0, second=0, microsecond=0)
 
-        """
-        Flooring by 'prune' the units of time that are more specific than needed:
-        """
+        # Floor by month
+        if resolution == "MonthName":
+            year = current.year - 1 if MONTHS.index(time_unit) > current.month else current.year
+
+            return current.replace(
+                year=year, month=MONTHS.index(time_unit), day=1, hour=0, minute=0, second=0, microsecond=0
+            )
+
+        # Flooring by 'prune' the units of time that are more specific than desired:
         prune = TIME_UNITS_SHORT[TIME_UNITS_SHORT.index(time_unit) + 1 :]
         current = current.replace(**dict([x[1] for x in TIME_RESETS_MAP if x[0] in prune and x[1][0]]))
         return current

@@ -86,7 +86,7 @@ Minus:
 ;
 
 Clampable:
-    WeekDay | TimeUnitShort | VariableTimeUnit
+    WeekDay | MonthName | TimeUnitShort | VariableTimeUnit
 ;
 
 TimeUnitShort:
@@ -100,6 +100,12 @@ VariableTimeUnit:
 WeekDay:
     Mon=Mon | Tue=Tue | Wed=Wed | Thu=Thu | Fri=Fri | Sat=Sat | Sun=Sun
 ;
+
+
+MonthName:
+    Jan=Jan | Feb=Feb | Mar=Mar | Apr=Apr | May=May | Jun=Jun | Jul=Jul | Aug=Aug | Sep=Sep | Oct=Oct | Nov=Nov | Dec=Dec
+;
+
 
 Y:
     /([Yy]ears?|Y\b)/
@@ -157,6 +163,68 @@ Sun:
     /\bsun\b/
 ;
 
+// ============ month names as in calendar.month_abbr ============
+
+Jan:
+    /\b[jJ]an\b/
+;
+
+
+Feb:
+    /\b[fF]eb\b/
+;
+
+
+Mar:
+    /\b[mM]ar\b/
+;
+
+
+Apr:
+    /\b[aA]pr\b/
+;
+
+
+May:
+    /\b[mM]ay\b/
+;
+
+
+Jun:
+    /\b[jJ]un\b/
+;
+
+
+Jul:
+    /\b[jJ]ul\b/
+;
+
+
+Aug:
+    /\b[aA]ug\b/
+;
+
+
+Sep:
+    /\b[sS]ep\b/
+;
+
+
+Oct:
+    /\b[oO]ct\b/
+;
+
+
+Nov:
+    /\b[nN]ov\b/
+;
+
+
+Dec:
+    /\b[dD]ec\b/
+;
+
+// //////////////////////////////////////////////
 Comment:
     /\/\*(.|\n)*?\*\// | /\/\/.*?$/
 ;
