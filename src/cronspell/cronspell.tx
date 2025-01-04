@@ -136,52 +136,52 @@ S:
 ;
 
 Mon:
-    /\bmon\b/
+    /\b[mM]on(?:day)?\b/
 ;
 
 Tue:
-    /\btue\b/
+    /\b[tT]ue(?:sday)?\b/
 ;
 
 Wed:
-    /\bwed\b/
+    /\b[wW]ed(?:nesday)?\b/
 ;
 
 Thu:
-    /\bthu\b/
+    /\b[tT]hu(?:esday)?\b/
 ;
 
 Fri:
-    /\bfri\b/
+    /\b[fF]ri(?:day)?\b/
 ;
 
 Sat:
-    /\bsat\b/
+    /\b[sS]at(?:urday)?\b/
 ;
 
 Sun:
-    /\bsun\b/
+    /\b[sS]un(?:day)?\b/
 ;
 
 // ============ month names as in calendar.month_abbr ============
 
 Jan:
-    /\b[jJ]an\b/
+    /\b[jJ]an(?:uary)?\b/
 ;
 
 
 Feb:
-    /\b[fF]eb\b/
+    /\b[fF]eb(?:ruary)?\b/
 ;
 
 
 Mar:
-    /\b[mM]ar\b/
+    /\b[mM]ar(?:ch)?\b/
 ;
 
 
 Apr:
-    /\b[aA]pr\b/
+    /\b[aA]pr(?:il)?\b/
 ;
 
 
@@ -191,37 +191,37 @@ May:
 
 
 Jun:
-    /\b[jJ]un\b/
+    /\b[jJ]une?\b/
 ;
 
 
 Jul:
-    /\b[jJ]ul\b/
+    /\b[jJ]uly?\b/
 ;
 
 
 Aug:
-    /\b[aA]ug\b/
+    /\b[aA]ug(?:ust)?\b/
 ;
 
 
 Sep:
-    /\b[sS]ep\b/
+    /\b[sS]ep(?:tember)?\b/
 ;
 
 
 Oct:
-    /\b[oO]ct\b/
+    /\b[oO]ct(?:ober)?\b/
 ;
 
 
 Nov:
-    /\b[nN]ov\b/
+    /\b[nN]ov(?:ember)?\b/
 ;
 
 
 Dec:
-    /\b[dD]ec\b/
+    /\b[dD]ec(?:ember)?\b/
 ;
 
 // //////////////////////////////////////////////
