@@ -123,7 +123,7 @@ exclude_lines = [
 # ruff will use `requires-python` as `target-version` by default
 line-length = 120
 indent-width = 4
-include = ["src/**/*.py", "src/**/*.pyi", "tests/**/*.py", "tests/**/*.pyi"]
+include = ["src/**/*.py", "src/**/*.pyi", "tests/**/*.py", "tests/**/*.pyi", "scripts/*.py", ]
 
 [tool.ruff.lint]
 preview = true # preview features & checks, use with caution
