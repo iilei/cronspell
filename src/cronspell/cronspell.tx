@@ -2,9 +2,23 @@ DateMaths:
   anchor=Anchor? formula=Formula?
 ;
 
-Formula:
-    DateMath | DateMatSet
+Anchor:
+    tznow=TimezoneNow | Now | isodate=ISODate
 ;
+
+
+ISODate:
+    /\d{4}-\d{2}-\d{2}\S*/
+;
+
+Now:
+  'now'
+;
+
+TimezoneNow:
+  Now '[' tz=/\s*([^\]]+)\s*/ ']'
+;
+
 
 DateMatSet:
     SetOpening set*=DateMath[','] SetClosing
@@ -18,36 +32,21 @@ SetClosing:
     '}'
 ;
 
-
 DateMath:
     date_math_term*=DateMathTerm
-;
-
-Anchor:
-    tznow=TimezoneNow | NaiveNow | isodate=ISODate
-;
-
-ISODate:
-    /\d+\S+/
 ;
 
 DateMathTerm:
     statement=Statement
 ;
 
-NaiveNow:
-  'now'
+Formula:
+    DateMath | DateMatSet
 ;
-
-TimezoneNow:
-  NaiveNow '[' tz=/\s*([^\]]+)\s*/ ']'
-;
-
 
 Statement:
     Floor |  Plus | Minus | CwModulo | YModulo | MonthModulo
 ;
-
 
 CwModulo:
    CalendarWeekModuloMarker value=INT?
@@ -106,7 +105,6 @@ MonthName:
     Jan=Jan | Feb=Feb | Mar=Mar | Apr=Apr | May=May | Jun=Jun | Jul=Jul | Aug=Aug | Sep=Sep | Oct=Oct | Nov=Nov | Dec=Dec
 ;
 
-
 Y:
     /([Yy]ears?|Y\b)/
 ;
@@ -148,7 +146,7 @@ Wed:
 ;
 
 Thu:
-    /\b[tT]hu(?:esday)?\b/
+    /\b[tT]hu(?:rsday)?\b/
 ;
 
 Fri:
