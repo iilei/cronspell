@@ -56,3 +56,11 @@ repos:
             sed -Ei "s/(\s+)rev: (\S+).*/\1rev: \2   \# "$LATEST_TAG"/" README.md'
         language: system
         pass_filenames: false
+  - repo: local
+    hooks:
+      - id: generate_docs
+        name: generate_docs
+        entry: |-
+          bash -c 'hatch run docs:tex2md'
+        language: system
+        pass_filenames: false
