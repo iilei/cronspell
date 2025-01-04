@@ -110,7 +110,7 @@ class Cronspell:
             current = find_by_isoweek(current, resolution)
             current -= timedelta(days=current.timetuple().tm_wday)
             return current.replace(hour=0, minute=0, second=0, microsecond=0)
-        elif operation == "MonthModulo":
+        elif operation == "MModulo":
             if resolution > FLOOR_M_MAX:
                 msg = f"Month Modulo needed lower than {FLOOR_M_MAX + 1}! Got {resolution}."
                 raise CronpellMathException(msg)

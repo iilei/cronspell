@@ -115,7 +115,7 @@ _data/*
 # build docs
 **/*.dot
 **/*.pu
-**/*.dot.svg
+**/*.svg
 
 # MacOS files
 .DS_Store

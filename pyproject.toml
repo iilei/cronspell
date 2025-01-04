@@ -237,6 +237,7 @@ debug = "cov --no-cov -s --pdb --pdbcls=IPython.core.debugger:Pdb {args}"
 # Docs environment
 [tool.hatch.envs.docs]
 dependencies = [
+    "python-datauri~=3.0.2",
     "beautifulsoup4",
     "graphviz",
     "pydot",
@@ -266,7 +267,7 @@ SOURCE_DATE_EPOCH = "1580601600"
 PYTHONUNBUFFERED = "1"
 MKDOCS_CONFIG = "mkdocs.yml"
 [tool.hatch.envs.docs.scripts]
-tex2md = "./scripts/generate_docs.sh"
+tex2md = "./docs/scripts/generate_docs.sh"
 build = "mkdocs build --config-file {env:MKDOCS_CONFIG} --clean --strict {args}"
 serve = "mkdocs serve --config-file {env:MKDOCS_CONFIG} --dev-addr localhost:8000 {args}"
 ci-build = "mike deploy --config-file {env:MKDOCS_CONFIG} --update-aliases {args}"

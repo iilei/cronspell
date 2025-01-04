@@ -21,15 +21,7 @@ TimezoneNow:
 
 
 DateMatSet:
-    SetOpening set*=DateMath[','] SetClosing
-;
-
-SetOpening:
-    '{'
-;
-
-SetClosing:
-    '}'
+    '{' set*=DateMath[','] '}'
 ;
 
 DateMath:
@@ -45,31 +37,31 @@ Formula:
 ;
 
 Statement:
-    Floor |  Plus | Minus | CwModulo | YModulo | MonthModulo
+    Floor |  Plus | Minus | CwModulo | YModulo | MModulo
 ;
 
 CwModulo:
-   CalendarWeekModuloMarker value=INT?
+   CalendarWeekModulo value=INT?
 ;
 
 YModulo:
-   YearModuloMarker value=INT?
+   YearModulo value=INT?
 ;
 
-MonthModulo:
-   MonthModuloMarker value=INT?
+MModulo:
+   MonthModulo value=INT?
 ;
 
-CalendarWeekModuloMarker:
+CalendarWeekModulo:
     /[%,@]\s*\b(CW|Cw|cw)/
 ;
 
-YearModuloMarker:
+YearModulo:
     /[%,@]\s*\b(Y|y)(ears?)?/
 ;
 
-MonthModuloMarker:
-    /[%,@]\s*\b(m)(onths?)?/
+MonthModulo:
+    /[%,@]\s*\b([Mm])(onths?)?/
 ;
 
 Floor:

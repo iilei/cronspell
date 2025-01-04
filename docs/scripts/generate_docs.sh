@@ -3,6 +3,6 @@
 textx generate src/cronspell/cronspell.tx --target PlantUML --overwrite
 
 textx generate src/cronspell/cronspell.tx --target dot --overwrite
-dot -O src/cronspell/cronspell.dot -Tsvg
+plantuml src/cronspell/cronspell.pu -tsvg -Smonochrome=true
 
-python scripts/generate_docs.py
+python docs/scripts/generate_docs.py
