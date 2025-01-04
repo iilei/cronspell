@@ -112,5 +112,10 @@ src/cronspell/_version.py
 _data/*
 !_data/.gitkeep
 
+# build docs
+**/*.dot
+**/*.pu
+**/*.dot.svg
+
 # MacOS files
 .DS_Store
