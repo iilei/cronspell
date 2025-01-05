@@ -53,15 +53,15 @@ MModulo:
 ;
 
 CalendarWeekModulo:
-    /[%,@]\s*\b(CW|Cw|cw)/
+    /(%|@)\s*(CW|Cw|cw)/
 ;
 
 YearModulo:
-    /[%,@]\s*\b(Y|y)(ears?)?/
+    /(%|@)\s*(Y|y)(ears?)?/
 ;
 
 MonthModulo:
-    /[%,@]\s*\b([Mm])(onths?)?/
+    /(%|@)\s*([Mm])(onths?)?/
 ;
 
 Floor:

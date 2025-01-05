@@ -7,6 +7,7 @@ import subprocess  # noqa: S404
 import sys
 from codecs import decode, encode
 from functools import cmp_to_key
+from textwrap import dedent
 
 import pydot
 from bs4 import BeautifulSoup
@@ -14,7 +15,7 @@ from bs4.builder._htmlparser import HTMLParserTreeBuilder  # noqa: PLC2701
 from datauri import DataURI
 from pygments import highlight
 from pygments.formatters import HtmlFormatter
-from pygments.lexers import find_lexer_class_by_name, guess_lexer
+from pygments.lexers import find_lexer_class_by_name
 
 
 class MyTreeBuilder(HTMLParserTreeBuilder):
@@ -55,7 +56,7 @@ def compare(item1, item2):
 rows_sorted = sorted(tag.findChildren("tr"), key=cmp_to_key(compare))
 
 
-def get_example(regex, short=False):  # noqa: FBT002
+def get_example(regex, short, titlecase, lowercase):
     test = re.compile(regex)
 
     suggested = ""
@@ -71,49 +72,75 @@ def get_example(regex, short=False):  # noqa: FBT002
             "Minute",
             "Second",
             "Week",
-            "@cw",
-            "@m",
-            "@y",
+            "@ year",
+            "@ month",
+            "@ Cw",
             "{",
             "}",
             "now",
             "1979-01-01T00:00:00+00:00",
             "/* inline comment */",
         ]
-    if short:
-        suggested = next(
-            (
-                x.replace("@", "%")
-                for x in [
-                    "// eol comment",
-                    "m",
-                    *[x[:0] for x in candidates],
-                    *[x[:1] for x in candidates],
-                    *[x[:3] for x in candidates],
-                    *[x[:4] for x in candidates],
-                ]
-                if test.match(x.replace("@", "%"))
-            ),
-            "",
-        )
 
-    if not short or (suggested == ""):
-        suggested = next((x for x in candidates if test.match(x)), "")
+    if short and not titlecase:
+        cdts = [
+            "// eol comment" "m",
+            "@Y",
+            "@m",
+            "@M",
+            "@Cw",
+            "years",
+            "days",
+            "months",
+            "hours",
+            "minutes",
+            "seconds",
+            "weeks",
+            *calendar.day_abbr,
+            *calendar.month_abbr,
+        ]
 
-    if short and suggested in {"}", "{", "1979-01-01T00:00:00+00:00"}:
+    elif titlecase:
+        cdts = [
+            dedent("""
+            /*
+                multi-line
+                block
+                comment
+            */
+            """).strip(),
+            "@years",
+            "@months",
+            "Years",
+            "Days",
+            "Months",
+            "Hours",
+            "Minutes",
+            "Seconds",
+            "Weeks",
+            *[x.title() for x in calendar.day_abbr],
+            *[x.title() for x in calendar.month_abbr],
+        ]
+
+    else:
+        cdts = [*candidates]
+
+    if lowercase:
+        cdts = [x if x.startswith("@") else x.lower() for x in candidates]
+
+    suggested = next(
+        (x for x in ["1979-01-01T00:00:00+00:00", *cdts] if test.fullmatch(x)),
+        "",
+    )
+
+    if (short or titlecase) and suggested in {"}", "{", "1979-01-01T00:00:00+00:00"}:
         suggested = ""
 
-    if short and test.match(_suggested := suggested.lower()):
-        suggested = _suggested
-
-    if short and suggested.startswith("%") and test.match(_suggested := suggested.upper()):
+    if short and not titlecase and test.fullmatch(_suggested := suggested.lower()):
         suggested = _suggested
 
     if short and suggested == "now":
         suggested = "now[Europe/Berlin]"
-
-    if not short and suggested == "now":
-        suggested = ""
 
     return suggested
 
@@ -130,8 +157,10 @@ with open("README.md", encoding="utf-8") as file:
         return [
             node.findChild("b").get_text(),
             pattern,
-            get_example(pattern),
-            get_example(pattern, True),
+            get_example(pattern, True, True, False),
+            get_example(pattern, True, False, False),
+            get_example(pattern, False, False, False),
+            get_example(pattern, True, True, True),
         ]
 
     rows = [get_cells(x) for x in rows_sorted]
@@ -139,11 +168,12 @@ with open("README.md", encoding="utf-8") as file:
     section_stop_at = {"Now", "MonthModulo", "S", "Sun", "Dec"}
 
     def get_row_nodes(x):
-        # not documenting ISODate
-        if next(iter(x), "") == "ISODate":
-            return []
+        mark_as_yaml = next(iter(x), "") == "ISODate"
 
+        examples = BeautifulSoup().new_tag("td")
         rows = [BeautifulSoup().new_tag("tr")]
+        rows[0].append(BeautifulSoup().new_tag("td"))
+
         for idx, y in enumerate(x):
             node = BeautifulSoup().new_tag("td")
             val = y.strip()
@@ -151,24 +181,44 @@ with open("README.md", encoding="utf-8") as file:
             if idx == 0:
                 em = BeautifulSoup().new_tag("em")
                 em.string = val
-                node.append(em)
-            else:
-                language = "cpp" if val.startswith("/*") or val.startswith("//") else "yaml"
-                language = "graphviz" if val.startswith("@") or val.startswith("%") or "now[" in val else language
-                lexer = guess_lexer(val) if idx == 1 else find_lexer_class_by_name(language)()
+                rows[0].td.append(em)
 
-                node.append(
+            elif idx == 1:
+                tag = BeautifulSoup().new_tag("td")
+                lexer = find_lexer_class_by_name("yaml")()
+                tag.append(
                     BeautifulSoup(
                         highlight(val, lexer, HtmlFormatter()), features="html.parser", builder=MyTreeBuilder()
                     )
                 )
+                rows[0].append(tag)
+            if idx >= 2:  # noqa: PLR2004, SIM102
+                if val:
+                    language = (
+                        "yaml"
+                        if mark_as_yaml
+                        else "cpp"
+                        if val.startswith("/*") or val.startswith("//")
+                        else "graphviz"
+                    )
 
-            rows[0].append(node)
+                    lexer = find_lexer_class_by_name(language)()
+                    row = BeautifulSoup().new_tag("div")
+                    row.append(
+                        BeautifulSoup(
+                            highlight(val, lexer, HtmlFormatter()),
+                            features="html.parser",
+                            builder=MyTreeBuilder(),
+                        )
+                    )
+                    examples.append(row)
+
+        rows[0].append(examples)
 
         if next(iter(x), "") in section_stop_at:
             row = BeautifulSoup().new_tag("tr")
             node = BeautifulSoup().new_tag("td")
-            node["colspan"] = len(x)
+            node["colspan"] = 3
             row.append(node)
             rows.append(row)
 
@@ -183,8 +233,8 @@ with open("README.md", encoding="utf-8") as file:
     legend.append(cpt)
 
     header_row = BeautifulSoup().new_tag("tr")
-    for x in ["\n\n $f$ \n\n", "Pattern", "Example", "Alternative Example"]:
-        node = BeautifulSoup().new_tag("td")
+    for x in ["Entity", "Pattern", "Examples"]:
+        node = BeautifulSoup().new_tag("th")
         node.string = x
         node["scope"] = "col"
         header_row.append(node)
@@ -193,8 +243,6 @@ with open("README.md", encoding="utf-8") as file:
         legend.append(row)
 
     legend_html = legend.prettify()
-    legend_html = re.sub(r"\n\s*\$", r"\n\n$", legend_html)
-    legend_html = re.sub(r"\$\s*\n", r"$\n\n", legend_html)
 
     part_a, part_b = re.split(
         r"\n<!-- start autogenerated: legend -->[\S\s\n]+<!-- end autogenerated: legend -->\n",

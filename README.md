@@ -67,13 +67,13 @@ Example Expressions
 latest Saturday of past month:
 
 ```graphviz
-/month -1d /sat
+/month -1 day /sat
 ```
 
 Calendar Week divisible by 3 or 10:
 
 ```graphviz
-{@CW 3, @CW 10}
+{@cw 3, @cw 10}
 ```
 
 
@@ -93,19 +93,35 @@ Calendar Week divisible by 3 or 10:
   Legend
  </caption>
  <tr>
-  <td scope="col">
-
-$f$
-
-  </td>
-  <td scope="col">
+  <th scope="col">
+   Entity
+  </th>
+  <th scope="col">
    Pattern
+  </th>
+  <th scope="col">
+   Examples
+  </th>
+ </tr>
+ <tr>
+  <td>
+   <em>
+    ISODate
+   </em>
   </td>
-  <td scope="col">
-   Example
+  <td>
+   <div class="highlight">
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\d{4}-\d{2}-\d{2}\S*</span>
+</pre>
+   </div>
   </td>
-  <td scope="col">
-   Alternative Example
+  <td>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="l l-Scalar l-Scalar-Plain">1979-01-01T00:00:00+00:00</span>
+</pre>
+    </div>
+   </div>
   </td>
  </tr>
  <tr>
@@ -116,25 +132,27 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span>now
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">now</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">now</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="nt">now</span><span class="p">[</span><span class="nt">Europe/Berlin</span><span class="p">]</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">now</span><span class="p">[</span><span class="nt">Europe/Berlin</span><span class="p">]</span>
 </pre>
+    </div>
    </div>
   </td>
  </tr>
  <tr>
-  <td colspan="4">
+  <td colspan="3">
   </td>
  </tr>
  <tr>
@@ -145,20 +163,28 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span>[%,@]\s*\b(CW|Cw|cw)
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">(%|@)\s*(CW|Cw|cw)</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="err">@</span><span class="nt">cw</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="err">@</span><span class="nt">cw</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="err">%</span><span class="nt">CW</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="err">@</span><span class="w"> </span><span class="nt">Cw</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="err">@</span><span class="w"> </span><span class="nt">Cw</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
@@ -170,20 +196,34 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span>[%,@]\s*\b(Y|y)(ears?)?
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">(%|@)\s*(Y|y)(ears?)?</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="err">@</span><span class="nt">y</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="err">@</span><span class="nt">years</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="err">%</span><span class="nt">Y</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="err">@</span><span class="nt">y</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="err">@</span><span class="w"> </span><span class="nt">year</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="err">@</span><span class="w"> </span><span class="nt">year</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
@@ -195,25 +235,39 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="o">[</span><span class="n">%,@</span><span class="o">]</span><span class="err">\</span><span class="n">s</span><span class="o">*</span><span class="err">\</span><span class="n">b</span><span class="p">(</span><span class="o">[</span><span class="n">Mm</span><span class="o">]</span><span class="p">)(</span><span class="n">onths</span><span class="vm">?</span><span class="p">)</span><span class="vm">?</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">(%|@)\s*([Mm])(onths?)?</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="err">@</span><span class="nt">m</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="err">@</span><span class="nt">months</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="err">%</span><span class="nt">M</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="err">@</span><span class="nt">m</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="err">@</span><span class="w"> </span><span class="nt">month</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="err">@</span><span class="w"> </span><span class="nt">month</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
  <tr>
-  <td colspan="4">
+  <td colspan="3">
   </td>
  </tr>
  <tr>
@@ -224,20 +278,34 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="p">(</span><span class="o">[</span><span class="n">Yy</span><span class="o">]</span><span class="n">ears</span><span class="vm">?</span><span class="o">|</span><span class="n">Y</span><span class="err">\</span><span class="n">b</span><span class="p">)</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">([Yy]ears?|Y\b)</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">Year</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Years</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">Y</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">years</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Year</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">year</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
@@ -249,20 +317,34 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="p">(</span><span class="vm">?</span><span class="err">!</span><span class="n">mon</span><span class="err">\</span><span class="n">b</span><span class="p">)(</span><span class="o">[</span><span class="n">mM</span><span class="o">]</span><span class="n">onths</span><span class="vm">?</span><span class="o">|</span><span class="n">m</span><span class="err">\</span><span class="n">b</span><span class="p">)</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">(?!mon\b)([mM]onths?|m\b)</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">Month</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Months</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">m</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">months</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Month</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">month</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
@@ -274,20 +356,34 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="p">(</span><span class="o">[</span><span class="n">wW</span><span class="o">]</span><span class="n">eeks</span><span class="vm">?</span><span class="o">|</span><span class="n">W</span><span class="p">)</span><span class="err">\</span><span class="n">b</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b([wW]eeks?|W)\b</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">Week</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Weeks</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">W</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">weeks</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Week</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">week</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
@@ -299,20 +395,34 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="p">(</span><span class="o">[</span><span class="n">dD</span><span class="o">]</span><span class="n">ays</span><span class="vm">?</span><span class="o">|</span><span class="n">d</span><span class="err">\</span><span class="n">b</span><span class="p">)</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">([dD]ays?|d\b)</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">Day</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Days</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">day</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">days</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Day</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">day</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
@@ -324,20 +434,34 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="p">(</span><span class="o">[</span><span class="n">mM</span><span class="o">]</span><span class="n">inutes</span><span class="vm">?</span><span class="o">|</span><span class="n">M</span><span class="err">\</span><span class="n">b</span><span class="o">|[</span><span class="n">mM</span><span class="o">]</span><span class="ow">in</span><span class="err">\</span><span class="n">b</span><span class="p">)</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">([mM]inutes?|M\b|[mM]in\b)</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">Minute</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Minutes</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">M</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">minutes</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Minute</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">minute</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
@@ -349,20 +473,34 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="p">(</span><span class="o">[</span><span class="n">hH</span><span class="o">]</span><span class="n">ours</span><span class="vm">?</span><span class="o">|</span><span class="n">H</span><span class="err">\</span><span class="n">b</span><span class="o">|[</span><span class="n">Hh</span><span class="o">]</span><span class="n">rs</span><span class="p">)</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">([hH]ours?|H\b|[Hh]rs)</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">Hour</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Hours</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">H</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">hours</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Hour</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">hour</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
@@ -374,25 +512,39 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="p">(</span><span class="vm">?</span><span class="err">!</span><span class="n">sat</span><span class="err">$</span><span class="p">)(</span><span class="o">[</span><span class="n">sS</span><span class="o">]</span><span class="n">econds</span><span class="vm">?</span><span class="o">|</span><span class="n">S</span><span class="err">\</span><span class="n">b</span><span class="o">|[</span><span class="n">sS</span><span class="o">]</span><span class="n">ec</span><span class="err">\</span><span class="n">b</span><span class="p">)</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">(?!sat$)([sS]econds?|S\b|[sS]ec\b)</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">Second</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Seconds</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">S</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">seconds</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Second</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">second</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
  <tr>
-  <td colspan="4">
+  <td colspan="3">
   </td>
  </tr>
  <tr>
@@ -403,20 +555,34 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">mM</span><span class="o">]</span><span class="k">on</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="nf">day</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[mM]on(?:day)?\b</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">Monday</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Mon</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">mon</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">mon</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Monday</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">monday</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
@@ -428,20 +594,34 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">tT</span><span class="o">]</span><span class="n">ue</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="n">sday</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[tT]ue(?:sday)?\b</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">Tuesday</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Tue</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">tue</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">tue</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Tuesday</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">tuesday</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
@@ -453,20 +633,34 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">wW</span><span class="o">]</span><span class="n">ed</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="n">nesday</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[wW]ed(?:nesday)?\b</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">Wednesday</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Wed</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">wed</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">wed</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Wednesday</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">wednesday</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
@@ -478,20 +672,34 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">tT</span><span class="o">]</span><span class="n">hu</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="n">rsday</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[tT]hu(?:rsday)?\b</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">Thursday</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Thu</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">thu</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">thu</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Thursday</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">thursday</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
@@ -503,20 +711,34 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">fF</span><span class="o">]</span><span class="n">ri</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="nf">day</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[fF]ri(?:day)?\b</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">Friday</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Fri</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">fri</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">fri</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Friday</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">friday</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
@@ -528,20 +750,34 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">sS</span><span class="o">]</span><span class="k">at</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="n">urday</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[sS]at(?:urday)?\b</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">Saturday</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Sat</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">sat</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">sat</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Saturday</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">saturday</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
@@ -553,25 +789,39 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">sS</span><span class="o">]</span><span class="n">un</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="nf">day</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[sS]un(?:day)?\b</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">Sunday</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Sun</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">sun</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">sun</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Sunday</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">sunday</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
  <tr>
-  <td colspan="4">
+  <td colspan="3">
   </td>
  </tr>
  <tr>
@@ -582,20 +832,34 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">jJ</span><span class="o">]</span><span class="n">an</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="n">uary</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[jJ]an(?:uary)?\b</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">January</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Jan</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">jan</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">jan</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">January</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">january</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
@@ -607,20 +871,34 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">fF</span><span class="o">]</span><span class="n">eb</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="n">ruary</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[fF]eb(?:ruary)?\b</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">February</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Feb</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">feb</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">feb</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">February</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">february</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
@@ -632,20 +910,34 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">mM</span><span class="o">]</span><span class="n">ar</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="n">ch</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[mM]ar(?:ch)?\b</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">March</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Mar</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">mar</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">mar</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">March</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">march</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
@@ -657,20 +949,34 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">aA</span><span class="o">]</span><span class="n">pr</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="n">il</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[aA]pr(?:il)?\b</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">April</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Apr</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">apr</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">apr</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">April</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">april</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
@@ -682,20 +988,34 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">mM</span><span class="o">]</span><span class="n">ay</span><span class="err">\</span><span class="n">b</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[mM]ay\b</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">May</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">May</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">may</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">may</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">May</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">may</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
@@ -707,20 +1027,34 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">jJ</span><span class="o">]</span><span class="n">une</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[jJ]une?\b</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">June</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Jun</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">jun</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">jun</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">June</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">june</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
@@ -732,20 +1066,34 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">jJ</span><span class="o">]</span><span class="n">uly</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[jJ]uly?\b</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">July</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Jul</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">jul</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">jul</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">July</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">july</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
@@ -757,20 +1105,34 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">aA</span><span class="o">]</span><span class="n">ug</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="n">ust</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[aA]ug(?:ust)?\b</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">August</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Aug</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">aug</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">aug</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">August</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">august</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
@@ -782,20 +1144,34 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">sS</span><span class="o">]</span><span class="n">ep</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="n">tember</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[sS]ep(?:tember)?\b</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">September</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Sep</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">sep</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">sep</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">September</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">september</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
@@ -807,20 +1183,34 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">oO</span><span class="o">]</span><span class="n">ct</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="n">ober</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[oO]ct(?:ober)?\b</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">October</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Oct</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">oct</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">oct</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">October</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">october</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
@@ -832,20 +1222,34 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">nN</span><span class="o">]</span><span class="n">ov</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="n">ember</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[nN]ov(?:ember)?\b</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">November</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Nov</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">nov</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">nov</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">November</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">november</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
@@ -857,25 +1261,39 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">dD</span><span class="o">]</span><span class="n">ec</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="n">ember</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[dD]ec(?:ember)?\b</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">December</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">Dec</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">dec</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">dec</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">December</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="nt">december</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
  <tr>
-  <td colspan="4">
+  <td colspan="3">
   </td>
  </tr>
  <tr>
@@ -886,20 +1304,38 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span>\<span class="o">/</span>\<span class="o">*</span><span class="p">(</span><span class="o">.|</span>\<span class="nv">n</span><span class="p">)</span><span class="o">*</span>?\<span class="o">*</span>\<span class="o">/|</span>\<span class="o">/</span>\<span class="o">/.*</span>?<span class="p">$</span>
+    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\/\*(.|\n)*?\*\/|\/\/.*?$</span>
 </pre>
    </div>
   </td>
   <td>
-   <div class="highlight">
-    <pre><span></span><span class="cm">/* inline comment */</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="cm">/*</span>
+<span class="cm">    multi-line</span>
+<span class="cm">    block</span>
+<span class="cm">    comment</span>
+<span class="cm">*/</span>
 </pre>
+    </div>
    </div>
-  </td>
-  <td>
-   <div class="highlight">
-    <pre><span></span><span class="c1">// eol comment</span>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="c1">// eol commentm</span>
 </pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="cm">/* inline comment */</span>
+</pre>
+    </div>
+   </div>
+   <div>
+    <div class="highlight">
+     <pre><span></span><span class="cm">/* inline comment */</span>
+</pre>
+    </div>
    </div>
   </td>
  </tr>
