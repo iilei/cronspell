@@ -14,7 +14,7 @@ from bs4.builder._htmlparser import HTMLParserTreeBuilder  # noqa: PLC2701
 from datauri import DataURI
 from pygments import highlight
 from pygments.formatters import HtmlFormatter
-from pygments.lexers import find_lexer_class_by_name
+from pygments.lexers import find_lexer_class_by_name, guess_lexer
 
 
 class MyTreeBuilder(HTMLParserTreeBuilder):
@@ -153,11 +153,13 @@ with open("README.md", encoding="utf-8") as file:
                 em.string = val
                 node.append(em)
             else:
-                language = "cpp" if y.strip().startswith("/*") else "yaml"
-                Lexer = find_lexer_class_by_name(language)  # noqa: N806
+                language = "cpp" if val.startswith("/*") or val.startswith("//") else "yaml"
+                language = "graphviz" if val.startswith("@") or val.startswith("%") or "now[" in val else language
+                lexer = guess_lexer(val) if idx == 1 else find_lexer_class_by_name(language)()
+
                 node.append(
                     BeautifulSoup(
-                        highlight(val, Lexer(), HtmlFormatter()), features="html.parser", builder=MyTreeBuilder()
+                        highlight(val, lexer, HtmlFormatter()), features="html.parser", builder=MyTreeBuilder()
                     )
                 )
 

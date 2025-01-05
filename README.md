@@ -62,6 +62,20 @@ Based on the starting point `Anchor=now[UTC]`{:.yml} zero or more subsequent dat
 
 The most simple although pointles example of a valid model is a zero-withd string due tho these permissive constraints.
 
+Example Expressions
+
+latest Saturday of past month:
+
+```graphviz
+/month -1d /sat
+```
+
+Calendar Week divisible by 3 or 10:
+
+```graphviz
+{@CW 3, @CW 10}
+```
+
 
 <details>
   <summary>Parser Internals &mdash; <i>click to toggle visibility</i></summary>
@@ -102,7 +116,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">now</span>
+    <pre><span></span>now
 </pre>
    </div>
   </td>
@@ -114,7 +128,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">now[Europe/Berlin]</span>
+    <pre><span></span><span class="nt">now</span><span class="p">[</span><span class="nt">Europe/Berlin</span><span class="p">]</span>
 </pre>
    </div>
   </td>
@@ -131,19 +145,19 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="p p-Indicator">[</span><span class="err">%</span><span class="p p-Indicator">,</span><span class="err">@</span><span class="p p-Indicator">]</span><span class="l l-Scalar l-Scalar-Plain">\s*\b(CW|Cw|cw)</span>
+    <pre><span></span>[%,@]\s*\b(CW|Cw|cw)
 </pre>
    </div>
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="err">@</span><span class="l l-Scalar l-Scalar-Plain">cw</span>
+    <pre><span></span><span class="err">@</span><span class="nt">cw</span>
 </pre>
    </div>
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="err">%</span><span class="l l-Scalar l-Scalar-Plain">CW</span>
+    <pre><span></span><span class="err">%</span><span class="nt">CW</span>
 </pre>
    </div>
   </td>
@@ -156,19 +170,19 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="p p-Indicator">[</span><span class="err">%</span><span class="p p-Indicator">,</span><span class="err">@</span><span class="p p-Indicator">]</span><span class="l l-Scalar l-Scalar-Plain">\s*\b(Y|y)(ears?)?</span>
+    <pre><span></span>[%,@]\s*\b(Y|y)(ears?)?
 </pre>
    </div>
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="err">@</span><span class="l l-Scalar l-Scalar-Plain">y</span>
+    <pre><span></span><span class="err">@</span><span class="nt">y</span>
 </pre>
    </div>
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="err">%</span><span class="l l-Scalar l-Scalar-Plain">Y</span>
+    <pre><span></span><span class="err">%</span><span class="nt">Y</span>
 </pre>
    </div>
   </td>
@@ -181,19 +195,19 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="p p-Indicator">[</span><span class="err">%</span><span class="p p-Indicator">,</span><span class="err">@</span><span class="p p-Indicator">]</span><span class="l l-Scalar l-Scalar-Plain">\s*\b([Mm])(onths?)?</span>
+    <pre><span></span><span class="o">[</span><span class="n">%,@</span><span class="o">]</span><span class="err">\</span><span class="n">s</span><span class="o">*</span><span class="err">\</span><span class="n">b</span><span class="p">(</span><span class="o">[</span><span class="n">Mm</span><span class="o">]</span><span class="p">)(</span><span class="n">onths</span><span class="vm">?</span><span class="p">)</span><span class="vm">?</span>
 </pre>
    </div>
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="err">@</span><span class="l l-Scalar l-Scalar-Plain">m</span>
+    <pre><span></span><span class="err">@</span><span class="nt">m</span>
 </pre>
    </div>
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="err">%</span><span class="l l-Scalar l-Scalar-Plain">M</span>
+    <pre><span></span><span class="err">%</span><span class="nt">M</span>
 </pre>
    </div>
   </td>
@@ -210,7 +224,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">([Yy]ears?|Y\b)</span>
+    <pre><span></span><span class="p">(</span><span class="o">[</span><span class="n">Yy</span><span class="o">]</span><span class="n">ears</span><span class="vm">?</span><span class="o">|</span><span class="n">Y</span><span class="err">\</span><span class="n">b</span><span class="p">)</span>
 </pre>
    </div>
   </td>
@@ -235,7 +249,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">(?!mon\b)([mM]onths?|m\b)</span>
+    <pre><span></span><span class="p">(</span><span class="vm">?</span><span class="err">!</span><span class="n">mon</span><span class="err">\</span><span class="n">b</span><span class="p">)(</span><span class="o">[</span><span class="n">mM</span><span class="o">]</span><span class="n">onths</span><span class="vm">?</span><span class="o">|</span><span class="n">m</span><span class="err">\</span><span class="n">b</span><span class="p">)</span>
 </pre>
    </div>
   </td>
@@ -260,7 +274,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b([wW]eeks?|W)\b</span>
+    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="p">(</span><span class="o">[</span><span class="n">wW</span><span class="o">]</span><span class="n">eeks</span><span class="vm">?</span><span class="o">|</span><span class="n">W</span><span class="p">)</span><span class="err">\</span><span class="n">b</span>
 </pre>
    </div>
   </td>
@@ -285,7 +299,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">([dD]ays?|d\b)</span>
+    <pre><span></span><span class="p">(</span><span class="o">[</span><span class="n">dD</span><span class="o">]</span><span class="n">ays</span><span class="vm">?</span><span class="o">|</span><span class="n">d</span><span class="err">\</span><span class="n">b</span><span class="p">)</span>
 </pre>
    </div>
   </td>
@@ -310,7 +324,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">([mM]inutes?|M\b|[mM]in\b)</span>
+    <pre><span></span><span class="p">(</span><span class="o">[</span><span class="n">mM</span><span class="o">]</span><span class="n">inutes</span><span class="vm">?</span><span class="o">|</span><span class="n">M</span><span class="err">\</span><span class="n">b</span><span class="o">|[</span><span class="n">mM</span><span class="o">]</span><span class="ow">in</span><span class="err">\</span><span class="n">b</span><span class="p">)</span>
 </pre>
    </div>
   </td>
@@ -335,7 +349,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">([hH]ours?|H\b|[Hh]rs)</span>
+    <pre><span></span><span class="p">(</span><span class="o">[</span><span class="n">hH</span><span class="o">]</span><span class="n">ours</span><span class="vm">?</span><span class="o">|</span><span class="n">H</span><span class="err">\</span><span class="n">b</span><span class="o">|[</span><span class="n">Hh</span><span class="o">]</span><span class="n">rs</span><span class="p">)</span>
 </pre>
    </div>
   </td>
@@ -360,7 +374,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">(?!sat$)([sS]econds?|S\b|[sS]ec\b)</span>
+    <pre><span></span><span class="p">(</span><span class="vm">?</span><span class="err">!</span><span class="n">sat</span><span class="err">$</span><span class="p">)(</span><span class="o">[</span><span class="n">sS</span><span class="o">]</span><span class="n">econds</span><span class="vm">?</span><span class="o">|</span><span class="n">S</span><span class="err">\</span><span class="n">b</span><span class="o">|[</span><span class="n">sS</span><span class="o">]</span><span class="n">ec</span><span class="err">\</span><span class="n">b</span><span class="p">)</span>
 </pre>
    </div>
   </td>
@@ -389,7 +403,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[mM]on(?:day)?\b</span>
+    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">mM</span><span class="o">]</span><span class="k">on</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="nf">day</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
 </pre>
    </div>
   </td>
@@ -414,7 +428,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[tT]ue(?:sday)?\b</span>
+    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">tT</span><span class="o">]</span><span class="n">ue</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="n">sday</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
 </pre>
    </div>
   </td>
@@ -439,7 +453,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[wW]ed(?:nesday)?\b</span>
+    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">wW</span><span class="o">]</span><span class="n">ed</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="n">nesday</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
 </pre>
    </div>
   </td>
@@ -464,7 +478,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[tT]hu(?:rsday)?\b</span>
+    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">tT</span><span class="o">]</span><span class="n">hu</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="n">rsday</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
 </pre>
    </div>
   </td>
@@ -489,7 +503,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[fF]ri(?:day)?\b</span>
+    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">fF</span><span class="o">]</span><span class="n">ri</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="nf">day</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
 </pre>
    </div>
   </td>
@@ -514,7 +528,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[sS]at(?:urday)?\b</span>
+    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">sS</span><span class="o">]</span><span class="k">at</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="n">urday</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
 </pre>
    </div>
   </td>
@@ -539,7 +553,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[sS]un(?:day)?\b</span>
+    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">sS</span><span class="o">]</span><span class="n">un</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="nf">day</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
 </pre>
    </div>
   </td>
@@ -568,7 +582,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[jJ]an(?:uary)?\b</span>
+    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">jJ</span><span class="o">]</span><span class="n">an</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="n">uary</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
 </pre>
    </div>
   </td>
@@ -593,7 +607,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[fF]eb(?:ruary)?\b</span>
+    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">fF</span><span class="o">]</span><span class="n">eb</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="n">ruary</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
 </pre>
    </div>
   </td>
@@ -618,7 +632,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[mM]ar(?:ch)?\b</span>
+    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">mM</span><span class="o">]</span><span class="n">ar</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="n">ch</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
 </pre>
    </div>
   </td>
@@ -643,7 +657,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[aA]pr(?:il)?\b</span>
+    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">aA</span><span class="o">]</span><span class="n">pr</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="n">il</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
 </pre>
    </div>
   </td>
@@ -668,7 +682,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[mM]ay\b</span>
+    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">mM</span><span class="o">]</span><span class="n">ay</span><span class="err">\</span><span class="n">b</span>
 </pre>
    </div>
   </td>
@@ -693,7 +707,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[jJ]une?\b</span>
+    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">jJ</span><span class="o">]</span><span class="n">une</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
 </pre>
    </div>
   </td>
@@ -718,7 +732,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[jJ]uly?\b</span>
+    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">jJ</span><span class="o">]</span><span class="n">uly</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
 </pre>
    </div>
   </td>
@@ -743,7 +757,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[aA]ug(?:ust)?\b</span>
+    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">aA</span><span class="o">]</span><span class="n">ug</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="n">ust</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
 </pre>
    </div>
   </td>
@@ -768,7 +782,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[sS]ep(?:tember)?\b</span>
+    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">sS</span><span class="o">]</span><span class="n">ep</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="n">tember</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
 </pre>
    </div>
   </td>
@@ -793,7 +807,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[oO]ct(?:ober)?\b</span>
+    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">oO</span><span class="o">]</span><span class="n">ct</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="n">ober</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
 </pre>
    </div>
   </td>
@@ -818,7 +832,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[nN]ov(?:ember)?\b</span>
+    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">nN</span><span class="o">]</span><span class="n">ov</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="n">ember</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
 </pre>
    </div>
   </td>
@@ -843,7 +857,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\b[dD]ec(?:ember)?\b</span>
+    <pre><span></span><span class="err">\</span><span class="n">b</span><span class="o">[</span><span class="n">dD</span><span class="o">]</span><span class="n">ec</span><span class="p">(</span><span class="vm">?</span><span class="err">:</span><span class="n">ember</span><span class="p">)</span><span class="vm">?</span><span class="err">\</span><span class="n">b</span>
 </pre>
    </div>
   </td>
@@ -872,7 +886,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">\/\*(.|\n)*?\*\/|\/\/.*?$</span>
+    <pre><span></span>\<span class="o">/</span>\<span class="o">*</span><span class="p">(</span><span class="o">.|</span>\<span class="nv">n</span><span class="p">)</span><span class="o">*</span>?\<span class="o">*</span>\<span class="o">/|</span>\<span class="o">/</span>\<span class="o">/.*</span>?<span class="p">$</span>
 </pre>
    </div>
   </td>
@@ -884,7 +898,7 @@ $f$
   </td>
   <td>
    <div class="highlight">
-    <pre><span></span><span class="l l-Scalar l-Scalar-Plain">// eol comment</span>
+    <pre><span></span><span class="c1">// eol comment</span>
 </pre>
    </div>
   </td>
