@@ -56,7 +56,7 @@ cronspell --help
 
 ## Syntax Specification
 
-Cronspell works by iteratively processing a given String, which serves as the *model*.
+Cronspell works by iteratively processing anything that matches its language specification.
 
 Based on the starting point `Anchor=now[UTC]`{:.yml} zero or more subsequent date math directives `0..*{DateMath}`{:.yml} affect the outcome.
 
@@ -174,18 +174,6 @@ Calendar Week divisible by 3 or 10:
 </pre>
     </div>
    </div>
-   <div>
-    <div class="highlight">
-     <pre><span></span><span class="err">@</span><span class="w"> </span><span class="nt">Cw</span>
-</pre>
-    </div>
-   </div>
-   <div>
-    <div class="highlight">
-     <pre><span></span><span class="err">@</span><span class="w"> </span><span class="nt">Cw</span>
-</pre>
-    </div>
-   </div>
   </td>
  </tr>
  <tr>
@@ -203,25 +191,7 @@ Calendar Week divisible by 3 or 10:
   <td>
    <div>
     <div class="highlight">
-     <pre><span></span><span class="err">@</span><span class="nt">years</span>
-</pre>
-    </div>
-   </div>
-   <div>
-    <div class="highlight">
      <pre><span></span><span class="err">@</span><span class="nt">y</span>
-</pre>
-    </div>
-   </div>
-   <div>
-    <div class="highlight">
-     <pre><span></span><span class="err">@</span><span class="w"> </span><span class="nt">year</span>
-</pre>
-    </div>
-   </div>
-   <div>
-    <div class="highlight">
-     <pre><span></span><span class="err">@</span><span class="w"> </span><span class="nt">year</span>
 </pre>
     </div>
    </div>
@@ -242,25 +212,7 @@ Calendar Week divisible by 3 or 10:
   <td>
    <div>
     <div class="highlight">
-     <pre><span></span><span class="err">@</span><span class="nt">months</span>
-</pre>
-    </div>
-   </div>
-   <div>
-    <div class="highlight">
      <pre><span></span><span class="err">@</span><span class="nt">m</span>
-</pre>
-    </div>
-   </div>
-   <div>
-    <div class="highlight">
-     <pre><span></span><span class="err">@</span><span class="w"> </span><span class="nt">month</span>
-</pre>
-    </div>
-   </div>
-   <div>
-    <div class="highlight">
-     <pre><span></span><span class="err">@</span><span class="w"> </span><span class="nt">month</span>
 </pre>
     </div>
    </div>
@@ -285,13 +237,13 @@ Calendar Week divisible by 3 or 10:
   <td>
    <div>
     <div class="highlight">
-     <pre><span></span><span class="nt">Years</span>
+     <pre><span></span><span class="nt">Y</span>
 </pre>
     </div>
    </div>
    <div>
     <div class="highlight">
-     <pre><span></span><span class="nt">years</span>
+     <pre><span></span><span class="nt">Years</span>
 </pre>
     </div>
    </div>
@@ -324,13 +276,13 @@ Calendar Week divisible by 3 or 10:
   <td>
    <div>
     <div class="highlight">
-     <pre><span></span><span class="nt">Months</span>
+     <pre><span></span><span class="nt">m</span>
 </pre>
     </div>
    </div>
    <div>
     <div class="highlight">
-     <pre><span></span><span class="nt">months</span>
+     <pre><span></span><span class="nt">Months</span>
 </pre>
     </div>
    </div>
@@ -363,13 +315,13 @@ Calendar Week divisible by 3 or 10:
   <td>
    <div>
     <div class="highlight">
-     <pre><span></span><span class="nt">Weeks</span>
+     <pre><span></span><span class="nt">W</span>
 </pre>
     </div>
    </div>
    <div>
     <div class="highlight">
-     <pre><span></span><span class="nt">weeks</span>
+     <pre><span></span><span class="nt">Weeks</span>
 </pre>
     </div>
    </div>
@@ -402,13 +354,13 @@ Calendar Week divisible by 3 or 10:
   <td>
    <div>
     <div class="highlight">
-     <pre><span></span><span class="nt">Days</span>
+     <pre><span></span><span class="nt">d</span>
 </pre>
     </div>
    </div>
    <div>
     <div class="highlight">
-     <pre><span></span><span class="nt">days</span>
+     <pre><span></span><span class="nt">Days</span>
 </pre>
     </div>
    </div>
@@ -441,13 +393,13 @@ Calendar Week divisible by 3 or 10:
   <td>
    <div>
     <div class="highlight">
-     <pre><span></span><span class="nt">Minutes</span>
+     <pre><span></span><span class="nt">M</span>
 </pre>
     </div>
    </div>
    <div>
     <div class="highlight">
-     <pre><span></span><span class="nt">minutes</span>
+     <pre><span></span><span class="nt">Minutes</span>
 </pre>
     </div>
    </div>
@@ -480,13 +432,13 @@ Calendar Week divisible by 3 or 10:
   <td>
    <div>
     <div class="highlight">
-     <pre><span></span><span class="nt">Hours</span>
+     <pre><span></span><span class="nt">H</span>
 </pre>
     </div>
    </div>
    <div>
     <div class="highlight">
-     <pre><span></span><span class="nt">hours</span>
+     <pre><span></span><span class="nt">Hours</span>
 </pre>
     </div>
    </div>
@@ -519,13 +471,13 @@ Calendar Week divisible by 3 or 10:
   <td>
    <div>
     <div class="highlight">
-     <pre><span></span><span class="nt">Seconds</span>
+     <pre><span></span><span class="nt">S</span>
 </pre>
     </div>
    </div>
    <div>
     <div class="highlight">
-     <pre><span></span><span class="nt">seconds</span>
+     <pre><span></span><span class="nt">Seconds</span>
 </pre>
     </div>
    </div>
@@ -568,12 +520,6 @@ Calendar Week divisible by 3 or 10:
    </div>
    <div>
     <div class="highlight">
-     <pre><span></span><span class="nt">mon</span>
-</pre>
-    </div>
-   </div>
-   <div>
-    <div class="highlight">
      <pre><span></span><span class="nt">Monday</span>
 </pre>
     </div>
@@ -602,12 +548,6 @@ Calendar Week divisible by 3 or 10:
    <div>
     <div class="highlight">
      <pre><span></span><span class="nt">Tue</span>
-</pre>
-    </div>
-   </div>
-   <div>
-    <div class="highlight">
-     <pre><span></span><span class="nt">tue</span>
 </pre>
     </div>
    </div>
@@ -646,12 +586,6 @@ Calendar Week divisible by 3 or 10:
    </div>
    <div>
     <div class="highlight">
-     <pre><span></span><span class="nt">wed</span>
-</pre>
-    </div>
-   </div>
-   <div>
-    <div class="highlight">
      <pre><span></span><span class="nt">Wednesday</span>
 </pre>
     </div>
@@ -680,12 +614,6 @@ Calendar Week divisible by 3 or 10:
    <div>
     <div class="highlight">
      <pre><span></span><span class="nt">Thu</span>
-</pre>
-    </div>
-   </div>
-   <div>
-    <div class="highlight">
-     <pre><span></span><span class="nt">thu</span>
 </pre>
     </div>
    </div>
@@ -724,12 +652,6 @@ Calendar Week divisible by 3 or 10:
    </div>
    <div>
     <div class="highlight">
-     <pre><span></span><span class="nt">fri</span>
-</pre>
-    </div>
-   </div>
-   <div>
-    <div class="highlight">
      <pre><span></span><span class="nt">Friday</span>
 </pre>
     </div>
@@ -763,12 +685,6 @@ Calendar Week divisible by 3 or 10:
    </div>
    <div>
     <div class="highlight">
-     <pre><span></span><span class="nt">sat</span>
-</pre>
-    </div>
-   </div>
-   <div>
-    <div class="highlight">
      <pre><span></span><span class="nt">Saturday</span>
 </pre>
     </div>
@@ -797,12 +713,6 @@ Calendar Week divisible by 3 or 10:
    <div>
     <div class="highlight">
      <pre><span></span><span class="nt">Sun</span>
-</pre>
-    </div>
-   </div>
-   <div>
-    <div class="highlight">
-     <pre><span></span><span class="nt">sun</span>
 </pre>
     </div>
    </div>
@@ -845,12 +755,6 @@ Calendar Week divisible by 3 or 10:
    </div>
    <div>
     <div class="highlight">
-     <pre><span></span><span class="nt">jan</span>
-</pre>
-    </div>
-   </div>
-   <div>
-    <div class="highlight">
      <pre><span></span><span class="nt">January</span>
 </pre>
     </div>
@@ -879,12 +783,6 @@ Calendar Week divisible by 3 or 10:
    <div>
     <div class="highlight">
      <pre><span></span><span class="nt">Feb</span>
-</pre>
-    </div>
-   </div>
-   <div>
-    <div class="highlight">
-     <pre><span></span><span class="nt">feb</span>
 </pre>
     </div>
    </div>
@@ -923,12 +821,6 @@ Calendar Week divisible by 3 or 10:
    </div>
    <div>
     <div class="highlight">
-     <pre><span></span><span class="nt">mar</span>
-</pre>
-    </div>
-   </div>
-   <div>
-    <div class="highlight">
      <pre><span></span><span class="nt">March</span>
 </pre>
     </div>
@@ -957,12 +849,6 @@ Calendar Week divisible by 3 or 10:
    <div>
     <div class="highlight">
      <pre><span></span><span class="nt">Apr</span>
-</pre>
-    </div>
-   </div>
-   <div>
-    <div class="highlight">
-     <pre><span></span><span class="nt">apr</span>
 </pre>
     </div>
    </div>
@@ -1001,12 +887,6 @@ Calendar Week divisible by 3 or 10:
    </div>
    <div>
     <div class="highlight">
-     <pre><span></span><span class="nt">may</span>
-</pre>
-    </div>
-   </div>
-   <div>
-    <div class="highlight">
      <pre><span></span><span class="nt">May</span>
 </pre>
     </div>
@@ -1035,12 +915,6 @@ Calendar Week divisible by 3 or 10:
    <div>
     <div class="highlight">
      <pre><span></span><span class="nt">Jun</span>
-</pre>
-    </div>
-   </div>
-   <div>
-    <div class="highlight">
-     <pre><span></span><span class="nt">jun</span>
 </pre>
     </div>
    </div>
@@ -1079,12 +953,6 @@ Calendar Week divisible by 3 or 10:
    </div>
    <div>
     <div class="highlight">
-     <pre><span></span><span class="nt">jul</span>
-</pre>
-    </div>
-   </div>
-   <div>
-    <div class="highlight">
      <pre><span></span><span class="nt">July</span>
 </pre>
     </div>
@@ -1113,12 +981,6 @@ Calendar Week divisible by 3 or 10:
    <div>
     <div class="highlight">
      <pre><span></span><span class="nt">Aug</span>
-</pre>
-    </div>
-   </div>
-   <div>
-    <div class="highlight">
-     <pre><span></span><span class="nt">aug</span>
 </pre>
     </div>
    </div>
@@ -1157,12 +1019,6 @@ Calendar Week divisible by 3 or 10:
    </div>
    <div>
     <div class="highlight">
-     <pre><span></span><span class="nt">sep</span>
-</pre>
-    </div>
-   </div>
-   <div>
-    <div class="highlight">
      <pre><span></span><span class="nt">September</span>
 </pre>
     </div>
@@ -1191,12 +1047,6 @@ Calendar Week divisible by 3 or 10:
    <div>
     <div class="highlight">
      <pre><span></span><span class="nt">Oct</span>
-</pre>
-    </div>
-   </div>
-   <div>
-    <div class="highlight">
-     <pre><span></span><span class="nt">oct</span>
 </pre>
     </div>
    </div>
@@ -1235,12 +1085,6 @@ Calendar Week divisible by 3 or 10:
    </div>
    <div>
     <div class="highlight">
-     <pre><span></span><span class="nt">nov</span>
-</pre>
-    </div>
-   </div>
-   <div>
-    <div class="highlight">
      <pre><span></span><span class="nt">November</span>
 </pre>
     </div>
@@ -1269,12 +1113,6 @@ Calendar Week divisible by 3 or 10:
    <div>
     <div class="highlight">
      <pre><span></span><span class="nt">Dec</span>
-</pre>
-    </div>
-   </div>
-   <div>
-    <div class="highlight">
-     <pre><span></span><span class="nt">dec</span>
 </pre>
     </div>
    </div>
@@ -1316,12 +1154,6 @@ Calendar Week divisible by 3 or 10:
 <span class="cm">    block</span>
 <span class="cm">    comment</span>
 <span class="cm">*/</span>
-</pre>
-    </div>
-   </div>
-   <div>
-    <div class="highlight">
-     <pre><span></span><span class="c1">// eol commentm</span>
 </pre>
     </div>
    </div>

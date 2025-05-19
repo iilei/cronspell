@@ -44,7 +44,7 @@ with open(f"{path}.pu", encoding="utf-8", mode="+w") as file:
 
 
 def get_compare_func(item):
-    return re.compile(rf"^\s*{item.findChild("b").get_text()}\s*:").match
+    return re.compile(rf"^\s*{item.findChild('b').get_text()}\s*:").match
 
 
 def compare(item1, item2):
@@ -72,9 +72,6 @@ def get_example(regex, short, titlecase, lowercase):
             "Minute",
             "Second",
             "Week",
-            "@ year",
-            "@ month",
-            "@ Cw",
             "{",
             "}",
             "now",
@@ -82,13 +79,12 @@ def get_example(regex, short, titlecase, lowercase):
             "/* inline comment */",
         ]
 
-    if short and not titlecase:
+    if short:
         cdts = [
-            "// eol comment" "m",
-            "@Y",
-            "@m",
-            "@M",
-            "@Cw",
+            "// eol commentm",
+            "% Y",
+            "% M",
+            r"% cw",
             "years",
             "days",
             "months",
@@ -100,6 +96,15 @@ def get_example(regex, short, titlecase, lowercase):
             *calendar.month_abbr,
         ]
 
+    if short and not titlecase:
+        cdts = [
+            "@Y",
+            "@M",
+            "@cw",
+            *[x.lower()[:1] for x in cdts],
+            *[x.upper()[:1] for x in cdts],
+        ]
+
     elif titlecase:
         cdts = [
             dedent("""
@@ -109,8 +114,6 @@ def get_example(regex, short, titlecase, lowercase):
                 comment
             */
             """).strip(),
-            "@years",
-            "@months",
             "Years",
             "Days",
             "Months",
@@ -157,8 +160,8 @@ with open("README.md", encoding="utf-8") as file:
         return [
             node.findChild("b").get_text(),
             pattern,
-            get_example(pattern, True, True, False),
             get_example(pattern, True, False, False),
+            get_example(pattern, True, True, False),
             get_example(pattern, False, False, False),
             get_example(pattern, True, True, True),
         ]
