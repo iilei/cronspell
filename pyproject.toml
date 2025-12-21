@@ -218,7 +218,7 @@ dependencies = []
 [tool.hatch.envs.test]
 dependencies = [
     # required test dependencies
-    "coverage[toml]>=6.2",
+    "coverage[toml]",
     "pytest",
     "pytest-cov",
     "pytest-mock",
@@ -280,7 +280,7 @@ build-check = ["build", "validate"]
 # Lint environment
 [tool.hatch.envs.lint]
 template = "lint"                              # don't inherit from default!
-dependencies = ["mypy==1.11.1", "ruff==0.5.7"]
+dependencies = ["mypy==1.19.1", "ruff==0.14.10"]
 [tool.hatch.envs.lint.scripts]
 typing = [
     "echo \"VERSION: `mypy --version`\"",

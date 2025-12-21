@@ -139,8 +139,8 @@ def get_example(regex, short, titlecase, lowercase):
     if (short or titlecase) and suggested in {"}", "{", "1979-01-01T00:00:00+00:00"}:
         suggested = ""
 
-    if short and not titlecase and test.fullmatch(_suggested := suggested.lower()):
-        suggested = _suggested
+    if short and not titlecase and test.fullmatch(_suggested_ := suggested.lower()):
+        suggested = _suggested_
 
     if short and suggested == "now":
         suggested = "now[Europe/Berlin]"

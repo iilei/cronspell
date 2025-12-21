@@ -1,5 +1,4 @@
 import typer
-import typer.rich_utils
 
 from cronspell import __version__
 from cronspell.cli import locate, parse, preflight, to_dot, upcoming
