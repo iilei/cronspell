@@ -23,6 +23,8 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
     "Intended Audience :: Developers",
@@ -210,7 +212,7 @@ ban-relative-imports = "all"
 
 # Default environment with production dependencies
 [tool.hatch.envs.default]
-python = "3.12"
+python = "3.14"
 post-install-commands = ["pre-commit install"]
 dependencies = []
 
@@ -301,4 +303,4 @@ all = ["style", "typing"]
 # Test matrix for various Python versions replacing the functionality of tox
 [[tool.hatch.envs.test.matrix]]
 template = ["test"]
-python = ["309", "310", "311", "312"]
+python = ["309", "310", "311", "312", "313", "314"]

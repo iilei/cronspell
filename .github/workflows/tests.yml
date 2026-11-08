@@ -21,13 +21,17 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-        python-version: ["3.9", "3.10", "3.11"]
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
     steps:
       - uses: actions/checkout@v6
-      - name: Set up Python ${{ matrix.python_version }}
+      # Install the matrix Python for the test env, plus 3.14 last so that
+      # hatch itself runs on 3.14 (hatch on 3.9 breaks with virtualenv 21).
+      - name: Set up Python ${{ matrix.python-version }} and 3.14
         uses: actions/setup-python@v6
         with:
-          python-version: ${{ matrix.python_version }}
+          python-version: |
+            ${{ matrix.python-version }}
+            3.14
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -38,4 +42,5 @@ jobs:
           hatch run lint:all
       - name: Run Tests
         run: |
-          hatch run test:pytest
+          PY='${{ matrix.python-version }}'
+          hatch run +py=$(printf '%s%02d' "${PY%%.*}" "${PY#*.}") test:pytest

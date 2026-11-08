@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        python_version: ['3.12']
+        python_version: ['3.14']
 
     steps:
       - uses: actions/checkout@v6
@@ -27,7 +27,7 @@ jobs:
           hatch run lint:all
       - name: Run Tests
         run: |
-          hatch run test:pytest --cov-report term --cov-report xml:coverage.xml --cov=cronspell
+          hatch run +py=314 test:pytest --cov-report term --cov-report xml:coverage.xml --cov=cronspell
       - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
