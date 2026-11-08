@@ -5,7 +5,7 @@ import time_machine
 
 from cronspell import parse
 
-date_x = dt.datetime.fromisoformat("2030-01-01T19:28:42:471100+00:00")
+date_x = dt.datetime.fromisoformat("2030-01-01T19:28:42.471100+00:00")
 
 
 def test_long_term_usage_calendar_week_modulo():
