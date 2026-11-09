@@ -30,7 +30,7 @@ jobs:
           - os: macos-latest
             python-version: "3.9"
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       # Install the matrix Python for the test env, plus 3.14 last so that
       # hatch itself runs on 3.14 (hatch on 3.9 breaks with virtualenv 21).
       - name: Set up Python ${{ matrix.python-version }} and 3.14
