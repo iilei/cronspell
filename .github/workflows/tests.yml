@@ -34,7 +34,7 @@ jobs:
       # Install the matrix Python for the test env, plus 3.14 last so that
       # hatch itself runs on 3.14 (hatch on 3.9 breaks with virtualenv 21).
       - name: Set up Python ${{ matrix.python-version }} and 3.14
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version: |
             ${{ matrix.python-version }}
